@@ -1,0 +1,762 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <!-- Google Tag Manager -->
+    <!--<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','GTM-M8WBXH7');</script>-->
+    <!-- End Google Tag Manager -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,300,700' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href=/public/stylesheets/bs.css?random=@Environment.TickCount>
+    <link rel="stylesheet" href=/public/stylesheets/styles.css?random=@Environment.TickCount>
+    <link rel="stylesheet" href=/public/stylesheets/pygment_trac.css?random=@Environment.TickCount>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css">
+    <link rel="canonical" href="made2591.github.io/posts/java-8-pills">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+      <link rel="icon" type="image/x-icon"  href="/favicon.ico" />
+    <title>Java 8 Pills | Matteo Madeddu</title>
+    <!--[if lt IE 9]>
+
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+  </head>
+  <body>
+    <!-- Google Tag Manager (noscript) -->
+    <!--<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-M8WBXH7"
+    height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+    <!-- End Google Tag Manager (noscript) -->
+    <div class="wrapper">
+        <section>
+          <div id="header">
+  <h1>
+    <a id="sitename" href="">Matteo Madeddu</a>
+  </h1>
+
+  <!-- Add something about you in p tag-->
+  <p>Mac OS lover, Docker fan, Go explorer, Python geek, Trello addicted.</p>
+  <hr/>
+
+  <span class="credits pull-left">
+    
+      <a href="/">Home</a>  | 
+    
+      <a href="/blog">Blog</a>  | 
+    
+      <a href="/archive">Archive</a>  | 
+    
+      <a href="/about">About</a>  | 
+    
+      <a href="/matteo_madeddu_cv.pdf">Resume</a>  | 
+    
+      <a href="/quotes">Quotes</a> 
+    
+  </span>
+
+  <span class="credits pull-right social">
+    
+      
+        <a href="https://github.com/made2591/" target="_blank"><i class="fa fa-github"></i></a>
+      
+    
+      
+        <a href="https://twitter.com/made2591" target="_blank"><i class="fa fa-twitter"></i></a>
+      
+    
+      
+        <a href="https://linkedin.com/in/mmadeddu" target="_blank"><i class="fa fa-linkedin"></i></a>
+      
+    
+      
+        <a href="https://www.facebook.com/matteo.madeddu" target="_blank"><i class="fa fa-facebook"></i></a>
+      
+    
+  </span>
+
+
+</div>
+
+
+          <div class="post-title">
+    <h1>Java 8 Pills</h1>
+    <p class="text-muted">
+    
+
+
+    15 Dec 2017
+    
+     | <i class="fa fa-comment"></i> <a class="text-muted" href="/posts/java-8-pills/#disqus_thread"></a>
+    
+
+    
+      | <i class="fa fa-tag"></i>
+      
+        <a class="text-muted" href="/tags/#coding ">coding</a>,
+      
+        <a class="text-muted" href="/tags/#features ">features</a>,
+      
+        <a class="text-muted" href="/tags/#java ">java</a>,
+      
+        <a class="text-muted" href="/tags/#8 ">8</a>,
+      
+        <a class="text-muted" href="/tags/#functional-interface ">functional-interface</a>,
+      
+        <a class="text-muted" href="/tags/#lambda-expressions ">lambda-expressions</a>,
+      
+        <a class="text-muted" href="/tags/#method-references ">method-references</a>,
+      
+        <a class="text-muted" href="/tags/#default-method ">default-method</a>
+      
+    
+  </p>
+</div>
+
+  <h3 id="why-java-why-now">Why Java why now</h3>
+<p>I recently followed a course<sup id="fnref:first"><a href="#fn:first" class="footnote">1</a></sup> on YouTube by Adib Saikali (NewCircle Instructor) about the key features introduced in Java &gt; 8: it’s an old post regarding old stuff but…I collected some notes (mainly because I need to write down what I’m listening to to stay focused and learn new concepts) that I decided to share with you. This is to say, this post is for every one that had put aside Java for a while and is now looking for a quick overview of the key aspects - exactly like me some weeks ago - to improve his abilities in coding, taking advantage of the old (n.d.r.) features introduced a few years ago. For thus who missed the footnote before and want to jump directly to the lesson, <a href="https://www.youtube.com/watch?v=8pDm_kH4YKY">here</a> you can find the main source of the content of the next paragraphs.</p>
+
+<h3 id="content">Content</h3>
+<p>Briefly, the basic steps of the Saikali course are:</p>
+<ul>
+  <li>Lambda expressions;</li>
+  <li>Functional interfaces;</li>
+  <li>Method references;</li>
+  <li>Default methods;</li>
+  <li>Collections Enhancements;</li>
+  <li>Streams;</li>
+</ul>
+
+<p>I think that the arguments are really exposed in the perfect order, despite their relations and dependencies: for this reason, I will maintain this order and collect some snippets + doubts + questions arised during the course, except for the first two arguments.</p>
+
+<h4 id="lambda-expression">Lambda expression</h4>
+<p>First of all, a <code class="highlighter-rouge">lambda</code> is not a method (or function) but an <code class="highlighter-rouge">expression</code>: this is to say, the lambda notation is a way to say to the compiler “take this code and create a method for me”. The concept of <em>lambda</em> is different from its <em>implementation</em>: the lambda expressions exist in many different languages and are implemented in many different ways. However, lambdas have the following characteristics:</p>
+<ul>
+  <li>a lambda expression <em>define</em> an anonymous functions,</li>
+  <li>can be assigned to variables,</li>
+  <li>can be passed to functions,</li>
+  <li>or returned from functions;</li>
+</ul>
+
+<p>These features and <em>how the compiler process the expressions</em> make lambda expressions excellent to:</p>
+<ul>
+  <li>form the basis of the functional programming paradigm,</li>
+  <li>make parallel programming easier,</li>
+  <li>write more compact code,</li>
+  <li>create richer data structure collections,</li>
+  <li>and develop cleaner APIs;</li>
+</ul>
+
+<p>The lambda expression is a <em>concept</em>, that has its own implementation flavor in different languages. But how lambdas are implemented in Java? Look at the code below:</p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="n">List</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;</span> <span class="n">integers</span> <span class="o">=</span> <span class="n">Arrays</span><span class="o">.</span><span class="na">asList</span><span class="o">(</span><span class="mi">1</span><span class="o">,</span> <span class="mi">2</span><span class="o">,</span> <span class="mi">3</span><span class="o">,</span> <span class="mi">4</span><span class="o">,</span> <span class="mi">5</span><span class="o">);</span>
+
+<span class="n">integers</span><span class="o">.</span><span class="na">forEach</span><span class="o">(</span>
+    <span class="n">x</span> <span class="o">-&gt;</span> <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">x</span><span class="o">)</span>
+<span class="o">);</span>
+
+<span class="n">integers</span><span class="o">.</span><span class="na">forEach</span><span class="o">(</span><span class="n">x</span> <span class="o">-&gt;</span> <span class="o">{</span>
+    <span class="kt">int</span> <span class="n">y</span> <span class="o">=</span> <span class="n">x</span> <span class="o">+</span> <span class="mi">10</span><span class="o">;</span>
+    <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">y</span><span class="o">);</span>
+<span class="o">});</span></code></pre></figure>
+
+<p><code class="highlighter-rouge">forEach</code> is a method that accepts a <em>function</em> as its input and calls the function for each value in the list. <code class="highlighter-rouge">x -&gt; System.out.println(x)</code> is a lambda expression that defines an <em>anonymous function</em> with one parameter named <code class="highlighter-rouge">x</code> of type <code class="highlighter-rouge">Integer</code>. In the second lambda expression are defined multiple lines: moreover, you can create local variable inside the body of the lambda. You can specify (or not) the type for <code class="highlighter-rouge">x</code> parameter, because the Java compiler can do type inference. How does it work from a compiler point of view?</p>
+
+<h5 id="lambda-lifecycle">Lambda Lifecycle</h5>
+<p>More or less, the compiler <em>transform</em> the lambda expression in a <em>static function</em> and then call the generated function. The function should be static method, with a class wrapping around, and so on…it doesn’t matter for now. Instead, we are interest in the <em>type</em> of the lambda expressions: remember, they could be assigned to vars, passed to functions, or returned. This implies that lambda has a type. Initially Java engineers thought about a specific new <em>function</em> type, but in the end they didn’t create it. In the next paragraphs I try to cover the question “what is the type of a lambda function?” To do that, we need first to talk about <em>functional interfaces</em>.</p>
+
+<h4 id="functional-interface">Functional interface</h4>
+<p>A first simple <strong>incomplete</strong> definition for the functional interface is the following:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>A functional interface is an interface with only one method.
+</code></pre></div></div>
+
+<p>I know what you are thinking: what kind of <em>feature</em> is that?! Of course, you can create how many interfaces you want with one method: rather this kind of interface is the most common and used in Java. For instance, the <code class="highlighter-rouge">Runnable</code>, <code class="highlighter-rouge">Comparable</code> and <code class="highlighter-rouge">Callable</code> interface are functional interfaces. They are so popular in lot of libraries, such as in <a href="https://spring.io">Spring</a>’s libraries: they contains <code class="highlighter-rouge">TransactionCallback</code>, <code class="highlighter-rouge">RowMapper</code>, <code class="highlighter-rouge">StatementCallback</code> and others. Then, they officially decided to call this kind of interface - <em>functional interface</em> - to formalize them inside the language. They also introduced a new optional annotation <code class="highlighter-rouge">@FunctionalInterface</code> to make the compiler able to produce an error if more than one method is added to a functional interface.</p>
+
+<p>To conclude, each interface with one method is considered a functional interface by Java 8, even if it was compiled with a Java 1.0 compiler: the new lambda expressions will work with old libraries, without need to recompile. Ok wait a moment: what do lambda expressions have to do with functional interfaces?</p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="n">List</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;</span> <span class="n">integers</span> <span class="o">=</span> <span class="n">Arrays</span><span class="o">.</span><span class="na">asList</span><span class="o">(</span><span class="mi">1</span><span class="o">,</span> <span class="mi">2</span><span class="o">,</span> <span class="mi">3</span><span class="o">,</span> <span class="mi">4</span><span class="o">,</span> <span class="mi">5</span><span class="o">);</span>
+
+<span class="n">Consumer</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;</span> <span class="n">consumer</span> <span class="o">=</span> <span class="n">x</span> <span class="o">-&gt;</span> <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">print</span><span class="o">(</span><span class="n">x</span><span class="o">);</span>
+
+<span class="n">integers</span><span class="o">.</span><span class="na">forEach</span><span class="o">(</span><span class="n">consumer</span><span class="o">);</span></code></pre></figure>
+
+<p>In the example above I <em>declared</em> the <em>type</em> of the lambda expression <code class="highlighter-rouge">x -&gt; System.out.print(x);</code> as <code class="highlighter-rouge">Consumer&lt;Integer&gt;</code>: for how Java works, this is a <code class="highlighter-rouge">Class</code> or an <code class="highlighter-rouge">Interface</code> because they are the unique two entities that define a type in Java grammar. In fact, <code class="highlighter-rouge">Consumer&lt;Integer&gt;</code> is a functional interface from the package <code class="highlighter-rouge">java.util.function package</code>. Why Consumer<Integer>? The answer is simple, because ```Consumer<T>``` define the type of a function that takes an argument of type T and returns void - as ```System.out.print(x)``` call used in the one-line body of the lambda expression assigned to the variable ```consumer```.</T></Integer></p>
+
+<h4 id="back-to-lambda-expressions">Back to lambda expressions</h4>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>The type of the lambda expression is the same as the type of the functional interface that the lambda expression is assigned to. 
+</code></pre></div></div>
+
+<p>At this point you could think about lambda expressions as anonymous inner class with one method: they are <strong>not</strong> (wait for it…).</p>
+
+<h4 id="variable-capture">Variable capture</h4>
+<p>Look at the code below:</p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="n">List</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;</span> <span class="n">integers</span> <span class="o">=</span> <span class="n">Arrays</span><span class="o">.</span><span class="na">asList</span><span class="o">(</span><span class="mi">1</span><span class="o">,</span> <span class="mi">2</span><span class="o">,</span> <span class="mi">3</span><span class="o">,</span> <span class="mi">4</span><span class="o">,</span> <span class="mi">5</span><span class="o">);</span>
+
+<span class="kt">int</span> <span class="n">localVar</span> <span class="o">=</span> <span class="mi">10</span><span class="o">;</span>
+
+<span class="n">integers</span><span class="o">.</span><span class="na">forEach</span><span class="o">(</span>
+    <span class="n">x</span> <span class="o">-&gt;</span> <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">x</span> <span class="o">+</span> <span class="n">localVar</span><span class="o">)</span>
+<span class="o">);</span></code></pre></figure>
+
+<p>A lambda expression can interact with variables defined outside the body of the lambda: using variables outside is called <em>variable capture</em>. But… the value of the variable declared outside <strong>must</strong> be <code class="highlighter-rouge">final</code>. What does it mean? If you copy the code above it will work: why? Because the compiler will handle the lack of the statement final, and consider <code class="highlighter-rouge">localVar</code> as final (and also static). The signature generated from the example will be something like this:</p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">generatedName</span><span class="o">(</span><span class="n">Integer</span> <span class="n">x</span><span class="o">,</span> <span class="kd">final</span> <span class="kt">int</span> <span class="n">var</span><span class="o">)</span> <span class="o">{</span>
+    <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">x</span> <span class="o">+</span> <span class="n">var</span><span class="o">);</span>
+<span class="o">}</span></code></pre></figure>
+
+<h4 id="private-field">Private field</h4>
+<p>Look at the code below:</p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="n">integers</span><span class="o">.</span><span class="na">forEach</span><span class="o">(</span>
+    <span class="n">x</span> <span class="o">-&gt;</span> <span class="o">{</span>
+        <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">x</span> <span class="o">+</span> <span class="k">this</span><span class="o">.</span><span class="na">var</span><span class="o">);</span>
+        <span class="k">if</span> <span class="o">(</span><span class="k">this</span> <span class="o">==</span> <span class="n">main</span><span class="o">)</span> <span class="o">{</span>
+            <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"Compiler has passed this of enclosing method as the first parameter of method generated from the lambda expression"</span><span class="o">);</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+<span class="o">);</span>
+
+<span class="n">integers</span><span class="o">.</span><span class="na">forEach</span><span class="o">(</span>
+    <span class="k">new</span> <span class="n">Consumer</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;()</span> <span class="o">{</span>
+        <span class="kd">private</span> <span class="kt">int</span> <span class="n">state</span> <span class="o">=</span> <span class="mi">10</span><span class="o">;</span>
+
+        <span class="nd">@Override</span>
+        <span class="kd">public</span> <span class="kt">void</span> <span class="nf">accept</span><span class="o">(</span><span class="n">Integer</span> <span class="n">x</span><span class="o">)</span> <span class="o">{</span>
+            <span class="kt">int</span> <span class="n">y</span> <span class="o">=</span> <span class="k">this</span><span class="o">.</span><span class="na">state</span> <span class="o">+</span> <span class="n">Main</span><span class="o">.</span><span class="na">this</span><span class="o">.</span><span class="na">var</span> <span class="o">+</span> <span class="n">x</span><span class="o">;</span>
+            <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"Anonymous class that implements Consumer Interface and accept overriding: "</span> <span class="o">+</span> <span class="n">y</span><span class="o">);</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+<span class="o">);</span></code></pre></figure>
+
+<p>The two example show a difference: in the first there is no private field. This is because there is no ability for you to define private fields inside a lambda expression: they are just the body of the signature defined in a functional interface the lambda expression will be assigned to. Remember also that a lambda expression has always a type: this because it can only be assigned to a variable, or passed as a parameter or returned by a method and, in each of these cases, you need a type. What about the <code class="highlighter-rouge">this</code> statement? Try the code to see what happens (in any it is explained in the next paragraph).</p>
+
+<h4 id="lambda-functional-typed-vs-anonymous-inner-class">Lambda (<em>functional typed</em>) vs Anonymous Inner Class</h4>
+
+<p>Let summarize the main differences between a lambda expression and an anonymous inner class:</p>
+<ul>
+  <li>inner classes can have state in the form of class level instance variables lambdas can not,</li>
+  <li>inner classes can have multiple methods, while lambdas only have a single method body,</li>
+  <li><code class="highlighter-rouge">this</code> points to the object instance for an anonymous Inner class BUT points to the enclosing object for a lambda;</li>
+</ul>
+
+<p>This is why lambda expressions are basically <strong>different</strong> from anonymous inner class.</p>
+
+<h4 id="available-functional-interfaces">Available functional interfaces</h4>
+<p>Is it really necessary to create a functional interface for each lambda expression that we want to use in our code? The answer is no, because <code class="highlighter-rouge">java.util.function.*</code> package contains 43 (wow!) commonly used functional interfaces:</p>
+
+<ul>
+  <li><code class="highlighter-rouge">Consumer&lt;T&gt;</code> define a function that takes an argument of type T and returns void;</li>
+  <li><code class="highlighter-rouge">Supplier&lt;T&gt;</code> define a function that takes no argument and returns a result of Type T;</li>
+  <li><code class="highlighter-rouge">Predicate&lt;T&gt;</code> define a function that takes an argument of Type T and returns a boolean;</li>
+  <li><code class="highlighter-rouge">Function&lt;T, R&gt;</code> define a function that takes an argument of Type T and returns a result of type R;</li>
+  <li>etc…</li>
+</ul>
+
+<p>###### Break point
+Until now we saw <em>how</em> the functional interface provide a way to expose the lambda expression to outside world and use them in our code. Let’s move one step forward, introducing method references.</p>
+
+<h3 id="method-references">Method references</h3>
+<p>Basically a lambda is a way to define an anonymous function. The question now is: what about functions I already written? Do I have to rewrite them? Look at the following code:</p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="kd">private</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">myAlreadyWrittenFunction</span><span class="o">(</span><span class="n">Integer</span> <span class="n">i</span><span class="o">)</span> <span class="o">{</span>
+    <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">i</span><span class="o">);</span>
+<span class="o">}</span>
+
+<span class="n">Consumer</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;</span> <span class="n">consumerLambda</span> <span class="o">=</span> <span class="n">x</span> <span class="o">-&gt;</span> <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">x</span><span class="o">);</span>
+<span class="n">consumerLambda</span><span class="o">.</span><span class="na">accept</span><span class="o">(</span><span class="mi">1</span><span class="o">);</span>
+
+<span class="n">Consumer</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;</span> <span class="n">consumerOldFunction</span> <span class="o">=</span> <span class="nl">Main:</span><span class="o">:</span><span class="n">myAlreadyWrittenFunction</span><span class="o">;</span>
+<span class="n">consumerOldFunction</span><span class="o">.</span><span class="na">accept</span><span class="o">(</span><span class="mi">1</span><span class="o">);</span></code></pre></figure>
+
+<p>There’s a new notation with double colons that is the syntax used to reference a method. So, the short answer to the previous question is no, because method references can be used to pass an existing function in a place where a lambda is expected.</p>
+
+<h4 id="reference-a-static-method">Reference a static method</h4>
+<p>In the <code class="highlighter-rouge">consumerOldFunction</code> we are saying to the compiler “use the <code class="highlighter-rouge">myAlreadyWrittenFunction</code> as the implementation of the <code class="highlighter-rouge">accept</code> method (signature) defined in the functional interface <code class="highlighter-rouge">Consumer&lt;Integer&gt;</code>. Obviously, the signature of the referenced method <strong>needs</strong> to match the signature of functional interface method (and yes, it will handle also overloading and generics). In this first scenario we referenced a static method, but there are four different types of method references:</p>
+<ul>
+  <li>static method reference,</li>
+  <li>constructor reference,</li>
+  <li>specific object instance reference,</li>
+  <li>and specific arbitrary object of a particular type reference;</li>
+</ul>
+
+<h4 id="reference-a-constructor">Reference a constructor</h4>
+<p>Look at the following code:</p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="n">Function</span><span class="o">&lt;</span><span class="n">String</span><span class="o">,</span> <span class="n">Integer</span><span class="o">&gt;</span> <span class="n">firstMapper</span> <span class="o">=</span> <span class="n">x</span> <span class="o">-&gt;</span> <span class="k">new</span> <span class="n">Integer</span><span class="o">(</span><span class="n">x</span><span class="o">);</span>
+<span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">firstMapper</span><span class="o">.</span><span class="na">apply</span><span class="o">(</span><span class="s">"11"</span><span class="o">));</span>
+
+<span class="n">Function</span><span class="o">&lt;</span><span class="n">String</span><span class="o">,</span> <span class="n">Integer</span><span class="o">&gt;</span> <span class="n">secondMapper</span> <span class="o">=</span> <span class="nl">Integer:</span><span class="o">:</span><span class="k">new</span><span class="o">;</span>
+<span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">secondMapper</span><span class="o">.</span><span class="na">apply</span><span class="o">(</span><span class="s">"12"</span><span class="o">));</span></code></pre></figure>
+
+<p>You can use method reference to reference a constructor: this is handy when working with <em>streams</em> (the last topics of this article). With the notation <code class="highlighter-rouge">Function&lt;String, Integer&gt; secondMapper = Integer::new;</code> we are asking the compiler to create for us a function that takes as angurment a string, returns an integer and in the body of that method invoque the new constructor of the Integer, passing the string parameter provided to that method. Cool right?!</p>
+
+<p><strong>NOTE</strong>: we use the <code class="highlighter-rouge">Function&lt;T, R&gt;</code> functional interface provided by the <code class="highlighter-rouge">java.util.function.*</code>: it defines a function that takes an argument of Type T and returns a result of type R, as our Integer constructor;</p>
+
+<h4 id="reference-to-a-specific-object-instance-method">Reference to a specific object instance method</h4>
+<p>Look at the following code:</p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="n">Consumer</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;</span> <span class="n">firstConsumer</span> <span class="o">=</span> <span class="n">x</span> <span class="o">-&gt;</span> <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">x</span><span class="o">);</span>
+<span class="n">firstConsumer</span><span class="o">.</span><span class="na">accept</span><span class="o">(</span><span class="mi">13</span><span class="o">);</span>
+
+<span class="n">Consumer</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;</span> <span class="n">secondConsumer</span> <span class="o">=</span> <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">::</span><span class="n">println</span><span class="o">;</span>
+<span class="n">secondConsumer</span><span class="o">.</span><span class="na">accept</span><span class="o">(</span><span class="mi">14</span><span class="o">);</span></code></pre></figure>
+
+<p>With the notation <code class="highlighter-rouge">Consumer&lt;Integer&gt; secondConsumer = System.out::println;</code> we tell the compiler that the lambda body signature should match the method println and that the lambda expression should result in a call to <code class="highlighter-rouge">System.out.println(x)</code>.</p>
+
+<h4 id="reference-to-a-specific-arbitrary-object-of-a-particular-type">Reference to a specific arbitrary object of a particular type</h4>
+<p>Finally, look at the following code:</p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="n">Function</span><span class="o">&lt;</span><span class="n">String</span><span class="o">,</span> <span class="n">String</span><span class="o">&gt;</span> <span class="n">firstMapper</span> <span class="o">=</span> <span class="n">x</span> <span class="o">-&gt;</span> <span class="n">x</span><span class="o">.</span><span class="na">toUpperCase</span><span class="o">();</span>
+<span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">firstMapper</span><span class="o">.</span><span class="na">apply</span><span class="o">(</span><span class="s">"abc"</span><span class="o">));</span>
+
+<span class="n">Function</span><span class="o">&lt;</span><span class="n">String</span><span class="o">,</span> <span class="n">String</span><span class="o">&gt;</span> <span class="n">secondMapper</span> <span class="o">=</span> <span class="nl">String:</span><span class="o">:</span><span class="n">toUpperCase</span><span class="o">;</span>
+<span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">secondMapper</span><span class="o">.</span><span class="na">apply</span><span class="o">(</span><span class="s">"def"</span><span class="o">));</span></code></pre></figure>
+
+<p>With the notation <code class="highlighter-rouge">Function&lt;String, String&gt; secondMapper = String::toUpperCase;</code> we tell the compiler to invoke the <code class="highlighter-rouge">toUpperCase</code> method on the parameter that is passed to the lambda expression. So invoking <code class="highlighter-rouge">secondMapper.apply("def")</code>
+will call the lambda expression derived method and inside that will call the <code class="highlighter-rouge">toUpperCase</code> method on the parameter “def”</p>
+
+<p>The all idea of the method reference feature is that if you already have a method ready, you can create a lambda using method reference, and then use lambda wherever you want in your code. At this point, we are ready to talk about <em>default methods</em> and, finally, <strong>provide a complete definition of the functional interface</strong>.</p>
+
+<h3 id="default-methods">Default methods</h3>
+<p>Until now I wrote a little bit about lambda expressions and arrow notation -&gt; and method references. A natural place to use lambda expressions is with the Java collections framework. The collection framework is defined with interfaces such as <code class="highlighter-rouge">Iterable</code>, <code class="highlighter-rouge">Collection</code>, <code class="highlighter-rouge">Map</code>, <code class="highlighter-rouge">List</code>, <code class="highlighter-rouge">Set</code>, etc. Think about that: adding a new method such <code class="highlighter-rouge">forEach</code> we used in the previous examples to, let me say, the <code class="highlighter-rouge">Iterable</code> interface, will mean that <strong>all</strong> existing implementations of <code class="highlighter-rouge">Iterable</code> will break. Why? Because they <strong>don’t</strong> implement the <code class="highlighter-rouge">forEach</code> method introduced in the interface: so what? All codes already compiled will not work with the new version of Java. Unacceptable. This problem is known as the <strong>the interface evolution problem</strong>: how can published interfaces be evolved without breaking existing implementations? Default methods provide a solution to this <strong>big</strong> problem:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>A default method defined in a Java Interface&lt;T&gt; has an implementation (provided in the interface) and is inherited by all classes that implement the Interface&lt;T&gt;.
+</code></pre></div></div>
+
+<p>Look at the example:</p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">Main</span> <span class="kd">implements</span> <span class="n">Matteo</span> <span class="o">{</span>
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="n">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">new</span> <span class="nf">Main</span><span class="o">().</span><span class="na">printMatteo</span><span class="o">();</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+
+<span class="kd">interface</span> <span class="nc">Matteo</span> <span class="o">{</span>
+    <span class="k">default</span> <span class="kt">void</span> <span class="nf">printMatteo</span><span class="o">()</span> <span class="o">{</span>
+        <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">print</span><span class="o">(</span><span class="s">"Matteo\n"</span><span class="o">);</span>
+    <span class="o">}</span>
+<span class="o">}</span></code></pre></figure>
+
+<p>Question: can you override a default method? Yes, of course, simply overriding the method. Furthermore, if you a default method <code class="highlighter-rouge">myMethod()</code> defined in an interface <code class="highlighter-rouge">A</code>, an interface <code class="highlighter-rouge">B</code> that extend <code class="highlighter-rouge">A</code> and override the implementation of <code class="highlighter-rouge">myMethod()</code> provided by <code class="highlighter-rouge">A</code>, if you have a class <code class="highlighter-rouge">MyClass</code> that implement interface <code class="highlighter-rouge">B</code>, without any implementation of <code class="highlighter-rouge">myMethod()</code>, the implementation provided in interface <code class="highlighter-rouge">B</code> will be used, or</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>The closest implementation in hierarchy will be used.
+</code></pre></div></div>
+
+<h4 id="creating-a-conflict">Creating a conflict</h4>
+<p>Let be <code class="highlighter-rouge">A</code> and <code class="highlighter-rouge">B</code> two different interfaces that provide two default methods with the same signature. Let be <code class="highlighter-rouge">MyClass</code> a class that implements both <code class="highlighter-rouge">A</code> and <code class="highlighter-rouge">B</code>: if you create this situation the compiler arises an error that sounds like <em>duplicate default methods implementations</em>. How to solve this conflict? Of course, with overriding. Further, you can call the implementation in the interface, with notation <code class="highlighter-rouge">A.super.myMethod()</code>. Instead, same level implementation implies a compiler error, and the override is mandatory.
+<strong>NOTE</strong>: a default method should not be final…because it doesn’t make so much sense.</p>
+
+<p>What about our functional interface?! Do you remember the old <strong>incomplete</strong> definition?</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>A functional interface is an interface with only one method.
+</code></pre></div></div>
+
+<p>The complete definition is</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>A functional interface is an interface with only one __non-default__ method.
+</code></pre></div></div>
+
+<p>Let’s move one step forward, introducing collections enhancements.</p>
+
+<h3 id="collections-enhancements">Collections Enhancements</h3>
+<p>Java 8 uses lambda expressions and default methods to improve the exising Java collections frameworks and add a lot of functions to them. We already seen example of these methods, such as the <code class="highlighter-rouge">forEach</code> - an example of internal iteration: it delegates the looping to a library function (such as forEach, as we said), and the loop body processing to a lambda expression. Further, this method is really important because it allows the library function we are delegating to implement the logic needed to execute the iteration on muliple cores, if desired. Some of the new methods provided by the standard library are:</p>
+
+<ul>
+  <li>New java.lang.Iterable methods:
+    <ul>
+      <li>default void forEach(Consumer&lt;? super T&gt; action);</li>
+      <li>default Spliterator<T> spliterator();</T></li>
+    </ul>
+  </li>
+  <li>New java.util.Collection methods:
+    <ul>
+      <li>default boolean removeIf(Predicate&lt;? super E&gt; filter);</li>
+      <li>default Spliterator<E> spliterator();</E></li>
+      <li>default Stream<E> stream();</E></li>
+      <li>default Stream<E> parallelStream();</E></li>
+    </ul>
+  </li>
+  <li>New java.util.Map methods:
+    <ul>
+      <li>default V getOrDefault(Object key, V defaultValue);</li>
+      <li>putIfAbsent(K key, V value);</li>
+      <li>etc;</li>
+    </ul>
+  </li>
+</ul>
+
+<p>The streams related methods mentioned above are:</p>
+<ul>
+  <li>default Spliterator<T> spliterator();</T></li>
+  <li>default Stream<E> stream();</E></li>
+  <li>default Stream<E> parallelStream();</E></li>
+</ul>
+
+<p>But…what is a <em>stream</em> exactly?</p>
+
+<h3 id="stream">Stream</h3>
+
+<p>Streams are a functional programming desing pattern for processing sequences of elements - sequentially or in parallel. When examining java programs we always run into code along the following lines:</p>
+<ul>
+  <li>run a database query to get a list of objects,</li>
+  <li>iterate over the list to compute a single result,</li>
+  <li>iterate over the list to generate a new data structure such as another list, map, set, etc,</li>
+  <li>or iterate over the list and …;</li>
+</ul>
+
+<p>Boring. Well, streams are the implementation of a concept (a design pattern) in the same way lambdas are: they can be implemented in many programming languages. In the next paragraphs I talk about - more or less - about <em>how</em> they work in Java (without talking in details about how they are <em>implemented</em>).</p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="kt">int</span> <span class="n">sumOdd</span> <span class="o">=</span> <span class="n">integers</span><span class="o">.</span><span class="na">stream</span><span class="o">()</span>
+                     <span class="o">.</span><span class="na">filter</span><span class="o">(</span><span class="n">o</span> <span class="o">-&gt;</span> <span class="n">o</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">==</span> <span class="mi">1</span><span class="o">)</span>
+                     <span class="o">.</span><span class="na">mapToInt</span><span class="o">(</span><span class="n">o</span> <span class="o">-&gt;</span> <span class="n">o</span><span class="o">)</span>
+                     <span class="o">.</span><span class="na">sum</span><span class="o">();</span>
+<span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">print</span><span class="o">(</span><span class="n">sumOdd</span><span class="o">+</span><span class="s">"\n"</span><span class="o">);</span></code></pre></figure>
+
+<p>In the example the program creates a stream instance from a <strong>source</strong> (a Java collection), add a filter operation to the stream intermediate operations pipeline, add a map operation to the stream intermediate operations pipeline and add a terminal operation (sum) that kicks off the stream processing: what the hell is going on?! Let’s first talk about a stream composition.</p>
+
+<h4 id="the-stream-composition">The stream composition</h4>
+<p>A <strong>stream</strong> has three elements:</p>
+<ul>
+  <li>a <strong>source</strong> that the stream can pull objects from,</li>
+  <li>a <strong>pipeline</strong> of operations that will execute on the elements of the stream,</li>
+  <li>a <strong>terminal</strong> operation that pulls values down the stream;</li>
+</ul>
+
+<h4 id="the-stream-lifecycle">The stream lifecycle</h4>
+<p>A <strong>stream lifecycle</strong> has the following steps:</p>
+<ul>
+  <li>a <strong>creation</strong> step, ih which a stream get created from a source object such as a collection, file, or generator,</li>
+  <li>a <strong>configuration</strong> step, in which a stream get configured with a collection of pipeline operations,</li>
+  <li>a <strong>execution</strong> step, done when stream terminal operation is invoked which starts pulling objects trough the operations pipeline of the stream,</li>
+  <li>and a <strong>cleanup</strong> step, in which stream can only be used once;</li>
+</ul>
+
+<p>It is important to remember that stream execution is <strong>lazy</strong>, that means that until you call a terminal operation the stream doesn’t do anythings. It doesn’t loop.</p>
+
+<h4 id="stream-sources">Stream Sources</h4>
+<p>There are different type of streams: in the next paragraphs I show same simple examples of different streams.</p>
+
+<h5 id="number-stream-source">Number Stream Source</h5>
+<p>Look at the code:</p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">print</span><span class="o">(</span><span class="s">"Long Stream Source\n"</span><span class="o">);</span>
+
+<span class="n">LongStream</span><span class="o">.</span><span class="na">range</span><span class="o">(</span><span class="mi">0</span><span class="o">,</span> <span class="mi">5</span><span class="o">).</span><span class="na">forEach</span><span class="o">(</span><span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">::</span><span class="n">println</span><span class="o">);</span></code></pre></figure>
+
+<p>The example shows a range stream from 0 to 5, starting from a <code class="highlighter-rouge">LongSource</code> from <code class="highlighter-rouge">java.util.stream.*</code> package in standard library. Remember that a stream can be anything: a stream is a design pattern. What it does? It splits out elements from a collection.</p>
+
+<h5 id="string-stream-source">String Stream Source</h5>
+<p>Look at the code:</p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="n">List</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span> <span class="n">cities</span> <span class="o">=</span> <span class="n">Arrays</span><span class="o">.</span><span class="na">asList</span><span class="o">(</span><span class="s">"toronto"</span><span class="o">,</span> <span class="s">"ottawa"</span><span class="o">,</span> <span class="s">"montreal"</span><span class="o">,</span> <span class="s">"vancouver"</span><span class="o">);</span>
+
+<span class="n">cities</span><span class="o">.</span><span class="na">stream</span><span class="o">().</span><span class="na">forEach</span><span class="o">(</span><span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">::</span><span class="n">println</span><span class="o">);</span></code></pre></figure>
+
+<p>The example shows a stream from a list of String.</p>
+
+<h5 id="collection-stream-source">Collection Stream Source</h5>
+<p>Look at the code:</p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="kt">long</span> <span class="n">length</span> <span class="o">=</span> <span class="s">"ABC"</span><span class="o">.</span><span class="na">chars</span><span class="o">().</span><span class="na">count</span><span class="o">();</span>
+
+<span class="n">Consumer</span><span class="o">&lt;</span><span class="n">Long</span><span class="o">&gt;</span> <span class="n">printer</span> <span class="o">=</span> <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">::</span><span class="n">println</span><span class="o">;</span>
+
+<span class="n">printer</span><span class="o">.</span><span class="na">accept</span><span class="o">(</span><span class="n">length</span><span class="o">);</span></code></pre></figure>
+
+<p>A character stream source is called using chars() and then count().</p>
+
+<h5 id="file-system-streams">File System Streams</h5>
+<p>Look at the code:</p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="n">String</span> <span class="n">workDir</span> <span class="o">=</span> <span class="n">System</span><span class="o">.</span><span class="na">getProperty</span><span class="o">(</span><span class="s">"user.dir"</span><span class="o">);</span>
+<span class="n">Path</span> <span class="n">workDirPath</span> <span class="o">=</span> <span class="n">FileSystems</span><span class="o">.</span><span class="na">getDefault</span><span class="o">().</span><span class="na">getPath</span><span class="o">(</span><span class="n">workDir</span><span class="o">);</span>
+
+<span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"Directory Listing Stream"</span><span class="o">);</span>
+<span class="n">Files</span><span class="o">.</span><span class="na">list</span><span class="o">(</span><span class="n">workDirPath</span><span class="o">).</span><span class="na">forEach</span><span class="o">(</span><span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">::</span><span class="n">println</span><span class="o">);</span>
+
+<span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"Depth First Directory Walking Stream"</span><span class="o">);</span>
+<span class="n">Files</span><span class="o">.</span><span class="na">walk</span><span class="o">(</span><span class="n">workDirPath</span><span class="o">).</span><span class="na">forEach</span><span class="o">(</span><span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">::</span><span class="n">println</span><span class="o">);</span></code></pre></figure>
+
+<p>The line <code class="highlighter-rouge">Files.list(Path object from Java 7)</code> gives a stream to work directly on list. The line <code class="highlighter-rouge">Files.walk(Path object from Java 7)</code> gives a stream to work directly on list with depth first search.</p>
+
+<h4 id="a-first-summary-example">A first summary example</h4>
+<p>Before going on, try to understand what the code below does:</p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="n">String</span> <span class="n">workDir</span> <span class="o">=</span> <span class="n">System</span><span class="o">.</span><span class="na">getProperty</span><span class="o">(</span><span class="s">"user.dir"</span><span class="o">);</span>
+<span class="n">Path</span> <span class="n">workDirPath</span> <span class="o">=</span> <span class="n">FileSystems</span><span class="o">.</span><span class="na">getDefault</span><span class="o">().</span><span class="na">getPath</span><span class="o">(</span><span class="n">workDir</span><span class="o">);</span>
+
+<span class="n">String</span> <span class="n">className</span> <span class="o">=</span> <span class="n">Main</span><span class="o">.</span><span class="na">class</span><span class="o">.</span><span class="na">getName</span><span class="o">().</span><span class="na">replace</span><span class="o">(</span><span class="s">"."</span><span class="o">,</span> <span class="s">"/"</span><span class="o">)</span> <span class="o">+</span> <span class="s">".java"</span><span class="o">;</span>
+
+<span class="n">Files</span><span class="o">.</span><span class="na">find</span><span class="o">(</span><span class="n">workDirPath</span><span class="o">,</span> <span class="mi">10</span><span class="o">,</span> 
+    <span class="o">(</span><span class="n">fileName</span><span class="o">,</span> <span class="n">attributes</span><span class="o">)</span> <span class="o">-&gt;</span> <span class="n">fileName</span><span class="o">.</span><span class="na">endsWith</span><span class="o">(</span><span class="n">className</span><span class="o">)).</span><span class="na">forEach</span><span class="o">(</span><span class="n">path</span> <span class="o">-&gt;</span> <span class="o">{</span>
+      <span class="k">try</span> <span class="o">{</span>
+          <span class="n">Files</span><span class="o">.</span><span class="na">lines</span><span class="o">(</span><span class="n">path</span><span class="o">).</span><span class="na">forEach</span><span class="o">(</span><span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">::</span><span class="n">println</span><span class="o">);</span>
+      <span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="n">Exception</span> <span class="n">e</span><span class="o">)</span> <span class="o">{}</span>
+    <span class="o">}</span>
+<span class="o">);</span></code></pre></figure>
+
+<p>Did you understand what the code does? The example simply print out it self. Briefly, the call to <code class="highlighter-rouge">find</code> method returns a stream, so it is possible to call <code class="highlighter-rouge">forEach</code> method on it: we know that the <code class="highlighter-rouge">forEach</code> terminal does something to each things that it founds. The things it founds are pointed by <code class="highlighter-rouge">path</code> variable, passed as parameter to the lambda expression in the brackets. Inside this, we use another stream of Files called <code class="highlighter-rouge">lines</code> that out each lines of the file as a stream: once again, the call to <code class="highlighter-rouge">forEach</code> print out each of the elements splitted out by the lines stream.</p>
+
+<h4 id="how-about-stream-terminals">How about stream terminals?</h4>
+<p>We said that until the terminal operation is invoked, the stream doesn’t do anything. You might be thinking “what kind of terminal could I use to <em>execute</em> my stream pipeline?”. There are many types of terminals for stream:</p>
+
+<ul>
+  <li><strong>reduction</strong> terminal operations that return a single result (such as sum()),</li>
+  <li><strong>mutable reduction</strong> terminal operations that return multiple results in a container data structure,</li>
+  <li><strong>search</strong> terminal operations that return a result as soon as a match is found,</li>
+  <li><strong>generic</strong> terminal operations that do any kind of processing you want on each stream element;</li>
+</ul>
+
+<p>But <strong>remember</strong>: nothing happens until the terminal operation is invoked (think about updating, and so on).</p>
+
+<h5 id="reduction-terminal-operations">Reduction terminal operations</h5>
+<p>Look at the following:</p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="n">List</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;</span> <span class="n">integers</span> <span class="o">=</span> <span class="n">Arrays</span><span class="o">.</span><span class="na">asList</span><span class="o">(</span><span class="mi">1</span><span class="o">,</span> <span class="mi">2</span><span class="o">,</span> <span class="mi">3</span><span class="o">,</span> <span class="mi">4</span><span class="o">,</span> <span class="mi">5</span><span class="o">);</span>
+<span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">integers</span><span class="o">.</span><span class="na">stream</span><span class="o">().</span><span class="na">count</span><span class="o">());</span>
+
+<span class="n">Optional</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;</span> <span class="n">result</span><span class="o">;</span>
+<span class="n">result</span> <span class="o">=</span> <span class="n">integers</span><span class="o">.</span><span class="na">stream</span><span class="o">().</span><span class="na">min</span><span class="o">((</span><span class="n">x</span><span class="o">,</span> <span class="n">y</span><span class="o">)</span> <span class="o">-&gt;</span> <span class="n">x</span> <span class="o">-</span> <span class="n">y</span><span class="o">);</span>
+
+<span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">result</span><span class="o">.</span><span class="na">get</span><span class="o">());</span>
+
+<span class="n">result</span> <span class="o">=</span> <span class="n">integers</span><span class="o">.</span><span class="na">stream</span><span class="o">().</span><span class="na">max</span><span class="o">(</span><span class="n">Comparator</span><span class="o">.</span><span class="na">comparingInt</span><span class="o">(</span><span class="n">x</span> <span class="o">-&gt;</span> <span class="n">x</span><span class="o">));</span>
+<span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">result</span><span class="o">.</span><span class="na">get</span><span class="o">());</span>
+
+<span class="n">Integer</span> <span class="n">res</span> <span class="o">=</span> <span class="n">integers</span><span class="o">.</span><span class="na">stream</span><span class="o">().</span><span class="na">reduce</span><span class="o">(</span><span class="mi">0</span><span class="o">,</span> <span class="o">(</span><span class="n">x</span><span class="o">,</span> <span class="n">y</span><span class="o">)</span> <span class="o">-&gt;</span> <span class="n">x</span> <span class="o">+</span> <span class="n">y</span><span class="o">);</span>
+<span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">res</span><span class="o">);</span></code></pre></figure>
+
+<p>Can you explain the min? Actually, I didn’t understand the <code class="highlighter-rouge">min</code>: you can write a comment below if you want XD.</p>
+
+<h5 id="mutable-reduction-operations">Mutable reduction operations</h5>
+<p>Look at the following:</p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="n">List</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;</span> <span class="n">integers</span> <span class="o">=</span> <span class="n">Arrays</span><span class="o">.</span><span class="na">asList</span><span class="o">(</span><span class="mi">1</span><span class="o">,</span> <span class="mi">2</span><span class="o">,</span> <span class="mi">3</span><span class="o">,</span> <span class="mi">4</span><span class="o">,</span> <span class="mi">5</span><span class="o">);</span>
+
+<span class="n">Set</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;</span> <span class="n">result</span> <span class="o">=</span> <span class="n">integers</span><span class="o">.</span><span class="na">stream</span><span class="o">().</span><span class="na">collect</span><span class="o">(</span><span class="n">Collectors</span><span class="o">.</span><span class="na">toSet</span><span class="o">());</span>
+<span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">result</span><span class="o">);</span>
+
+<span class="n">Integer</span><span class="o">[]</span> <span class="n">a</span> <span class="o">=</span> <span class="n">integers</span><span class="o">.</span><span class="na">stream</span><span class="o">().</span><span class="na">toArray</span><span class="o">(</span><span class="n">Integer</span><span class="o">[]::</span><span class="k">new</span><span class="o">);</span>
+<span class="n">Arrays</span><span class="o">.</span><span class="na">stream</span><span class="o">(</span><span class="n">a</span><span class="o">).</span><span class="na">forEach</span><span class="o">(</span><span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">::</span><span class="n">println</span><span class="o">);</span>
+
+<span class="n">Integer</span> <span class="n">res</span> <span class="o">=</span> <span class="n">integers</span><span class="o">.</span><span class="na">stream</span><span class="o">().</span><span class="na">reduce</span><span class="o">(</span><span class="mi">0</span><span class="o">,</span> <span class="o">(</span><span class="n">x</span><span class="o">,</span> <span class="n">y</span><span class="o">)</span> <span class="o">-&gt;</span> <span class="n">x</span> <span class="o">+</span> <span class="n">y</span><span class="o">);</span>
+<span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">res</span><span class="o">);</span></code></pre></figure>
+
+<p><code class="highlighter-rouge">Collectors</code> are used to get all the things that came out of a stream and collect them into a structure: the <code class="highlighter-rouge">Collectors</code> class defines many useful collectors such as <code class="highlighter-rouge">List</code>, <code class="highlighter-rouge">Set</code>, <code class="highlighter-rouge">Map</code>, groupingBy, partitioningBy, etc.</p>
+
+<h5 id="search-terminal-operation">Search terminal operation</h5>
+<p>Look at the following:</p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="n">List</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;</span> <span class="n">integers</span> <span class="o">=</span> <span class="n">Arrays</span><span class="o">.</span><span class="na">asList</span><span class="o">(</span><span class="mi">1</span><span class="o">,</span> <span class="mi">2</span><span class="o">,</span> <span class="mi">3</span><span class="o">,</span> <span class="mi">4</span><span class="o">,</span> <span class="mi">5</span><span class="o">);</span>
+
+<span class="n">Optional</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;</span> <span class="n">result</span> <span class="o">=</span> <span class="n">integers</span><span class="o">.</span><span class="na">stream</span><span class="o">().</span><span class="na">findFirst</span><span class="o">();</span>
+<span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">result</span><span class="o">);</span>
+
+<span class="n">Boolean</span> <span class="n">res</span> <span class="o">=</span> <span class="n">integers</span><span class="o">.</span><span class="na">stream</span><span class="o">().</span><span class="na">anyMatch</span><span class="o">(</span><span class="n">x</span> <span class="o">-&gt;</span> <span class="n">x</span> <span class="o">==</span> <span class="mi">5</span><span class="o">);</span>
+<span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">res</span><span class="o">);</span>
+
+<span class="n">res</span> <span class="o">=</span> <span class="n">integers</span><span class="o">.</span><span class="na">stream</span><span class="o">().</span><span class="na">anyMatch</span><span class="o">(</span><span class="n">x</span> <span class="o">-&gt;</span> <span class="n">x</span> <span class="o">&gt;</span> <span class="mi">3</span><span class="o">);</span>
+<span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">res</span><span class="o">);</span>
+
+<span class="n">Optional</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;</span> <span class="n">anyres</span> <span class="o">=</span> <span class="n">integers</span><span class="o">.</span><span class="na">stream</span><span class="o">().</span><span class="na">findAny</span><span class="o">();</span>
+<span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">anyres</span><span class="o">.</span><span class="na">get</span><span class="o">());</span></code></pre></figure>
+
+<p>Note the <code class="highlighter-rouge">findAny</code>: result of findAny call is unpredictable. In a sense, if stream is executed, for instance, parallel, then the first call that ends will return the result so you don’t know exactly a priori which will be the returned value. It just means “find any”.</p>
+
+<h5 id="generic-terminal-operation">Generic terminal operation</h5>
+<p><code class="highlighter-rouge">forEach</code> is an example of generic terminal operation.</p>
+
+<h4 id="streams-pipeline-rules">Streams pipeline rules</h4>
+<p>What about streams pipeline call?</p>
+<ul>
+  <li>streams can process elements sequentially;</li>
+  <li>streams can process elements in parallel;</li>
+</ul>
+
+<p>Thus means that streams operations are not allowed to modify the stream source otherwise bad things happens XD. It is simple: a stream operate over a source. Don’t modify the source! sounds like a best practise.</p>
+
+<h4 id="intermediate-stream-operations">Intermediate stream operations</h4>
+<p>There are two classes of intermediate stream operations:</p>
+
+<ul>
+  <li>
+    <p><strong>Stateless intermediate operations</strong>: they do not need to know the history of results from the previous steps in the pipeline or keep track of how many results it have produced or seen. Example of stateless intermediate operations are <code class="highlighter-rouge">filter</code>, <code class="highlighter-rouge">map</code>, <code class="highlighter-rouge">flatMap</code>, <code class="highlighter-rouge">peek</code>.</p>
+  </li>
+  <li>
+    <p><strong>Stateful intermediate operations</strong>: they need to know the history of results from the previous steps in the pipeline or need to keep track of how many results it have produced or seen. Example of stateless intermediate operations are <code class="highlighter-rouge">distinct</code>, <code class="highlighter-rouge">limit</code>, <code class="highlighter-rouge">skip</code>, <code class="highlighter-rouge">sorted</code>.</p>
+  </li>
+</ul>
+
+<p>For instance, if you want a stream to sort elements you obviously needs to know the order of sorting. Instead, if you have a parallel operations with threads that compete with each others, you are not interested in state of each elements. Let’s have a look at sample example:</p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="n">integers</span><span class="o">.</span><span class="na">stream</span><span class="o">().</span><span class="na">filter</span><span class="o">(</span><span class="n">x</span> <span class="o">-&gt;</span> <span class="n">x</span> <span class="o">&lt;</span> <span class="mi">4</span><span class="o">).</span><span class="na">forEach</span><span class="o">(</span><span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">::</span><span class="n">println</span><span class="o">);</span>
+
+<span class="n">integers</span> <span class="o">=</span> <span class="n">integers</span><span class="o">.</span><span class="na">stream</span><span class="o">().</span><span class="na">map</span><span class="o">(</span><span class="n">x</span> <span class="o">-&gt;</span> <span class="n">x</span> <span class="o">+</span> <span class="n">x</span><span class="o">).</span><span class="na">collect</span><span class="o">(</span><span class="n">Collectors</span><span class="o">.</span><span class="na">toList</span><span class="o">());</span>
+<span class="n">integers</span><span class="o">.</span><span class="na">forEach</span><span class="o">(</span><span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">::</span><span class="n">println</span><span class="o">);</span>
+
+<span class="n">IntSummaryStatistics</span> <span class="n">intSummaryStatistics</span> <span class="o">=</span> <span class="n">integers</span><span class="o">.</span><span class="na">stream</span><span class="o">().</span><span class="na">mapToInt</span><span class="o">(</span><span class="n">x</span> <span class="o">-&gt;</span> <span class="n">x</span><span class="o">).</span><span class="na">summaryStatistics</span><span class="o">();</span>
+<span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">intSummaryStatistics</span><span class="o">);</span></code></pre></figure>
+
+<p>A repo with all the examples in the article is <a href="https://github.com/made2591/java-8-steps">here</a> and the main source is <a href="https://www.youtube.com/watch?v=8pDm_kH4YKY">here</a>.</p>
+
+<p>Thank you everybody for reading!</p>
+
+<div class="footnotes">
+  <ol>
+    <li id="fn:first">
+      <p>The course is entitled <em>Java 8 Lambda Expressions &amp; Streams</em> and is available for free <a href="https://www.youtube.com/watch?v=8pDm_kH4YKY">here</a>. Thank you again Adib Saikali for your lesson!&nbsp;<a href="#fnref:first" class="reversefootnote">&#8617;</a></p>
+    </li>
+  </ol>
+</div>
+
+
+<div class="comments">
+   <div id="disqus_thread"></div>
+    <script type="text/javascript">
+        /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+        var disqus_shortname = 'made2591';
+
+        /* * * DON'T EDIT BELOW THIS LINE * * */
+        (function() {
+            var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    <a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+    
+
+</div>
+
+<hr/>
+
+
+  
+    <div class="post-navs row">
+      
+        <div class="col-md-6 post-nav">
+
+          <h3 class="section-header">
+            Older
+            <span class="text-muted"> &middot; </span>
+            <a href="/archive">View Archive (35)</a>
+          </h3>
+
+          <h2 class="post-title-link"><a href="/posts/python-lifeplan">How to plan your daily activity with Python</a></h2>
+          <h3 id="the-problems-of-life">The problems of life</h3>
+<p>Each of us has dreams, aspirations, hobbies, interests, but also hundreds of deadlines, a thousand commitments, ten thousand thoughts, a hundred thousand different problems to cope with every day. I am a computer scientist and personally all these things in my life translate into a huge pile of [things/books/articles/guide/blogs] to read, which by the way are very often interrelated. The situation is more or less this:</p>
+
+
+        </div>
+      
+      
+
+        <div class="col-md-6 post-nav">
+          <h3 class="section-header">
+            Newer
+            
+          </h3>
+
+          <h2 class="post-title-link"><a href="/posts/goa-docker-multistage">Golang, Docker and multistage build</a></h2>
+          <h3 id="recipe-for-a-good-meal">Recipe for a good meal</h3>
+<p>A few months ago I started working with Golang to a <em>proof-of-concept</em> project using the amazing <a href="https://goa.design/">goa</a>
+package (thank you <a href="https://github.com/atosatto">atosatto</a> for your advise): I omit the praise, I would only say that - <em>imho</em> - Golang it’s a very funny language to use for many reasons (stay tuned, I will write about Golang and my favourite packages). However, in this post I want to share a little piece of my experience about this project: the main ingredients for this recipe are Golang (in particular the goa package) and Docker - with some piece of Angular 4, nginx, and minor stuff. I excluded the storage part so the two elements of the <em>boilerplate</em> I will talk about live in separate container - you can of course orchestrate with k8… ok, whatever you want :P</p>
+<ul>
+  <li>api-container:
+    <ul>
+      <li>[goa.design], a Golang package to build restful api (just a few notes),</li>
+    </ul>
+  </li>
+  <li>web-container:
+    <ul>
+      <li>[Angular 4], the popular framework to build cool frontend (just a few notes),</li>
+      <li>[nginx], a simple container webserver to handle request request from fe,</li>
+    </ul>
+  </li>
+</ul>
+
+
+        </div>
+      
+    </div>
+  
+
+
+
+          <div id="footer">
+<hr/>
+  <div class="pull-left">
+    &copy;2019.
+    Built with <a href="http://jekyllrb.com/">Jekyll</a> and
+    <a href="https://github.com/kirqe/autm-rb">Autm-rb</a>. Thanks to <a href="https://github.com/kirqe">kirqe</a>.
+  </div>
+
+  <div class="pull-right">
+    <span class="credits pull-right social">
+      
+        
+          <a href="https://github.com/made2591/" target="_blank"><i class="fa fa-github"></i></a>
+        
+      
+        
+          <a href="https://twitter.com/made2591" target="_blank"><i class="fa fa-twitter"></i></a>
+        
+      
+        
+          <a href="https://linkedin.com/in/mmadeddu" target="_blank"><i class="fa fa-linkedin"></i></a>
+        
+      
+        
+          <a href="https://www.facebook.com/matteo.madeddu" target="_blank"><i class="fa fa-facebook"></i></a>
+        
+      
+    </span>
+  </div>
+</div>
+
+        </section>
+    </div>
+    </div>
+    <script src="/public/javascripts/jquery.min.js"></script>
+    <script src="/public/javascripts/bootstrap.min.js"></script>
+    <!-- Place your <script> tags here. -->
+
+<script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript"></script>
+
+<script id="dsq-count-scr" src="//made2591-github-io.disqus.com/count.js" async></script>
+
+<!-- disqus comment counter -->
+<script type="text/javascript">
+	/* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+    var disqus_shortname = 'made2591-github-io';
+
+	/* * * DON'T EDIT BELOW THIS LINE * * */
+	(function () {
+	    var s = document.createElement('script'); s.async = true;
+	    s.type = 'text/javascript';
+	    s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+	    (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+	}());
+</script>
+<!-- /disqus comment counter -->
+
+<!-- google analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-111283556-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-111283556-1');
+</script>
+<!-- /google analytics -->
+
+  </body>
+</html>

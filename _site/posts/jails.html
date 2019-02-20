@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <!-- Google Tag Manager -->
+    <!--<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','GTM-M8WBXH7');</script>-->
+    <!-- End Google Tag Manager -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,300,700' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href=/public/stylesheets/bs.css?random=@Environment.TickCount>
+    <link rel="stylesheet" href=/public/stylesheets/styles.css?random=@Environment.TickCount>
+    <link rel="stylesheet" href=/public/stylesheets/pygment_trac.css?random=@Environment.TickCount>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css">
+    <link rel="canonical" href="made2591.github.io/posts/jails">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+      <link rel="icon" type="image/x-icon"  href="/favicon.ico" />
+    <title>Jails: confining the omnipotent root | Matteo Madeddu</title>
+    <!--[if lt IE 9]>
+
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+  </head>
+  <body>
+    <!-- Google Tag Manager (noscript) -->
+    <!--<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-M8WBXH7"
+    height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+    <!-- End Google Tag Manager (noscript) -->
+    <div class="wrapper">
+        <section>
+          <div id="header">
+  <h1>
+    <a id="sitename" href="">Matteo Madeddu</a>
+  </h1>
+
+  <!-- Add something about you in p tag-->
+  <p>Mac OS lover, Docker fan, Go explorer, Python geek, Trello addicted.</p>
+  <hr/>
+
+  <span class="credits pull-left">
+    
+      <a href="/">Home</a>  | 
+    
+      <a href="/blog">Blog</a>  | 
+    
+      <a href="/archive">Archive</a>  | 
+    
+      <a href="/about">About</a>  | 
+    
+      <a href="/matteo_madeddu_cv.pdf">Resume</a>  | 
+    
+      <a href="/quotes">Quotes</a> 
+    
+  </span>
+
+  <span class="credits pull-right social">
+    
+      
+        <a href="https://github.com/made2591/" target="_blank"><i class="fa fa-github"></i></a>
+      
+    
+      
+        <a href="https://twitter.com/made2591" target="_blank"><i class="fa fa-twitter"></i></a>
+      
+    
+      
+        <a href="https://linkedin.com/in/mmadeddu" target="_blank"><i class="fa fa-linkedin"></i></a>
+      
+    
+      
+        <a href="https://www.facebook.com/matteo.madeddu" target="_blank"><i class="fa fa-facebook"></i></a>
+      
+    
+  </span>
+
+
+</div>
+
+
+          <div class="post-title">
+    <h1>Jails: confining the omnipotent root</h1>
+    <p class="text-muted">
+    
+
+
+    08 Jan 2018
+    
+     | <i class="fa fa-comment"></i> <a class="text-muted" href="/posts/jails/#disqus_thread"></a>
+    
+
+    
+      | <i class="fa fa-tag"></i>
+      
+        <a class="text-muted" href="/tags/#theory ">theory</a>,
+      
+        <a class="text-muted" href="/tags/#jails ">jails</a>,
+      
+        <a class="text-muted" href="/tags/#freebsd ">freebsd</a>,
+      
+        <a class="text-muted" href="/tags/#container ">container</a>
+      
+    
+  </p>
+</div>
+
+  <h3 id="preamble">Preamble</h3>
+<p>Recently I became nostalgic and fascinated with stuff from the past, so I decided to create a <a href="https://github.com/made2591/vagrant-freebsd">Vagrantfile</a> to work with FreeBSD<sup id="fnref:fbsd"><a href="#fn:fbsd" class="footnote">1</a></sup>. Why FreeBSD? Because as a developer, I really like Docker and I started looking in the past to find its <em>historical</em> birth: in fact, as a concept, Docker is no so recent as you think, and I think it exists also because of the works of some other bigs from 80’, such as Poul-Henning Kamp<sup id="fnref:phk"><a href="#fn:phk" class="footnote">2</a></sup>. Starting from <a href="http://phk.freebsd.dk/pubs/sane2000-jail.pdf">its work</a> and using a FreeBSD installation I did some experiments with jails, to understand better what they really are, how they works - how can you create what it will look like a <em>vintage container</em> - and why you should use them in a FreeBSD environment - at least, to learn something new.</p>
+
+<p align="center"><img src="https://i.ndtvimg.com/i/2016-03/jail-generic_650x400_81459239226.jpg" style="width: 100%; marker-top: -10px;" /></p>
+
+<h3 id="introduction">Introduction</h3>
+<p>As P.H. Kamp says in its work, <em>FreeBSD’s <strong>jail</strong> facility provides the ability to partition the operating system environment, while maintaining the simplicity of the UNIX root model</em>. I think its work is really clear, and I would like to follow logic steps behind its reasoning, but…wait: let’s start from the problem.</p>
+
+<h4 id="traditional-unix-security">Traditional UNIX Security</h4>
+<p>The traditional UNIX access model assigns numeric uids to each user of the system. For the purposes of human convenience, uid 0 is canonically allocated to the root user. The system can discover whether special privileges are accorded to a process simply by looking at the uid of the process: if it is equal to 0, then the process is acting with super-user privileges. It’s really simple, but there are a few problems.</p>
+
+<p>Formally, let:</p>
+<ul>
+  <li><script type="math/tex">\{root, u_1, u_2\} \in \cal U</script> be respectively the root (<script type="math/tex">uid \; = \; 0</script>), and two common users <script type="math/tex">\{uids \; = \; 1,2\}</script> from the set of users <script type="math/tex">\cal U</script>;</li>
+  <li><script type="math/tex">\{p_1, p_2, p_3, p_4\} \in \cal P \in \cal O</script> be four different privileged operations from the subset of privileged operations <script type="math/tex">\cal P</script> included in the set of all available operations <script type="math/tex">\cal O</script>;</li>
+  <li><script type="math/tex">G \; = \; \{V, E\}</script> be a graph of <em>dependencies</em> between operations, with <script type="math/tex">V = \cal U</script> and <script type="math/tex">E = \{p_1 \rightarrow p_3, p_2 \rightarrow p_3, ...\}</script>;</li>
+</ul>
+
+<p>It’s easy to imagine how this scenario could collapse into a difficult dependencies graph that doesn’t let the system to be secure at all. In particular, <script type="math/tex">G</script> itself says that many privileged operations in UNIX - even if <em>seem</em> independent - actually are not: instead, they are closely related and the handing out of one privilege may, in effect, be transitive to the many others. Let assume that users <script type="math/tex">u_1</script> and <script type="math/tex">u_2</script> have to be able to do <script type="math/tex">p_1</script> and <script type="math/tex">p_2</script>, but no <script type="math/tex">p_3</script>: then you can permit both to be root enabling them doing whetever they want - of course including <script type="math/tex">p_3</script>, but also other <script type="math/tex">p_s</script> you want to disable for both the users. What does it means? It means that, if you have to assign different permits over the same operating system - some securelevel mechanism has to be implemented which allows the administrator to block certain configuration and management functions from being performed by root.</p>
+
+<p>However, a system <em>root-dependent</em> is not a good idea, because if the root user is compromised, you’re f***d up, and second, having a single administrative account is not a good idea, even in the simplest environment. There are some features in <em>BSD</em> system that provides - let me say - security capabilities: for instance, the single-user mode available to block certain functions until reboot. This is a great functionality but, it’s not a solution yet to separate several root abilities. A simplest solution should be introducing new security features to split privileged operations, but this often involves introducing new security management APIs. Further, if we assume to introduce fine-grained capabilities to replace the setuid mechanism in UNIX-like operating systems, applications that previously did a check to see if they were running as root before executing <strong>must now be changed</strong> to know that they need not run as root. This is not a real solution.</p>
+
+<h4 id="chroot">chroot</h4>
+<p>The chroot utility can be used to change the root directory of a set of processes, creating a safe and separate environment from the rest of the system: processes created in the chroot environment can not access files or resources out of this: ok, but I think <strong>jails</strong> improve the concept of the traditional chroot environment in many ways. In a traditional chroot environment, processes are limited only to the portion of file systems that can be accessed. The rest of system resources (such as the set of system users, running processes, or network sub-system) are shared by chrooted processes and host system processes (those not in a chroot environment). The jails expand this model by <em>virtualizing</em> not only the file system access, but also the set of users, the FreeBSD kernel network sub-system and some other things.</p>
+
+<h3 id="jail">jail</h3>
+<p>A jail is characterized by four elements:</p>
+
+<ul>
+  <li>
+    <p>A sub-branch of a directory: the starting point from which you enter the jail. Once inside the jail, a process is not allowed to exit this sub-branch. The traditional security issues affecting the original chroot (2) design do not affect FreeBSD jails.</p>
+  </li>
+  <li>
+    <p>A hostname: the hostname that will be used inside the jail. Jails are mainly used to host network services, so having a descriptive host name for each jail can really help the system administrator.</p>
+  </li>
+  <li>
+    <p>An IP address: this will be assigned to the jail and can not be changed in any way during the life of the jail. The IP address of a jail is usually an alias address of an existing network interface, although this is not strictly necessary.</p>
+  </li>
+  <li>
+    <p>A command: the path to an executable to start inside the jail. This is relative to the root directory of the jail environment, and can vary a lot, depending on the specific type of jail environment.</p>
+  </li>
+</ul>
+
+<p>Jail permits to partition a FreeBSD environment (processes, file system, network resources) into a management environment, and optionally subset Jail environments. The administrator of a FreeBSD machine can partition the machine into separate jail and provide access to the super-user account in each of these without losing control of the over-all environment.</p>
+
+<p>Looking for informations about <em>how jails really work</em>, I discovered that jails are foundamentally of two types: the “complete” jails, which resemble a real FreeBSD system, and the “service” ones, dedicated to one application or service, possibly running with privileges. Let’s make an example of how you can create a jail.</p>
+
+<h4 id="instructions">Instructions</h4>
+<p>First, <a href="https://github.com/made2591/vagrant-freebsd">Vagrantfile</a> and <code class="highlighter-rouge">vagrant ssh</code> your FreeBSD machine</p>
+
+<h5 id="create-the-environment">Create the environment</h5>
+
+<figure class="highlight"><pre><code class="language-sh" data-lang="sh">1 setenv DESTINATION /path/to/jail
+2 mkdir <span class="nt">-p</span> <span class="nv">$DESTINATION</span>
+3 <span class="nb">cd</span> /usr/src
+4 make buildworld
+5 make installworld <span class="nv">DESTDIR</span><span class="o">=</span><span class="nv">$DESTINATION</span>
+6 make distribution <span class="nv">DESTDIR</span><span class="o">=</span><span class="nv">$DESTINATION</span>
+7 mount <span class="nt">-t</span> devfs devfs <span class="nv">$DESTINATION</span>/dev</code></pre></figure>
+
+<p>Where:</p>
+<ul>
+  <li><code class="highlighter-rouge">setenv DESTINATION /path/to/jail</code> sets an environment variable to specify jail location - where the jail is physically in the host file system. A good practise is to put your jails under <code class="highlighter-rouge">/usr</code>, better if in a <code class="highlighter-rouge">jails</code> dedicated subfolder: for instance, <code class="highlighter-rouge">/usr/jail/mark</code> where <code class="highlighter-rouge">mark</code> is the name of the jail;</li>
+  <li><code class="highlighter-rouge">mkdir -p $DESTINATION</code> creates the directory tree including intermediates one if required;</li>
+  <li><code class="highlighter-rouge">cd /usr/src</code> changes the folder to the place in which the source code is normally installed - which contains the several subdirectories, including the <code class="highlighter-rouge">sys</code> one that contains Kernel source files;</li>
+  <li><code class="highlighter-rouge">make buildworld &amp;&amp; make kernel</code> creates the world and compiles the kernel source: this will take a loooooong time<sup id="fnref:lt"><a href="#fn:lt" class="footnote">3</a></sup>, but, using the -j - only in the first make - you can increase speed by running multiple jobs. How many jobs to use depends on the processor (number of cores plus one is a start). The kernel target builds and installs the new kernel;</li>
+  <li><code class="highlighter-rouge">make installworld DESTDIR=$DESTINATION</code> populates the directory subtree chosen with the necessary binaries, libraries, man pages, etc</li>
+  <li><code class="highlighter-rouge">make distribution DESTDIR=$DESTINATION</code> installs every needed configuration file. In simple words, it installs every <em>installable</em> file of <code class="highlighter-rouge">/usr/src/etc/</code> to the <code class="highlighter-rouge">/etc</code></li>
+</ul>
+
+<p>After you create the environment inside the jail subtree, you can create a jail - in term of configure it.</p>
+
+<h5 id="configure-the-jail">Configure the jail</h5>
+<p>To configure a jail, you have two options: first, use <code class="highlighter-rouge">jail.conf</code> file, a file structured with the format <code class="highlighter-rouge">key = "value";</code>. The short version of the story is that FreeBSD jails used to be defined in <code class="highlighter-rouge">/etc/rc.conf</code> using <em>rc-style</em> syntax. During FreeBSD 9.x, a new convention was introduced, using <code class="highlighter-rouge">/etc/jail.conf</code>. FreeBSD 10.x defaults to the new style but still supports the <code class="highlighter-rouge">rc.conf</code> style. FreeBSD 11 dropped support for the old style. Inspired by <a href="https://therub.org/2014/08/11/convert-freebsd-jails-from-rc.conf-to-jail.conf/">this short post</a>, I got an simple but complete example of old style configuration:</p>
+
+<figure class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">jail_enable</span><span class="o">=</span><span class="s2">"YES"</span>
+<span class="nv">jail_list</span><span class="o">=</span><span class="s2">"api web storage"</span>
+<span class="nv">jail_mount_enable</span><span class="o">=</span><span class="s2">"YES"</span>
+<span class="nv">jail_devfs_enable</span><span class="o">=</span><span class="s2">"YES"</span>
+<span class="nv">jail_devfs_rules</span><span class="o">=</span><span class="s2">"devfsrules_jail"</span>
+
+<span class="nv">jail_api_rootdir</span><span class="o">=</span><span class="s2">"/jails/api"</span>
+<span class="nv">jail_api_hostname</span><span class="o">=</span><span class="s2">"api.mycompany.org"</span>
+<span class="nv">jail_api_ip</span><span class="o">=</span><span class="s2">"10.0.0.1"</span>
+
+<span class="nv">jail_web_rootdir</span><span class="o">=</span><span class="s2">"/jails/web"</span>
+<span class="nv">jail_web_hostname</span><span class="o">=</span><span class="s2">"web.mycompany.org"</span>
+<span class="nv">jail_web_ip</span><span class="o">=</span><span class="s2">"10.0.0.2"</span>
+
+<span class="nv">jail_storage_rootdir</span><span class="o">=</span><span class="s2">"/jails/storage"</span>
+<span class="nv">jail_storage_hostname</span><span class="o">=</span><span class="s2">"storage.mycompany.org"</span>
+<span class="nv">jail_storage_ip</span><span class="o">=</span><span class="s2">"10.0.0.3"</span></code></pre></figure>
+
+<p>If you remove everything from rc.conf except for the jail_enable line and move everything shared to the global scope to clean up the individual definitions, you got a new jail.conf file like the one below:</p>
+
+<figure class="highlight"><pre><code class="language-sh" data-lang="sh">allow.raw_sockets <span class="o">=</span> 0<span class="p">;</span>
+exec.clean<span class="p">;</span>
+exec.system_user <span class="o">=</span> <span class="s2">"root"</span><span class="p">;</span>
+exec.jail_user <span class="o">=</span> <span class="s2">"root"</span><span class="p">;</span>
+exec.start +<span class="o">=</span> <span class="s2">"/bin/sh /etc/rc"</span><span class="p">;</span>
+exec.stop <span class="o">=</span> <span class="s2">"/bin/sh /etc/rc.shutdown"</span><span class="p">;</span>
+exec.consolelog <span class="o">=</span> <span class="s2">"/var/log/jail_</span><span class="k">${</span><span class="nv">name</span><span class="k">}</span><span class="s2">_console.log"</span><span class="p">;</span>
+mount.devfs<span class="p">;</span>
+mount.fstab <span class="o">=</span> <span class="s2">"/etc/fstab.</span><span class="nv">$name</span><span class="s2">"</span><span class="p">;</span>
+allow.mount<span class="p">;</span>
+allow.set_hostname <span class="o">=</span> 0<span class="p">;</span>
+allow.sysvipc <span class="o">=</span> 0<span class="p">;</span>
+path <span class="o">=</span> <span class="s2">"/jails/</span><span class="k">${</span><span class="nv">name</span><span class="k">}</span><span class="s2">"</span><span class="p">;</span>
+
+api <span class="o">{</span>
+        host.hostname <span class="o">=</span> <span class="s2">"api.mycompany.org"</span><span class="p">;</span>
+        ip4.addr <span class="o">=</span> 10.0.0.1<span class="p">;</span>
+<span class="o">}</span>
+
+web <span class="o">{</span>
+        host.hostname <span class="o">=</span> <span class="s2">"web.mycompany.org"</span><span class="p">;</span>
+        ip4.addr <span class="o">=</span> 10.0.0.2<span class="p">;</span>
+<span class="o">}</span>
+
+storage <span class="o">{</span>
+        host.hostname <span class="o">=</span> <span class="s2">"storage.mycompany.org"</span><span class="p">;</span>
+        ip4.addr <span class="o">=</span> 10.0.0.3<span class="p">;</span>
+<span class="o">}</span></code></pre></figure>
+
+<p>More info <a href="https://www.freebsd.org/cgi/man.cgi?query=jail.conf&amp;sektion=5&amp;n=1">here</a>.</p>
+
+<p>The second option is to use directly the <code class="highlighter-rouge">jail</code> command with parameters from command line. As the man page states, jail command recognizes two classes of parameters: four fixed parameters, the <em>true jail parameters</em>, that are passed to the kernel when the <em>jail</em> is created (which can be seen with <em>jls</em> and, for backward compatibility, can be passed without names: path, hostname, ip, and command), and the pseudo-parameters that are only used by jail itself.</p>
+
+<p>So a jail may be specified with parameters directly on the command line. In this case,the <code class="highlighter-rouge">jail.conf</code> file will not be used. 
+(And this is the part where you realize that jail utility is the docker daemon.)</p>
+
+<h5 id="startstop-a-jail">Start/stop a jail</h5>
+<p>Using <code class="highlighter-rouge">service jail start $name</code> you start the jail $name: if you don’t specify the name all the jails defined in the <code class="highlighter-rouge">/etc/jail.conf</code> will be started. Using the stop statement you can stop the jail.</p>
+
+<h5 id="listing-jails">Listing jails</h5>
+<p>Using <code class="highlighter-rouge">jls</code> you can list the jails in your host. jexec 3 /etc/rc.shutdown</p>
+
+<p><span style="color:#A04279; font-size: bold;"><strong>NOTE</strong></span>: you can also shotdown a jail using the <code class="highlighter-rouge">jexec</code> command: look at the <code class="highlighter-rouge">JID</code>’s jail you want to stop using the listing command <code class="highlighter-rouge">jls</code>, then run <code class="highlighter-rouge">jexec 3 /etc/rc.shutdown</code></p>
+
+<p>If you to find out more about how the jail mechanism is implemented, you can have a look at this files<sup id="fnref:mat"><a href="#fn:mat" class="footnote">4</a></sup> <code class="highlighter-rouge">/usr/src/usr.sbin/jail/jail.c</code>, <code class="highlighter-rouge">/usr/src/sys/kern/kern_jail.</code> and <code class="highlighter-rouge">/usr/include/sys/jail.h</code> header file: in the latter is defined the jail structure, there is an entry for each of the arguments passed to the jail command, and indeed, they are set during its execution.</p>
+
+<figure class="highlight"><pre><code class="language-sh" data-lang="sh">struct jail <span class="o">{</span>
+        u_int32_t       version<span class="p">;</span>
+        char            <span class="k">*</span>path<span class="p">;</span>
+        char            <span class="k">*</span>hostname<span class="p">;</span>
+        u_int32_t       ip_number<span class="p">;</span>
+<span class="o">}</span><span class="p">;</span></code></pre></figure>
+
+<h3 id="conclusion">Conclusion</h3>
+<p>The jail facility provides FreeBSD with a conceptually simple security partitioning mechanism, allowing the delegation of administrative rights within virtual machine partitions. The implementation relies on restricting access within the jail environment to a well-defined subset of the overall host environment. This includes limiting interaction between processes, and to files, network resources, and privileged operations. Administrative overhead is reduced through avoiding fine-grained access control mechanisms, and maintaining a consistent administrative interface across partitions and the host environment. So…does it seem familiar?</p>
+
+<p align="center"><img src="https://image.ibb.co/jCn6xR/jails_v.png" alt="perceptron" style="width: 90%; marker-top: -10px;" /></p>
+
+<p>If something is wrong, please let me know, I’m still waiting for the world to be built -.-</p>
+
+<p>Thank you everybody for reading!</p>
+
+<p><strong>PS</strong>: this is the part where you realize that a jail is similar to a container, the jail.conf is kind of a Dockerfile but - wait for it - could be so much more, like a docker compose: further, jexec looks like the docker exec command, and jls looks like docker ps -a, and so on, am I wrong?</p>
+
+<div class="footnotes">
+  <ol>
+    <li id="fn:fbsd">
+      <p><a href="https://www.freebsd.org/it/">https://www.freebsd.org/it/</a>&nbsp;<a href="#fnref:fbsd" class="reversefootnote">&#8617;</a></p>
+    </li>
+    <li id="fn:phk">
+      <p><a href="https://en.wikipedia.org/wiki/Poul-Henning_Kamp">Poul-Henning Kamp</a>&nbsp;<a href="#fnref:phk" class="reversefootnote">&#8617;</a></p>
+    </li>
+    <li id="fn:lt">
+      <p>In <a href="https://lists.freebsd.org/pipermail/freebsd-questions/2016-November/274690.html">this</a> short thread, you can see some order of magnitude: buildworld takes hours so…be patient.&nbsp;<a href="#fnref:lt" class="reversefootnote">&#8617;</a></p>
+    </li>
+    <li id="fn:mat">
+      <p>More at <a href="https://www.cse.buffalo.edu//~kensmith/FreeBSD/book.html">freebsd.org</a>&nbsp;<a href="#fnref:mat" class="reversefootnote">&#8617;</a></p>
+    </li>
+  </ol>
+</div>
+
+
+<div class="comments">
+   <div id="disqus_thread"></div>
+    <script type="text/javascript">
+        /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+        var disqus_shortname = 'made2591';
+
+        /* * * DON'T EDIT BELOW THIS LINE * * */
+        (function() {
+            var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    <a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+    
+
+</div>
+
+<hr/>
+
+
+  
+    <div class="post-navs row">
+      
+        <div class="col-md-6 post-nav">
+
+          <h3 class="section-header">
+            Older
+            <span class="text-muted"> &middot; </span>
+            <a href="/archive">View Archive (35)</a>
+          </h3>
+
+          <h2 class="post-title-link"><a href="/posts/network-layers-1">A journey through the network - Layer 1</a></h2>
+          <h3 id="a-journey-through-the-network---layer-1">A journey through the network - Layer 1</h3>
+<p>Before the Christmas holidays, I wrote an article about the network: yes. The network is that part of computer science that is no longer considered fundamental as it should, and I must admit that I learn it every day at my expense: as an old friend always says to me “<em>the network is the concept on which everything is based, describes how the body works: after that, you can also become a gastroenterologist, but you will always need to know how the body works”</em>. I think he’s right. As I was saying, I wrote an article about that: it’s a sort of overview and technical / historical introduction on the ISO / OSI and TCP / IP protocols. For those who missed the introduction, <a href="https://made2591.github.io/posts/network-layers-0">here</a> the link. Despite my lack of experience, I promised myself, as far as possible, with the little time available, to retrace the various levels of the network from a theoretical point of view without going into too much detail, also trying to identify the most used commands, understand the level at which they operate and the functioning of the parameters supported by them. It took me a lot of time … but finally, the post on level one is ready.
+As a main source I use <a href="https://www.amazon.it/gp/product/9332518742/ref=oh_aui_detailpage_o01_s00?ie=UTF8&amp;psc=1">Computer Networks</a> and <a href="https://www.amazon.it/gp/product/9332535957/ref=oh_aui_detailpage_o02_s00?ie=UTF8&amp;psc=1">TCP/IP Illustrated</a>. In this article, I will talk about layer 0, the lowest in the ISO / OSI stack. Enjoy the reading!</p>
+
+
+        </div>
+      
+      
+
+        <div class="col-md-6 post-nav">
+          <h3 class="section-header">
+            Newer
+            
+          </h3>
+
+          <h2 class="post-title-link"><a href="/posts/elasticnas">Elasticsearch over My home Network Attached Storage</a></h2>
+          <h3 id="introduction">Introduction</h3>
+<p>I always owned a lot of hard drives: I don’t know why, I always used and still use to look for space to save my data. In the years, I started using disks, then I assembled a HP Proliant to be a Synology Based System - I don’t want to go the cloud because I’m stupid - and… in the last week, I decided to make order in a huge amount of files. The first thing you have to do when you are handling terabytes and terabytes of <strong>both</strong> well-ordered <strong>and</strong> <em>no-ordered-at-all</em> data is literaly pray that someone else, like a magician, or druid comes to you with a magic wand and fixes all the mess for free, in a way you do not know but you will like.
+This article is the right one if you don’t want to pray, you really don’t believe in miracle but you still need to order your stuff. I have done it using elastisearch and kibana!</p>
+
+
+        </div>
+      
+    </div>
+  
+
+
+
+          <div id="footer">
+<hr/>
+  <div class="pull-left">
+    &copy;2019.
+    Built with <a href="http://jekyllrb.com/">Jekyll</a> and
+    <a href="https://github.com/kirqe/autm-rb">Autm-rb</a>. Thanks to <a href="https://github.com/kirqe">kirqe</a>.
+  </div>
+
+  <div class="pull-right">
+    <span class="credits pull-right social">
+      
+        
+          <a href="https://github.com/made2591/" target="_blank"><i class="fa fa-github"></i></a>
+        
+      
+        
+          <a href="https://twitter.com/made2591" target="_blank"><i class="fa fa-twitter"></i></a>
+        
+      
+        
+          <a href="https://linkedin.com/in/mmadeddu" target="_blank"><i class="fa fa-linkedin"></i></a>
+        
+      
+        
+          <a href="https://www.facebook.com/matteo.madeddu" target="_blank"><i class="fa fa-facebook"></i></a>
+        
+      
+    </span>
+  </div>
+</div>
+
+        </section>
+    </div>
+    </div>
+    <script src="/public/javascripts/jquery.min.js"></script>
+    <script src="/public/javascripts/bootstrap.min.js"></script>
+    <!-- Place your <script> tags here. -->
+
+<script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript"></script>
+
+<script id="dsq-count-scr" src="//made2591-github-io.disqus.com/count.js" async></script>
+
+<!-- disqus comment counter -->
+<script type="text/javascript">
+	/* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+    var disqus_shortname = 'made2591-github-io';
+
+	/* * * DON'T EDIT BELOW THIS LINE * * */
+	(function () {
+	    var s = document.createElement('script'); s.async = true;
+	    s.type = 'text/javascript';
+	    s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+	    (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+	}());
+</script>
+<!-- /disqus comment counter -->
+
+<!-- google analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-111283556-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-111283556-1');
+</script>
+<!-- /google analytics -->
+
+  </body>
+</html>

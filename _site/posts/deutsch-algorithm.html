@@ -1,0 +1,611 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <!-- Google Tag Manager -->
+    <!--<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','GTM-M8WBXH7');</script>-->
+    <!-- End Google Tag Manager -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,300,700' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href=/public/stylesheets/bs.css?random=@Environment.TickCount>
+    <link rel="stylesheet" href=/public/stylesheets/styles.css?random=@Environment.TickCount>
+    <link rel="stylesheet" href=/public/stylesheets/pygment_trac.css?random=@Environment.TickCount>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css">
+    <link rel="canonical" href="made2591.github.io/posts/deutsch-algorithm">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+      <link rel="icon" type="image/x-icon"  href="/favicon.ico" />
+    <title>The Deutsch Algorithm | Matteo Madeddu</title>
+    <!--[if lt IE 9]>
+
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+  </head>
+  <body>
+    <!-- Google Tag Manager (noscript) -->
+    <!--<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-M8WBXH7"
+    height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+    <!-- End Google Tag Manager (noscript) -->
+    <div class="wrapper">
+        <section>
+          <div id="header">
+  <h1>
+    <a id="sitename" href="">Matteo Madeddu</a>
+  </h1>
+
+  <!-- Add something about you in p tag-->
+  <p>Mac OS lover, Docker fan, Go explorer, Python geek, Trello addicted.</p>
+  <hr/>
+
+  <span class="credits pull-left">
+    
+      <a href="/">Home</a>  | 
+    
+      <a href="/blog">Blog</a>  | 
+    
+      <a href="/archive">Archive</a>  | 
+    
+      <a href="/about">About</a>  | 
+    
+      <a href="/matteo_madeddu_cv.pdf">Resume</a>  | 
+    
+      <a href="/quotes">Quotes</a> 
+    
+  </span>
+
+  <span class="credits pull-right social">
+    
+      
+        <a href="https://github.com/made2591/" target="_blank"><i class="fa fa-github"></i></a>
+      
+    
+      
+        <a href="https://twitter.com/made2591" target="_blank"><i class="fa fa-twitter"></i></a>
+      
+    
+      
+        <a href="https://linkedin.com/in/mmadeddu" target="_blank"><i class="fa fa-linkedin"></i></a>
+      
+    
+      
+        <a href="https://www.facebook.com/matteo.madeddu" target="_blank"><i class="fa fa-facebook"></i></a>
+      
+    
+  </span>
+
+
+</div>
+
+
+          <div class="post-title">
+    <h1>The Deutsch Algorithm</h1>
+    <p class="text-muted">
+    
+
+
+    23 Jan 2019
+    
+     | <i class="fa fa-comment"></i> <a class="text-muted" href="/posts/deutsch-algorithm/#disqus_thread"></a>
+    
+
+    
+      | <i class="fa fa-tag"></i>
+      
+        <a class="text-muted" href="/tags/#theory ">theory</a>,
+      
+        <a class="text-muted" href="/tags/#quantum ">quantum</a>,
+      
+        <a class="text-muted" href="/tags/#parallelism ">parallelism</a>,
+      
+        <a class="text-muted" href="/tags/#q ">q</a>,
+      
+        <a class="text-muted" href="/tags/#informative ">informative</a>,
+      
+        <a class="text-muted" href="/tags/#ibm ">ibm</a>,
+      
+        <a class="text-muted" href="/tags/#deutsch ">deutsch</a>,
+      
+        <a class="text-muted" href="/tags/#algorithm ">algorithm</a>
+      
+    
+  </p>
+</div>
+
+  <h3 id="much-more-than-a-post-again">Much more than a post (again)</h3>
+<p>What is the quantum theory? As said by <a href="https://quantumexperience.ng.bluemix.net/">quantumexperience</a> official site by IBM, it’s <em>an elegant mathematical theory able to explain the counterintuitive behavior of subatomic particles, most notably the phenomenon of entanglement</em>. In the late twentieth century it was discovered that quantum theory applies not only to atoms and molecules, but to bits and logic operations in a computer. This realization has been bringing about a revolution in the science and technology of information processing: I decided to write some notes to better explain, from a physics-agnostic computer scientist’s point of view XD, <strong>what I understood</strong> - and it is certainly wrong - about Q until now and why I think it’s an amazing field for computer science. More on this story in <a href="https://made2591.github.io/posts/quantum-computing">my previous post</a>.</p>
+
+<p>So - back to the origins - why am I writing this post? Because I recently came over my quantum notes again and YES, I’M CONTINUING THEM (clap clap clap), even if, unfortunately, I don’t have a lot of time to dedicate to it - you know, the always-valid excuse of life <em>I don’t have time</em>.
+This post is about a specific algorithm - one of the basic reasoning to be done about <em>quantum parallelism</em> (more on this in a few lines): I’m gonna talk about the Deutsch Algorithm, the reason behind it, how it works and I will literally vomit what I collected (a sort of preview XD) in the last crazy Sunday of study as a mathematical demonstration of its component.</p>
+
+<p>But… before going into details, let’s make some reasoning over classical computation first.</p>
+
+<p align="center"><img src="https://i.imgur.com/PHANF7S.jpg" style="width: 100%; marker-top: -10px;" /></p>
+
+<h3 id="agenda">Agenda</h3>
+
+<ul>
+  <li>Classic computation: reversible and irreversible functions + some mentalist tricks to engage you</li>
+  <li>Toffoli classic gate: aka… a gate <em>to rule them aaaall</em> 😂 + no other abuse of this sentence, I swear</li>
+  <li>Toffoli quantum gate: aka… what the hell is going on dude here!??!?! -&gt; as <a href="https://www.youtube.com/watch?v=9dcVOmEQzKA&amp;feature=youtu.be&amp;t=145">Eminem said</a></li>
+  <li>The Deutsch Algorithm: the basic fundation of quantum parallelism - fact and proof (what I got)</li>
+  <li>Conclusion: just some random thoughts about the topic</li>
+</ul>
+
+<p>Unfortunately, the first three sections are needed to go throught the demonstration of the Deutsch algorithm. At least, I tried to give a little bit of context to better understand the reasons behind the algorithm. Let’s start this journey and sorry if it will take some time :/</p>
+
+<p><span style="color:#FF8C00; font-size: bold;">EASTER EGG</span>: And for the very first time, there’s an easter egg (kind of - at least) in the blog post!</p>
+
+<h3 id="classic-computations">Classic computations</h3>
+<p>A fundamental difference between classical and quantum circuits is that theclassical logic gates could be irreversible (for example <code class="highlighter-rouge">AND</code>, <code class="highlighter-rouge">XOR</code>, <code class="highlighter-rouge">NAND</code>), while the quantum logic gates are always unitary and therefore  reversible. On the other hand, it would be desirable for an alternative computation model to beable to express at least all computations that can be expressed with the classical model. So the first objective to talk about quantum computation is therefore to represent the classical computationsas unitary transformations, i.e. as quantum computations.</p>
+
+<h4 id="reversible-vs-irreversible">Reversible vs Irreversible</h4>
+<p>Since unitary transformations are invertible (i.e. reversible), the first step is to transform any irreversible classical computation into a reversible one. In order to operate in a reversible way it is necessary that the function to be evaluated is a bjection (i.e. <a href="https://en.wikipedia.org/wiki/Injective_function">injective</a> and <a href="https://en.wikipedia.org/wiki/Surjective_function">surjective</a>). In this case we can in fact unequivocally trace from each output to the value of the input that generated it, that is, operate in reverse. Any irreversible computation can be transformed into an equivalent reversible computation, making the corresponding function to be biunivocally evaluated.</p>
+
+<p>For example, given any function</p>
+
+<script type="math/tex; mode=display">f : \{0, 1\}^{k} \mapsto \{0, 1\}^{m}</script>
+
+<p>it is possible to construct</p>
+
+<script type="math/tex; mode=display">\widetilde{f} : \{0, 1\}^{k+m} \mapsto \{0, 1\}^{k+m}</script>
+
+<p>such that <script type="math/tex">f</script> is biunivocal and calculates <script type="math/tex">(x,f(x))</script> by acting on the input <script type="math/tex">(x,0^m)</script>, where <script type="math/tex">0^m</script> denotes <script type="math/tex">m</script> bits initialized with value 0. Each biunivocal function:</p>
+
+<script type="math/tex; mode=display">f : \{0, 1\}^{n} \mapsto \{0, 1\}^{n}</script>
+
+<p>can be actually seen as a permutation on the <script type="math/tex">n</script> bits in input or, equivalently, on integers <script type="math/tex">0,1, ...,2^{n−1}</script>. Accordingly, it describes a classical reversible computation. Take a moment to reflect on this - <em>mentalist trick n°1</em>.</p>
+
+<h4 id="toffoli-gate">Toffoli gate</h4>
+<p>Any irreversible classical computation can be transformed into an equivalent <em>but reversible</em> computation using the <a href="https://en.wikipedia.org/wiki/Toffoli_gate">Toffoli gate</a>. This is a classic reversible operation, represented by the circuit shown below, which operates on three input bits: two are <em>control bits</em> and the third is the target bit that is exchanged if the control bits are both 1, as show in the truth table.</p>
+
+<p align="center"><img src="https://i.imgur.com/j4DI00J.png" alt="perceptron" style="width: 40%; marker-top: -10px;" /></p>
+
+<table>
+  <thead>
+    <tr>
+      <th> </th>
+      <th>In</th>
+      <th> </th>
+      <th> </th>
+      <th> </th>
+      <th>Out</th>
+      <th> </th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>a</td>
+      <td>b</td>
+      <td>c</td>
+      <td> </td>
+      <td>a’</td>
+      <td>b’</td>
+      <td>c’</td>
+    </tr>
+    <tr>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td> </td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td> </td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td> </td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <td>0</td>
+      <td>1</td>
+      <td>1</td>
+      <td> </td>
+      <td>0</td>
+      <td>1</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td> </td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <td>1</td>
+      <td>0</td>
+      <td>1</td>
+      <td> </td>
+      <td>1</td>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <td>1</td>
+      <td>1</td>
+      <td>0</td>
+      <td> </td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td> </td>
+      <td>1</td>
+      <td>1</td>
+      <td>0</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>The reversibility of this operation is easily verified by observing that by applying the Toffoli gate twice in a row the same starting result is obtained (two value are ported as they are, the third one is a <code class="highlighter-rouge">XOR</code> that is reversible by design thus is verified):</p>
+
+<script type="math/tex; mode=display">(a, b, c) \rightarrow{} (a, b, c \oplus ab) \rightarrow{} (a, b, c)</script>
+
+<p>So the operation itself coincides with its inverse. It is equally easy to verify that the Toffoli gate represents the permutation <script type="math/tex">\pi = (67)</script> on integers <script type="math/tex">0, 1, \ldots , 7</script> (exchanges the two sequences <script type="math/tex">110</script> and <script type="math/tex">111</script>).</p>
+
+<h4 id="nand-and-fanout-operation">NAND and FANOUT operation</h4>
+<p>Toffoli’s gate is universal for the classic reversible computations, that is, every classical computation can be built in a reversible way through the Toffoli gate. This result follows from the universality of the operations of <code class="highlighter-rouge">NAND</code> and <code class="highlighter-rouge">FANOUT</code> (the operation of copying a classic bit) for the classical computations and from the fact that both these operations can be expressed through the Toffoli circuit. In fact, by applying the operation with <script type="math/tex">c = 1</script>, we obtain <script type="math/tex">a^{'} = a</script>, <script type="math/tex">b^{'} = b</script> and <script type="math/tex">c^{'} = 1 \oplus ab = \neg ab</script>, i.e. we obtained the simulation of <code class="highlighter-rouge">NAND</code> and it is also a reversible operation because Toffoli port is. The reversible <code class="highlighter-rouge">FANOUT</code> is instead obtained as shown in the picture above: by applying the Toffoli gate with <script type="math/tex">a = 1</script> and <script type="math/tex">c = 0</script> the result is the copy of bit <script type="math/tex">b</script> (remember that this copy operation is not possible for a qubit!!!).</p>
+
+<p align="center"><img src="https://i.imgur.com/GKhUQmu.png" alt="perceptron" style="width: 30%; marker-top: -10px;" /></p>
+
+<p>As for <code class="highlighter-rouge">NAND}</code> and <code class="highlighter-rouge">FANOUT</code> the construction of a reversible circuit for any classical operation <script type="math/tex">f</script> by means of the Toffoli port involves the use of some service bits in input (or <em>ancilla bits</em>) and in output (or <em>garbage</em>). After deleting these service bits, the resulting circuit performs the transformation:</p>
+
+<script type="math/tex; mode=display">(x, y) \mapsto (x, y \oplus f(x))</script>
+
+<p>(where <script type="math/tex">x</script> is the input of <script type="math/tex">f</script> and <script type="math/tex">y</script> is the register intended to contain the output) and can be considered as the <em>standard reversible circuit</em> for the evaluation of <script type="math/tex">f</script>.</p>
+
+<h4 id="classical-computations-on-quantum-circuits">Classical computations on quantum circuits</h4>
+<p>As already observed, a classical reversible computation corresponds to a permutation on the sequences of the input bits. This guarantees the possibility of constructing a complex unitary matrix that represents it.</p>
+
+<p>In particular, the Toffoli gate can be implemented as quantum circuit. In this case the input is given by three qubits and the transformation, analogous to the classical case, consists in the exchange of the third qubit if the first two are <script type="math/tex">1</script>. For example the quantum Toffoli gate applied to the state <script type="math/tex">\vert 110\rangle</script> produces the state <script type="math/tex">\vert 111\rangle</script>. Thus…</p>
+
+<blockquote>
+  <p>The quantum Toffoli port can then be used to simulate all the classical computations on a quantum computer, ensuring that a quantum computer is able to perform any computable computation on a classic computer.</p>
+</blockquote>
+
+<p>…. BOOOOOM</p>
+
+<p align="center"><img src="https://i.imgur.com/oOPahkD.gif" style="width: 100%; marker-top: -10px;" /></p>
+
+<p>Let’s go ahead by exploring how a quantum Toffoli gate can be used.</p>
+
+<h4 id="probabilistic-computations-on-quantum-circuits">Probabilistic computations on quantum circuits</h4>
+<p><em>Randomized</em> algorithms are algorithms that are executed using a random number generator (the launch of a coin) to decide one of the possible branches of execution. The first randomized algorithm was introduced by Solovay and Strassen in the 1970s to determine whether a number is prime or not. The algorithm produces a correct answer only with a certain probability. This probability can be increased by repeating the execution for an appropriate number of times.</p>
+
+<p>These algorithms can also be efficiently simulated by quantum circuits. In fact, to simulate a random bit it is sufficient to prepare a qubit in the <script type="math/tex">\vert 0\rangle</script> state and then apply the Hadamard port. You will get the status <script type="math/tex">\frac{\vert 0\rangle + \vert 1\rangle}{\sqrt{2}}</script> that measured will give <script type="math/tex">0</script> or <script type="math/tex">1</script> each with probability <script type="math/tex">1/2</script>. It should also be noted that in this way a <em>really random number</em> is obtained, <em>something that a classic computer can not do</em>… (yes, this should let you think).</p>
+
+<h3 id="quantum-parallelism">Quantum parallelism</h3>
+<p>On a quantum computer, a function <script type="math/tex">f(x)</script> can be evaluated on different values of <script type="math/tex">x</script> at the same time. This is known as <em>quantum parallelism</em> and is a fundamental characteristic of quantum circuits. Consider a boolean function of the form:</p>
+
+<script type="math/tex; mode=display">f : \{0, 1\} \mapsto \{0, 1\}</script>
+
+<p>To calculate <script type="math/tex">f(x)</script> by means of a quantum computation the transformation <script type="math/tex">f(x)</script> must be defined as a unit transformation <script type="math/tex">U_f</script>. As seen previously, this can be done by applying on the input state <script type="math/tex">\vert x,y\rangle</script>, let’s say our data register<sup id="fnref:dataregister"><a href="#fn:dataregister" class="footnote">1</a></sup>, an appropriate sequence of quantum logic gates (which we will indicate with a black box called <script type="math/tex">U_f</script>) that transform <script type="math/tex">\vert x,y\rangle</script> into the state <script type="math/tex">\vert x,y \oplus f(x)\rangle</script>, called the target register. If <script type="math/tex">y = 0</script> then the final state of the second qubit will accurately contain the value of <script type="math/tex">f(x)</script>, because of the <script type="math/tex">\oplus</script>’s (<code class="highlighter-rouge">XOR</code>) true table.</p>
+
+<p align="center"><img src="https://i.imgur.com/Wkjxsh1.png" alt="perceptron" style="width: 60%; marker-top: -10px;" /></p>
+
+<p>In the circuit in shown above, the input is</p>
+
+<script type="math/tex; mode=display">\frac{\vert 0\rangle + \vert 1\rangle}{\sqrt{2}} \otimes \vert 0\rangle</script>
+
+<p>that is<sup id="fnref:recall"><a href="#fn:recall" class="footnote">2</a></sup>, the value of <script type="math/tex">x</script> is an overlap of <script type="math/tex">0</script> and <script type="math/tex">1</script> that can be obtained by applying Hadamard to <script type="math/tex">\vert 0\rangle</script>. Applying <script type="math/tex">U_f</script> to this data register is obtained<sup id="fnref:expl1"><a href="#fn:expl1" class="footnote">3</a></sup>:</p>
+
+<script type="math/tex; mode=display">\frac{\vert 0, f(0)\rangle + \vert 1, f(1)\rangle}{\sqrt{2}}</script>
+
+<p>This state contains information both on the value <script type="math/tex">f(0)</script> and on the value <script type="math/tex">f(1)</script>.</p>
+
+<blockquote>
+  <p>We just evaluated  <script type="math/tex">f</script> simultaneously on <script type="math/tex">x</script> = 0 and <script type="math/tex">x = 1</script>.</p>
+</blockquote>
+
+<p>This type of parallelism is deeply different from the classical one where multiple circuits (each of which calculates <script type="math/tex">f(x)</script> for a single value of <script type="math/tex">x</script>) are executed simultaneously.</p>
+
+<p align="center"><img src="https://i.imgur.com/yksZid5.jpg" style="width: 100%; marker-top: -10px;" /></p>
+
+<p>Please take some time to reflect on this if you are not convinced before going ahead - <em>mentalist trick n°2</em>.</p>
+
+<h4 id="one-step-more">One step more</h4>
+<p>This procedure can be generalized to calculate functions on an arbitrary number of bits using a generalization of the Hadamard gate known as the <strong>Walsh-Hadamard</strong> transform. This operation consists of <script type="math/tex">n</script> Hadamard ports acting in parallel on <script type="math/tex">n</script> qubits. For example, for <script type="math/tex">n = 2</script>, the Walsh-Hadamard transform is indicated with <script type="math/tex">H^{\otimes 2} = H \otimes H</script> and applied to two qubits prepared in the state <script type="math/tex">\vert 0\rangle</script> gives as a result:</p>
+
+<script type="math/tex; mode=display">\frac{\vert 0\rangle + \vert 1\rangle}{\sqrt{2}} \otimes \frac{\vert 0\rangle + \vert 1\rangle}{\sqrt{2}} = \frac{\vert 00\rangle + \vert 01\rangle + \vert 10\rangle + \vert 11\rangle}{2}</script>
+
+<p>In general, the result of <script type="math/tex">H^{\otimes n}</script> applied to <script type="math/tex">n</script> qubits in the <script type="math/tex">\vert 0\rangle</script> state is:</p>
+
+<script type="math/tex; mode=display">\frac{1}{\sqrt{2^n}}\sum\limits_{x}\vert x\rangle</script>
+
+<p>where <script type="math/tex">x</script> is the binary representation of the numbers from <script type="math/tex">0</script> to <script type="math/tex">2^n - 1</script>. Thus…</p>
+
+<blockquote>
+  <p>The Walsh-Hadamard transform produces an equiprobable overlap of all the states of the <script type="math/tex">n</script> qubits computational basis.</p>
+</blockquote>
+
+<p>Note: <span style="color:#FF8C00; font-size: bold;">to obtain an overlap of <script type="math/tex">2^n</script> states only <script type="math/tex">n</script> logical ports are needed.</span> We are getting closer…</p>
+
+<p>The parallel evaluation of a function <script type="math/tex">f(x)</script>, with input <script type="math/tex">x</script> of <script type="math/tex">n</script> bits and <script type="math/tex">1</script> bit as output, can therefore be performed by a circuit similar to last one shown before, with <script type="math/tex">n+1</script> qubit in input prepared in the <script type="math/tex">\vert 0\rangle^{\otimes n}\vert 0\rangle</script>. Then Hadamard applies to the first <script type="math/tex">n</script> qubits and then the <script type="math/tex">U_f</script> circuit is applied. The result will be:</p>
+
+<script type="math/tex; mode=display">\frac{1}{\sqrt{2}}\sum\limits_{x}\vert x\rangle\vert f(x)\rangle</script>
+
+<h4 id="unfortunately">Unfortunately…</h4>
+<p>Quantum parallelism is not directly usable in the sense that it is not possible to obtain all the values calculated with a single measurement: the measurement of the state above will give the value of <script type="math/tex">f(x)</script> for a single value of <script type="math/tex">x</script>. To exploit the hidden information in this parallelism, we have to, somehow, make better use of the information contained in the overlap.</p>
+
+<p>For example, by exploiting in an appropriate manner the interference between the states in the overlap. By combining quantum parallelism with this property that comes from quantum mechanics, results like the one exemplified by <em>the Deutsch algorithm</em> can be obtained. And FINALLY…</p>
+
+<h3 id="the-deutsch-algorithm">The Deutsch Algorithm</h3>
+<p>The Deutsch algorithm shows how, through the parallel evaluation of a function on all its inputs, global properties of the function can be determined, such as, for example, that of being a constant or balanced function<sup id="fnref:expl2"><a href="#fn:expl2" class="footnote">4</a></sup>. Using a classical algorithm, in the worst case we need to evaluate the function on at least <script type="math/tex">2^{n-1} + 1</script> (am I wrong?) values in order to be able to establish with certainty whether <script type="math/tex">f</script> is constant or balanced.</p>
+
+<p align="center"><img src="https://i.imgur.com/54sZUra.png" alt="perceptron" style="width: 60%; marker-top: -10px;" /></p>
+
+<p>The implementation of the Deutsch algorithm is shown in the quantum circuite above. The input of the circuit that calculates the function <script type="math/tex">f</script> is now the qubits resulting from the application of Hadamard to the <script type="math/tex">\vert 0\rangle</script> and <script type="math/tex">\vert 1\rangle</script> states. This input is therefore:</p>
+
+<script type="math/tex; mode=display">\vert \psi_1\rangle = \vert x, y\rangle = \frac{\vert 0\rangle+\vert 1\rangle}{\sqrt{2}} \otimes \frac{\vert 0\rangle-\vert 1\rangle}{\sqrt{2}} = \frac{\vert 00\rangle - \vert 01\rangle + \vert 10\rangle - \vert 11\rangle}{\sqrt{2}}</script>
+
+<p>For simplicity, let’s mantain the two initial qbits separated. Let’s apply <script type="math/tex">U_f</script> to the state <script type="math/tex">\vert \psi_1\rangle</script> where</p>
+
+<script type="math/tex; mode=display">x = \frac{\vert 0\rangle+\vert 1\rangle}{\sqrt{2}}</script>
+
+<p>and</p>
+
+<script type="math/tex; mode=display">y = \frac{\vert 0\rangle-\vert 1\rangle}{\sqrt{2}}</script>
+
+<p>We already know that <script type="math/tex">U_f</script> doesn’t change <script type="math/tex">x</script> and map the quantum system (our quantum register) <script type="math/tex">\vert x, y\rangle</script> to <script type="math/tex">\vert x, y \oplus f(x)\rangle</script>.</p>
+
+<p>Thus, applying <script type="math/tex">U_f</script> to <script type="math/tex">\vert x, y\rangle</script> means apply <script type="math/tex">U_f</script> to</p>
+
+<script type="math/tex; mode=display">\vert x\rangle \frac{\vert 0\rangle - \vert 1\rangle}{\sqrt{2}}</script>
+
+<p>whatever <script type="math/tex">\vert x\rangle</script> will be. The result of this application will be</p>
+
+<script type="math/tex; mode=display">\frac{\vert x\rangle\vert y \oplus f(x)\rangle}{\sqrt{2}}</script>
+
+<p>where <script type="math/tex">\vert y \oplus f(x)\rangle</script> - once we measure <script type="math/tex">y</script> by collapsing to value <script type="math/tex">0</script> or <script type="math/tex">1</script> - is</p>
+
+<script type="math/tex; mode=display">\frac{\vert 0 \oplus f(x)\rangle - \vert 1 \oplus f(x)\rangle}{\sqrt{2}}</script>
+
+<p>Thus,</p>
+
+<script type="math/tex; mode=display">\frac{\vert x\rangle\vert y \oplus f(x)\rangle}{\sqrt{2}} = \vert x\rangle\frac{\vert 0 \oplus f(x)\rangle - \vert 1 \oplus f(x)\rangle}{\sqrt{2}}</script>
+
+<p>Take a moment to understand this step before going ahead.</p>
+
+<p>Now, remember that <script type="math/tex">0 \oplus f(x) = f(x)</script> because of the nature <script type="math/tex">\oplus</script>, thus the result of <script type="math/tex">U_f</script> applied to <script type="math/tex">\vert \psi_1\rangle</script> - always by keeping away <script type="math/tex">\vert x\rangle</script> for a while - is</p>
+
+<script type="math/tex; mode=display">\vert x\rangle\frac{\vert f(x)\rangle - \vert 1 \oplus f(x)\rangle}{\sqrt{2}}</script>
+
+<p>Thus,</p>
+
+<script type="math/tex; mode=display">\frac{\vert x\rangle\vert y \oplus f(x)\rangle}{\sqrt{2}} = \vert x\rangle\frac{\vert 0 \oplus f(x)\rangle - \vert 1 \oplus f(x)\rangle}{\sqrt{2}} = \vert x\rangle\frac{\vert f(x)\rangle - \vert 1 \oplus f(x)\rangle}{\sqrt{2}}</script>
+
+<p>Since <script type="math/tex">U_f</script> doesn’t modify <script type="math/tex">\vert x\rangle</script> we only need to evaluate <script type="math/tex">y \oplus f(x)</script> - or <script type="math/tex">\vert f(x)\rangle - \vert 1 \oplus f(x)\rangle</script>.</p>
+
+<ul>
+  <li>If <script type="math/tex">f(x) = 0</script> this is simply <script type="math/tex">y</script> - in fact:</li>
+</ul>
+
+<script type="math/tex; mode=display">\vert y \oplus f(x)\rangle = \frac{\vert f(x)\rangle - \vert 1 \oplus f(x)\rangle}{\sqrt{2}} = \frac{\vert 0\rangle - \vert 1 \oplus 0\rangle}{\sqrt{2}} = \frac{\vert 0\rangle - \vert 1\rangle}{\sqrt{2}} = H\vert 1\rangle = y</script>
+
+<p>Realize that by replacing the value of <script type="math/tex">f(x)</script> with <script type="math/tex">0</script> we obtain exactly <script type="math/tex">y</script> that is our desiderata, thus</p>
+
+<script type="math/tex; mode=display">\vert x\rangle\frac{\vert f(x)\rangle - \vert 1 \oplus f(x)\rangle}{\sqrt{2}} = \vert x\rangle\frac{\vert y\rangle}{\sqrt{2}}</script>
+
+<p>Take some moment to convince about this step.</p>
+
+<ul>
+  <li>Otherwise, if <script type="math/tex">f(x) = 1</script> then the result is</li>
+</ul>
+
+<script type="math/tex; mode=display">\vert x\rangle\frac{\vert f(x)\rangle - \vert 1 \oplus f(x)\rangle}{\sqrt{2}} = \vert x\rangle\frac{\vert 1\rangle - \vert 1 \oplus 1\rangle}{\sqrt{2}} = \vert x\rangle\frac{\vert 1\rangle - \vert 0\rangle}{\sqrt{2}} = \vert x\rangle\frac{-\vert y\rangle}{\sqrt{2}}</script>
+
+<p>Now, let’s keep a part <script type="math/tex">1/\sqrt{2}</script>: we can rewrite</p>
+
+<script type="math/tex; mode=display">\vert x\rangle\vert f(x)\rangle - \vert 1 \oplus f(x)\rangle), f(x) \in \{0, 1\}</script>
+
+<p>in</p>
+
+<script type="math/tex; mode=display">(-1)^{f(x)}\vert x\rangle(\vert 0\rangle - \vert 1\rangle), f(x) \in \{0, 1\}</script>
+
+<p><span style="color:#FF8C00; font-size: bold;">Note</span>: if someone is able to convince me about this, please comment it below or feel free to contact me at <a href="mailto:matteo.madeddu@gmail.com">matteo.madeddu [at] gmail.com</a> because I didn’t find a real good explanation to this. Anyway, let’s assume it’s true because of some trick (I have a theory, that is replacing <script type="math/tex">((-1)^{f(x)}</script> with <script type="math/tex">(-f(x)^{f(x)}</script>) over signs, and go ahead because the rest it seems <em>ok</em> imho.</p>
+
+<p>Thus, by applying <script type="math/tex">U_f</script> to <script type="math/tex">\vert \psi_1\rangle</script> we obtain a result <script type="math/tex">\vert \psi_2\rangle</script> that varies over two possibilities</p>
+
+<script type="math/tex; mode=display">f(0) = f(1) \rightarrow{} \pm \left[\frac{\vert 0\rangle + \vert 1\rangle}{\sqrt{2}} \otimes \frac{\vert 0\rangle - \vert 1\rangle}{\sqrt{2}}\right]</script>
+
+<script type="math/tex; mode=display">f(0) \neq f(1) \rightarrow{} \pm \left[\frac{\vert 0\rangle - \vert 1\rangle}{\sqrt{2}} \otimes \frac{\vert 0\rangle - \vert 1\rangle}{\sqrt{2}}\right]</script>
+
+<p>Note that in the second alternative, we have that <script type="math/tex">(-1)^{f(1)} = -(-1)^{f(0)}</script>. Note also that <script type="math/tex">\vert \psi_1\rangle</script> can be written as</p>
+
+<script type="math/tex; mode=display">\frac{1}{\sqrt{2}}\left(\vert 0\rangle\frac{\vert 0\rangle - \vert 1\rangle}{\sqrt{2}} + \vert 1\rangle\frac{\vert 0\rangle - \vert 1\rangle}{\sqrt{2}}\right)</script>
+
+<p>Thus <script type="math/tex">U_f</script> applied to <script type="math/tex">\vert \psi_1\rangle</script> can be written as</p>
+
+<script type="math/tex; mode=display">\frac{1}{\sqrt{2}}\left((-1)^{f(0)}\vert 0\rangle\frac{\vert 0\rangle - \vert 1\rangle}{\sqrt{2}} +  (-1)^{f(1)}\vert 1\rangle\frac{\vert 0\rangle - \vert 1\rangle}{\sqrt{2}}\right)</script>
+
+<p>or, equally, as</p>
+
+<script type="math/tex; mode=display">\frac{1}{\sqrt{2}}\left((-1)^{f(0)}\vert 0\rangle\frac{\vert 0\rangle - \vert 1\rangle}{\sqrt{2}} -  (-1)^{f(0)}\vert 1\rangle\frac{\vert 0\rangle - \vert 1\rangle}{\sqrt{2}}\right)</script>
+
+<p>(because in the second case or <script type="math/tex">(-1)^{f(1)} == -(-1)^{f(0)}</script> since <script type="math/tex">f(0) \neq f(1)</script>) or, even, as</p>
+
+<script type="math/tex; mode=display">\pm\frac{1}{\sqrt{2}}\left(\vert 0\rangle\frac{\vert 0\rangle - \vert 1\rangle}{\sqrt{2}} + \vert 1\rangle\frac{\vert 0\rangle - \vert 1\rangle}{\sqrt{2}}\right)</script>
+
+<p>that is</p>
+
+<script type="math/tex; mode=display">\pm\left[\frac{\vert 0\rangle - \vert 1\rangle}{\sqrt{2}} \otimes \vert \frac{\vert 0\rangle - \vert 1\rangle}{\sqrt{2}}\right]</script>
+
+<p>Now we apply Hadamard to the first qubit and we obtain <script type="math/tex">\vert \psi_3\rangle</script> which results in</p>
+
+<script type="math/tex; mode=display">f(0) = f(1) \rightarrow{} \pm\vert 0\rangle \left[\frac{\vert 0\rangle - \vert 1\rangle}{\sqrt{2}}\right]</script>
+
+<script type="math/tex; mode=display">f(0) \neq f(1) \rightarrow{} \pm\vert 1\rangle \left[\frac{\vert 0\rangle - \vert 1\rangle}{\sqrt{2}}\right]</script>
+
+<p>At this point we observe that <script type="math/tex">f(0) \oplus f(1) = 0</script> if <script type="math/tex">f(0) = f(1)</script>, otherwise <script type="math/tex">f(0) \oplus f(1) = 1</script>. We can therefore write the result in a more concise way</p>
+
+<script type="math/tex; mode=display">\vert \psi_3\rangle = \pm \vert f(0) \oplus f(1)\rangle \left[\frac{\vert 0\rangle - \vert 1\rangle}{\sqrt{2}}\right]</script>
+
+<p>Through a measurement of the first qubit we can then determine with certainty (the probability associated with the first qubit is 1) the value of <script type="math/tex">f(0) \oplus f(1)</script> and therefore if the function <script type="math/tex">f</script> is constant or balanced. To do this we had to evaluate <script type="math/tex">f(x)</script> only once.</p>
+
+<h3 id="conclusion">Conclusion</h3>
+<p>The Deutsch algorithm can be extended to Boolean functions on <script type="math/tex">n</script> bits. Let us consider a function <script type="math/tex">f:\{0,1\}^n \rightarrow{} \{0,1\}</script> and suppose to know that <script type="math/tex">f</script> can be either constant or balanced. The quantum algorithm of Deutsch-Jozsa allows us to establish it in one step. The quantum circuit that implements this algorithm is the same Deutsch algorithm described with input <script type="math/tex">x</script> of the function of <script type="math/tex">n</script> qubits prepared in the <script type="math/tex">\vert 0\rangle</script> state, which we will call the data register. The qubit target, intended to contain the result of <script type="math/tex">f(x)</script>, is instead prepared in the <script type="math/tex">\vert 1\rangle</script> state.</p>
+
+<p>To be continue…</p>
+
+<p>Thank you everybody for reading!</p>
+
+<div class="footnotes">
+  <ol>
+    <li id="fn:dataregister">
+      <p>A quantum system of two qbits.&nbsp;<a href="#fnref:dataregister" class="reversefootnote">&#8617;</a></p>
+    </li>
+    <li id="fn:recall">
+      <p>If this is not clear, recall the quantum register definition.&nbsp;<a href="#fnref:recall" class="reversefootnote">&#8617;</a></p>
+    </li>
+    <li id="fn:expl1">
+      <p>I applied <script type="math/tex">y \oplus f(x)</script> and the distribution property.&nbsp;<a href="#fnref:expl1" class="reversefootnote">&#8617;</a></p>
+    </li>
+    <li id="fn:expl2">
+      <p>That is, it takes value <script type="math/tex">0</script> on exactly half of the inputs and value <script type="math/tex">1</script> on the remaining half.&nbsp;<a href="#fnref:expl2" class="reversefootnote">&#8617;</a></p>
+    </li>
+  </ol>
+</div>
+
+
+<div class="comments">
+   <div id="disqus_thread"></div>
+    <script type="text/javascript">
+        /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+        var disqus_shortname = 'made2591';
+
+        /* * * DON'T EDIT BELOW THIS LINE * * */
+        (function() {
+            var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    <a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+    
+
+</div>
+
+<hr/>
+
+
+  
+    <div class="post-navs row">
+      
+        <div class="col-md-6 post-nav">
+
+          <h3 class="section-header">
+            Older
+            <span class="text-muted"> &middot; </span>
+            <a href="/archive">View Archive (35)</a>
+          </h3>
+
+          <h2 class="post-title-link"><a href="/posts/golang-turing-machine">A Golang Turing machine library</a></h2>
+          <h3 id="preamble">Preamble</h3>
+<p>In 1962, Hungarian mathematician Tibor Radó introduced the Busy Beaver competition for Turing machines: in a class of machines, find one which halts after the greatest number of steps when started on the empty input. Even if it could seem trivial, the Busy Beaver competition has implications in computability theory, the halting problem, and complexity theory.</p>
+
+
+        </div>
+      
+      
+    </div>
+  
+
+
+
+          <div id="footer">
+<hr/>
+  <div class="pull-left">
+    &copy;2019.
+    Built with <a href="http://jekyllrb.com/">Jekyll</a> and
+    <a href="https://github.com/kirqe/autm-rb">Autm-rb</a>. Thanks to <a href="https://github.com/kirqe">kirqe</a>.
+  </div>
+
+  <div class="pull-right">
+    <span class="credits pull-right social">
+      
+        
+          <a href="https://github.com/made2591/" target="_blank"><i class="fa fa-github"></i></a>
+        
+      
+        
+          <a href="https://twitter.com/made2591" target="_blank"><i class="fa fa-twitter"></i></a>
+        
+      
+        
+          <a href="https://linkedin.com/in/mmadeddu" target="_blank"><i class="fa fa-linkedin"></i></a>
+        
+      
+        
+          <a href="https://www.facebook.com/matteo.madeddu" target="_blank"><i class="fa fa-facebook"></i></a>
+        
+      
+    </span>
+  </div>
+</div>
+
+        </section>
+    </div>
+    </div>
+    <script src="/public/javascripts/jquery.min.js"></script>
+    <script src="/public/javascripts/bootstrap.min.js"></script>
+    <!-- Place your <script> tags here. -->
+
+<script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript"></script>
+
+<script id="dsq-count-scr" src="//made2591-github-io.disqus.com/count.js" async></script>
+
+<!-- disqus comment counter -->
+<script type="text/javascript">
+	/* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+    var disqus_shortname = 'made2591-github-io';
+
+	/* * * DON'T EDIT BELOW THIS LINE * * */
+	(function () {
+	    var s = document.createElement('script'); s.async = true;
+	    s.type = 'text/javascript';
+	    s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+	    (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+	}());
+</script>
+<!-- /disqus comment counter -->
+
+<!-- google analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-111283556-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-111283556-1');
+</script>
+<!-- /google analytics -->
+
+  </body>
+</html>

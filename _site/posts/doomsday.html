@@ -1,0 +1,802 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <!-- Google Tag Manager -->
+    <!--<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','GTM-M8WBXH7');</script>-->
+    <!-- End Google Tag Manager -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,300,700' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href=/public/stylesheets/bs.css?random=@Environment.TickCount>
+    <link rel="stylesheet" href=/public/stylesheets/styles.css?random=@Environment.TickCount>
+    <link rel="stylesheet" href=/public/stylesheets/pygment_trac.css?random=@Environment.TickCount>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css">
+    <link rel="canonical" href="made2591.github.io/posts/doomsday">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+      <link rel="icon" type="image/x-icon"  href="/favicon.ico" />
+    <title>The Doomsday rule | Matteo Madeddu</title>
+    <!--[if lt IE 9]>
+
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+  </head>
+  <body>
+    <!-- Google Tag Manager (noscript) -->
+    <!--<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-M8WBXH7"
+    height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+    <!-- End Google Tag Manager (noscript) -->
+    <div class="wrapper">
+        <section>
+          <div id="header">
+  <h1>
+    <a id="sitename" href="">Matteo Madeddu</a>
+  </h1>
+
+  <!-- Add something about you in p tag-->
+  <p>Mac OS lover, Docker fan, Go explorer, Python geek, Trello addicted.</p>
+  <hr/>
+
+  <span class="credits pull-left">
+    
+      <a href="/">Home</a>  | 
+    
+      <a href="/blog">Blog</a>  | 
+    
+      <a href="/archive">Archive</a>  | 
+    
+      <a href="/about">About</a>  | 
+    
+      <a href="/matteo_madeddu_cv.pdf">Resume</a>  | 
+    
+      <a href="/quotes">Quotes</a> 
+    
+  </span>
+
+  <span class="credits pull-right social">
+    
+      
+        <a href="https://github.com/made2591/" target="_blank"><i class="fa fa-github"></i></a>
+      
+    
+      
+        <a href="https://twitter.com/made2591" target="_blank"><i class="fa fa-twitter"></i></a>
+      
+    
+      
+        <a href="https://linkedin.com/in/mmadeddu" target="_blank"><i class="fa fa-linkedin"></i></a>
+      
+    
+      
+        <a href="https://www.facebook.com/matteo.madeddu" target="_blank"><i class="fa fa-facebook"></i></a>
+      
+    
+  </span>
+
+
+</div>
+
+
+          <div class="post-title">
+    <h1>The Doomsday rule</h1>
+    <p class="text-muted">
+    
+
+
+    23 Dec 2017
+    
+     | <i class="fa fa-comment"></i> <a class="text-muted" href="/posts/doomsday/#disqus_thread"></a>
+    
+
+    
+      | <i class="fa fa-tag"></i>
+      
+        <a class="text-muted" href="/tags/#coding ">coding</a>,
+      
+        <a class="text-muted" href="/tags/#doomsday ">doomsday</a>,
+      
+        <a class="text-muted" href="/tags/#algorithm ">algorithm</a>,
+      
+        <a class="text-muted" href="/tags/#ruby ">ruby</a>
+      
+    
+  </p>
+</div>
+
+  <h3 id="the-doomsday-rule">The Doomsday rule</h3>
+<p>A few months ago I came across the name of J. H. Conway: you’re wondering who the hell he is. Well, Conway is an English mathematician active in the theory of <em>finite groups</em>, <em>knot theory</em>, <em>number theory</em>, <em>combinatorial game theory</em> and <em>coding theory</em>. He has also contributed to many branches of <em>recreational mathematics</em> and he is the invention of the Game of Life. Ah, I was forgetting one last thing: he is currently <strong>Professor Emeritus of Mathematics at Princeton University</strong> in New Jersey<sup id="fnref:wiki"><a href="#fn:wiki" class="footnote">1</a></sup>. Ok. let’s respect this guy but…what would I talk to you about? Well, in this article I will talk about a magic trick: the Doomsday rule.</p>
+
+<p align="center"><img src="http://lbmagic.uk/wp-content/uploads/2016/11/1.jpg" style="width: 100%; marker-top: -10px;" /></p>
+
+<h3 id="a-brief-history">A brief history</h3>
+<p>Who has ever heard of it? No ones? Ok, the first thing to know is that the Doomsday rule is an <em>algorithm</em> of determination of the day of the week for a given date. This f<em>**</em>ng unbelievable trick of mind will allow you to win so many bets during the Christmas holidays that you will be envied by your nephews, close friends, neighbors, lovers and even your pets.</p>
+
+<p>The mental calculation was devised by J. H. Conway in 1973: I don’t know how much a <em>mentalist</em> you have to be to trust this method, but the algorithm actually returns the correct answer: if you want to discover more about how it works, go ahead. If you want to try to discover how the algorithm works starting from the code, <a href="https://github.com/made2591/doomsday/blob/master/doomsday.rb">here</a> my repo with a Ruby implementation of the algorithm.</p>
+
+<h3 id="the-algorithm">The algorithm</h3>
+<p>First of all, a big picture of how the algorithm works in three steps:</p>
+<ul>
+  <li><strong>step 1</strong>: determination of the anchor day for the century,</li>
+  <li><strong>step 2</strong>: calculation of the <em>doomsday</em> for the year from the anchor day,</li>
+  <li><strong>step 3</strong>: selection of the closest date out of those that always fall on the doomsday, e.g., 4/4 and 6/6, and count of the number of days (modulo 7) between that date and the date in question to arrive at the day of the week;</li>
+</ul>
+
+<p>What?! Do you understand something?! Because if not, you really have to know that…Conway can usually give the correct answer to question like “what day of week was the 13 February 1867?”, in under two seconds<sup id="fnref:joke"><a href="#fn:joke" class="footnote">2</a></sup>. If you’re thinking that probably this is the main reason why you’re reading this blog and he’s <strong>Professor Emeritus of Mathematics at Princeton University</strong>, well, you’re right.</p>
+
+<p>In any case, since I’m a computer scientist, and I have absolutely no desire to count things in mind nor to open a calendar or search on google for my <em>quiz-date</em>, I have implemented the Conway algorithm for the calculation of Doomsday using Ruby.</p>
+
+<h3 id="preliminary-explanation">Preliminary explanation</h3>
+<p>This algorithm involves treating days of the week like numbers <em>modulo 7</em>: Conway often suggests - in his course in Princeton called <em>“How I will literaly blow your mind”</em> - thinking of the days of the week as “Noneday”; or as “Sansday” (for Sunday), “Oneday”, (for Monday, it sounds similar), “Twosday”, “Treblesday”, “Foursday”, “Fiveday”, and “Six-a-day”. It doesn’t matter, because there are tables with - wait for it - <em>Doomsdays for the Gregorian calendar</em>, or what I call “The <strong>Year</strong> Doomsday”. Like the one below:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Mon.</th>
+      <th>Tue.</th>
+      <th>Wed.</th>
+      <th>Thu.</th>
+      <th>Fri.</th>
+      <th>Sat.</th>
+      <th>Sun.</th>
+      <th>Mon.</th>
+      <th>Tue.</th>
+      <th>Wed.</th>
+      <th>Thu.</th>
+      <th>Fri.</th>
+      <th>Sat.</th>
+      <th>Sun.</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>1898</td>
+      <td>1899</td>
+      <td>1900</td>
+      <td>1901</td>
+      <td>1902</td>
+      <td>1903</td>
+      <td>→</td>
+      <td>1904</td>
+      <td>1905</td>
+      <td>1906</td>
+      <td>1907</td>
+      <td>→</td>
+      <td>1908</td>
+      <td>1909</td>
+    </tr>
+    <tr>
+      <td>1910</td>
+      <td>1911</td>
+      <td>→</td>
+      <td>1912</td>
+      <td>1913</td>
+      <td>1914</td>
+      <td>1915</td>
+      <td>→</td>
+      <td>1916</td>
+      <td>1917</td>
+      <td>1918</td>
+      <td>1919</td>
+      <td>→</td>
+      <td>1920</td>
+    </tr>
+    <tr>
+      <td>1921</td>
+      <td>1922</td>
+      <td>1923</td>
+      <td>→</td>
+      <td>1924</td>
+      <td>1925</td>
+      <td>1926</td>
+      <td>1927</td>
+      <td>→</td>
+      <td>1928</td>
+      <td>1929</td>
+      <td>1930</td>
+      <td>1931</td>
+      <td>→</td>
+    </tr>
+    <tr>
+      <td>1932</td>
+      <td>1933</td>
+      <td>1934</td>
+      <td>1935</td>
+      <td>→</td>
+      <td>1936</td>
+      <td>1937</td>
+      <td>1938</td>
+      <td>1939</td>
+      <td>→</td>
+      <td>1940</td>
+      <td>1941</td>
+      <td>1942</td>
+      <td>1943</td>
+    </tr>
+    <tr>
+      <td>→</td>
+      <td>1944</td>
+      <td>1945</td>
+      <td>1946</td>
+      <td>1947</td>
+      <td>→</td>
+      <td>1948</td>
+      <td>1949</td>
+      <td>1950</td>
+      <td>1951</td>
+      <td>→</td>
+      <td>1952</td>
+      <td>1953</td>
+      <td>1954</td>
+    </tr>
+    <tr>
+      <td>1955</td>
+      <td>→</td>
+      <td>1956</td>
+      <td>1957</td>
+      <td>1958</td>
+      <td>1959</td>
+      <td>→</td>
+      <td>1960</td>
+      <td>1961</td>
+      <td>1962</td>
+      <td>1963</td>
+      <td>→</td>
+      <td>1964</td>
+      <td>1965</td>
+    </tr>
+    <tr>
+      <td>1966</td>
+      <td>1967</td>
+      <td>→</td>
+      <td>1968</td>
+      <td>1969</td>
+      <td>1970</td>
+      <td>1971</td>
+      <td>→</td>
+      <td>1972</td>
+      <td>1973</td>
+      <td>1974</td>
+      <td>1975</td>
+      <td>→</td>
+      <td>1976</td>
+    </tr>
+    <tr>
+      <td>1977</td>
+      <td>1978</td>
+      <td>1979</td>
+      <td>→</td>
+      <td>1980</td>
+      <td>1981</td>
+      <td>1982</td>
+      <td>1983</td>
+      <td>→</td>
+      <td>1984</td>
+      <td>1985</td>
+      <td>1986</td>
+      <td>1987</td>
+      <td>→</td>
+    </tr>
+    <tr>
+      <td>1988</td>
+      <td>1989</td>
+      <td>1990</td>
+      <td>1991</td>
+      <td>→</td>
+      <td>1992</td>
+      <td>1993</td>
+      <td>1994</td>
+      <td>1995</td>
+      <td>→</td>
+      <td>1996</td>
+      <td>1997</td>
+      <td>1998</td>
+      <td>1999</td>
+    </tr>
+    <tr>
+      <td>→</td>
+      <td>2000</td>
+      <td>2001</td>
+      <td>2002</td>
+      <td>2003</td>
+      <td>→</td>
+      <td>2004</td>
+      <td>2005</td>
+      <td>2006</td>
+      <td>2007</td>
+      <td>→</td>
+      <td>2008</td>
+      <td>2009</td>
+      <td>2010</td>
+    </tr>
+    <tr>
+      <td>2011</td>
+      <td>→</td>
+      <td>2012</td>
+      <td>2013</td>
+      <td>2014</td>
+      <td>2015</td>
+      <td>→</td>
+      <td>2016</td>
+      <td>2017</td>
+      <td>2018</td>
+      <td>2019</td>
+      <td>→</td>
+      <td>2020</td>
+      <td>2021</td>
+    </tr>
+    <tr>
+      <td>2022</td>
+      <td>2023</td>
+      <td>→</td>
+      <td>2024</td>
+      <td>2025</td>
+      <td>2026</td>
+      <td>2027</td>
+      <td>→</td>
+      <td>2028</td>
+      <td>2029</td>
+      <td>2030</td>
+      <td>2031</td>
+      <td>→</td>
+      <td>2032</td>
+    </tr>
+    <tr>
+      <td>2033</td>
+      <td>2034</td>
+      <td>2035</td>
+      <td>→</td>
+      <td>2036</td>
+      <td>2037</td>
+      <td>2038</td>
+      <td>2039</td>
+      <td>→</td>
+      <td>2040</td>
+      <td>2041</td>
+      <td>2042</td>
+      <td>2043</td>
+      <td>→</td>
+    </tr>
+    <tr>
+      <td>2044</td>
+      <td>2045</td>
+      <td>2046</td>
+      <td>2047</td>
+      <td>→</td>
+      <td>2048</td>
+      <td>2049</td>
+      <td>2050</td>
+      <td>2051</td>
+      <td>→</td>
+      <td>2052</td>
+      <td>2053</td>
+      <td>2054</td>
+      <td>2055</td>
+    </tr>
+    <tr>
+      <td>→</td>
+      <td>2056</td>
+      <td>2057</td>
+      <td>2058</td>
+      <td>2059</td>
+      <td>→</td>
+      <td>2060</td>
+      <td>2061</td>
+      <td>2062</td>
+      <td>2063</td>
+      <td>→</td>
+      <td>2064</td>
+      <td>2065</td>
+      <td>2066</td>
+    </tr>
+    <tr>
+      <td>2067</td>
+      <td>→</td>
+      <td>2068</td>
+      <td>2069</td>
+      <td>2070</td>
+      <td>2071</td>
+      <td>→</td>
+      <td>2072</td>
+      <td>2073</td>
+      <td>2074</td>
+      <td>2075</td>
+      <td>→</td>
+      <td>2076</td>
+      <td>2077</td>
+    </tr>
+    <tr>
+      <td>2078</td>
+      <td>2079</td>
+      <td>→</td>
+      <td>2080</td>
+      <td>2081</td>
+      <td>2082</td>
+      <td>2083</td>
+      <td>→</td>
+      <td>2084</td>
+      <td>2085</td>
+      <td>2086</td>
+      <td>2087</td>
+      <td>→</td>
+      <td>2088</td>
+    </tr>
+    <tr>
+      <td>2089</td>
+      <td>2090</td>
+      <td>2091</td>
+      <td>→</td>
+      <td>2092</td>
+      <td>2093</td>
+      <td>2094</td>
+      <td>2095</td>
+      <td>→</td>
+      <td>2096</td>
+      <td>2097</td>
+      <td>2098</td>
+      <td>2099</td>
+      <td>2100</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>So…for a day, be a doomsday is a properties - at least - related to years. For instance, doomsday for the current year in the Gregorian calendar (2017) is Tuesday. The Conway algorithm works because it is possible to <em>easily</em> find the day of the week of a given calendar date by using a <em>nearby</em> doomsday as a reference point. To help with this, Conway findout that there is a list of <em>easy-to-remember</em> dates…for each month…</p>
+
+<p>that always land on the doomsday of the given year: O.M.G.</p>
+
+<p>What does it means? It means that, for instance, the last day of February defines a doomsday. Or January, January 3 is a doomsday during common years and January 4 a doomsday during leap years, and so on. What the hell of magic days are these doomsday?!? We will explain <em>how</em> the Doomsday for a year is computed. For now, let be the following table a month table that correspond <strong>always</strong> to the doomsday.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Month</th>
+      <th>Doomsdays</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>January</td>
+      <td>3, 31 (solar year) 4 (leap years)</td>
+    </tr>
+    <tr>
+      <td>February</td>
+      <td>7, 14, 21, 28 (solar year) 1, 29 (leap years)</td>
+    </tr>
+    <tr>
+      <td>March</td>
+      <td>7, 14, 21, 28</td>
+    </tr>
+    <tr>
+      <td>April</td>
+      <td>4</td>
+    </tr>
+    <tr>
+      <td>May</td>
+      <td>9</td>
+    </tr>
+    <tr>
+      <td>June</td>
+      <td>6</td>
+    </tr>
+    <tr>
+      <td>July</td>
+      <td>11</td>
+    </tr>
+    <tr>
+      <td>August</td>
+      <td>8</td>
+    </tr>
+    <tr>
+      <td>September</td>
+      <td>5</td>
+    </tr>
+    <tr>
+      <td>October</td>
+      <td>10</td>
+    </tr>
+    <tr>
+      <td>November</td>
+      <td>7</td>
+    </tr>
+    <tr>
+      <td>December</td>
+      <td>12</td>
+    </tr>
+  </tbody>
+</table>
+
+<h3 id="step-1-aka-finding-a-years-base-day">Step 1 aka finding a year’s base day</h3>
+<p>First of all, ask for a day</p>
+
+<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="nb">print</span> <span class="s1">'Insert day:   '</span>
+<span class="n">day</span>   <span class="o">=</span> <span class="nb">gets</span><span class="p">.</span><span class="nf">to_i</span>
+<span class="nb">print</span> <span class="s1">'Insert month: '</span>
+<span class="n">month</span> <span class="o">=</span> <span class="nb">gets</span><span class="p">.</span><span class="nf">to_i</span>
+<span class="nb">print</span> <span class="s1">'Insert year:  '</span>
+<span class="n">year</span>  <span class="o">=</span> <span class="nb">gets</span></code></pre></figure>
+
+<p>Then, given</p>
+
+<script type="math/tex; mode=display">c = year's \; century + 1</script>
+
+<p>(for instance, \(c(2017) = 20\)), then compute:</p>
+
+<script type="math/tex; mode=display">\Big\{\Big[\Big(5c + \left \lfloor{\frac{c - 1}{4}}\right \rfloor\Big) \; mod \; 7\Big] + 4\Big\} \; mod \; 7</script>
+
+<p>My really unefficient implementation of the formula using Ruby is:</p>
+
+<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="n">baseDay</span> <span class="o">=</span> <span class="p">(((</span><span class="mi">5</span> <span class="o">*</span> <span class="p">(</span><span class="n">year</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">].</span><span class="nf">to_i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">))</span> <span class="o">+</span> <span class="p">(</span><span class="n">year</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">].</span><span class="nf">to_i</span> <span class="o">/</span> <span class="mi">4</span><span class="p">).</span><span class="nf">ceil</span> <span class="o">%</span> <span class="mi">7</span><span class="p">)</span> <span class="o">+</span> <span class="mi">4</span><span class="p">)</span> <span class="o">%</span> <span class="mi">7</span>
+<span class="nb">puts</span> <span class="n">baseDay</span></code></pre></figure>
+
+<p>For example, the base day for the 21st century is Tuesday, because:</p>
+
+<script type="math/tex; mode=display">\Big\{\Big[\Big(5 x 21 + \left \lfloor{\frac{21 - 1}{4}}\right \rfloor\Big) \; mod \; 7\Big] + 4\Big\} \; mod \; 7 = 2 = \; Tuesday</script>
+
+<h3 id="step-2-aka-finding-a-years-doomsday">Step 2 aka finding a year’s Doomsday</h3>
+<p>Let be:</p>
+
+<script type="math/tex; mode=display">y = year's \; last \; 2 \; numbers</script>
+
+<p>(for instance, \(y(2017) = 17\)), to determine the Doomsday of the year compute:</p>
+
+<script type="math/tex; mode=display">\Big[\Big(\left \lfloor{\frac{y}{12}}\right \rfloor + y \; mod \; 7 + \left \lfloor{\frac{y \; mod \; 12 }{4}}\right \rfloor \Big) \; mod \; 7\Big] + year's \; baseday = \; year's \; Doomsday</script>
+
+<p>A possible implementation of the formula using Ruby is:</p>
+
+<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="n">doomsday</span> <span class="o">=</span> <span class="p">(((</span><span class="n">year</span><span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">].</span><span class="nf">to_i</span> <span class="o">/</span> <span class="mi">12</span><span class="p">).</span><span class="nf">ceil</span> <span class="o">+</span> <span class="p">(</span><span class="n">year</span><span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">].</span><span class="nf">to_i</span> <span class="o">%</span> <span class="mi">12</span><span class="p">)</span> <span class="o">+</span> <span class="p">((</span><span class="n">year</span><span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">].</span><span class="nf">to_i</span> <span class="o">%</span> <span class="mi">12</span><span class="p">)</span> <span class="o">/</span> <span class="mi">4</span><span class="p">).</span><span class="nf">ceil</span><span class="p">)</span> <span class="o">%</span> <span class="mi">7</span><span class="p">)</span> <span class="o">+</span> <span class="n">baseDay</span>
+<span class="nb">puts</span> <span class="n">doomsday</span></code></pre></figure>
+
+<p>For example, the Doomsday of the year 1966 is Monday, because:</p>
+
+<script type="math/tex; mode=display">\Big[\Big(\left \lfloor{\frac{66}{12}}\right \rfloor + 66 \; mod \; 7 + \left \lfloor{\frac{66 \; mod \; 12 }{4}}\right \rfloor \Big) \; mod \; 7\Big] + 3 = 8</script>
+
+<p>In <em>2010</em>, a <strong>simpler method</strong> - remember, less than two seconds - was discovered to find the year’s Doomsday. It has been shown that this method, more formaly called <em>“Odd + 11”</em>, is equivalent in formulas to compute:</p>
+
+<script type="math/tex; mode=display">\Big[\Big(y + \left \lfloor{\frac{y}{4}}\right \rfloor \Big) \; mod \; 7 \Big] + year's \; baseday = \; year's \; Doomsday</script>
+
+<p>This formula is particularly suitable for mental calculation, because it does not involve divisions and the procedure, as a recursive one, is easy to remember. So alternatively, to determine the doomsday it is also possible to add the last two digits of the year (<em>y</em>) to the quotient of the division between <em>y</em> and 4. In fact, also following this simpler formula, the Doomsday of the year 1966 is Monday:</p>
+
+<script type="math/tex; mode=display">\Big[\Big(66 + \left \lfloor{\frac{66}{4}}\right \rfloor \Big) \; mod \; 7 \Big] + 3 = 8</script>
+
+<h3 id="step-3-aka-finding-the-day-of-the-week-of-the-desired-day">Step 3 aka finding the day of the week of the desired day</h3>
+<p>After you know the Doomsday of the year in question, the calculation of the day of the week of the desired day is very simple:</p>
+<ul>
+  <li>identify the Doomsday closest to the chosen day,</li>
+  <li>subtract the date of the nearest doomsday from the date to be identified,</li>
+  <li>add the value of the Doomsday of the year,</li>
+  <li>and finally report the result obtained in base 7;</li>
+</ul>
+
+<p>Ok, let’s start from the…what!? How do you identify the Doomsday closest to the chosen day?! Ok, do you remember the table with the doomsday for each month I talked about before? The only thing you have to do is deal with some comparison between the month and some simple computation between abs difference. A possible implementation of the formula using Ruby is:</p>
+
+<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="c1">### Step 3 - find the day of the week</span>
+
+<span class="n">nearest</span> <span class="o">=</span> <span class="mi">9999999999</span>
+
+<span class="k">case</span> <span class="n">month</span>
+	<span class="k">when</span> <span class="mi">1</span>
+		<span class="k">if</span> <span class="p">((</span><span class="n">year</span> <span class="o">%</span> <span class="mi">4</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="n">and</span> <span class="p">(</span><span class="n">year</span> <span class="o">%</span> <span class="mi">100</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">))</span> <span class="n">or</span> <span class="p">(</span><span class="n">year</span> <span class="o">%</span> <span class="mi">400</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span>
+			<span class="n">nearest</span> <span class="o">=</span> <span class="mi">4</span>
+		<span class="k">else</span>
+			<span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">31</span><span class="p">].</span><span class="nf">each</span> <span class="p">{</span>
+				<span class="o">|</span><span class="n">val</span><span class="o">|</span>
+				<span class="k">if</span> <span class="p">(</span><span class="n">day</span><span class="o">-</span><span class="n">val</span><span class="p">).</span><span class="nf">abs</span> <span class="o">&lt;</span> <span class="n">nearest</span>
+					<span class="n">nearest</span> <span class="o">=</span> <span class="n">val</span>
+				<span class="k">end</span>
+			<span class="p">}</span>
+		<span class="k">end</span>
+	<span class="k">when</span> <span class="mi">2</span>
+		<span class="n">ddays</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">29</span><span class="p">]</span>
+		<span class="k">if</span> <span class="p">((</span><span class="n">year</span> <span class="o">%</span> <span class="mi">4</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="n">and</span> <span class="p">(</span><span class="n">year</span> <span class="o">%</span> <span class="mi">100</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">))</span> <span class="n">or</span> <span class="p">(</span><span class="n">year</span> <span class="o">%</span> <span class="mi">400</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span>
+			<span class="n">ddays</span> <span class="o">=</span> <span class="p">[</span><span class="mi">7</span><span class="p">,</span> <span class="mi">14</span><span class="p">,</span> <span class="mi">21</span><span class="p">,</span> <span class="mi">28</span><span class="p">]</span>
+		<span class="k">end</span>
+		<span class="n">ddays</span><span class="p">.</span><span class="nf">each</span> <span class="p">{</span>
+			<span class="o">|</span><span class="n">val</span><span class="o">|</span>
+			<span class="k">if</span> <span class="p">(</span><span class="n">day</span><span class="o">-</span><span class="n">val</span><span class="p">).</span><span class="nf">abs</span> <span class="o">&lt;</span> <span class="n">nearest</span>
+				<span class="n">nearest</span> <span class="o">=</span> <span class="n">val</span>
+			<span class="k">end</span>
+		<span class="p">}</span>
+	<span class="k">when</span> <span class="mi">3</span>
+		<span class="p">[</span><span class="mi">7</span><span class="p">,</span> <span class="mi">14</span><span class="p">,</span> <span class="mi">21</span><span class="p">,</span> <span class="mi">28</span><span class="p">].</span><span class="nf">each</span> <span class="p">{</span>
+			<span class="o">|</span><span class="n">val</span><span class="o">|</span>
+			<span class="k">if</span> <span class="p">(</span><span class="n">day</span><span class="o">-</span><span class="n">val</span><span class="p">).</span><span class="nf">abs</span> <span class="o">&lt;</span> <span class="n">nearest</span>
+				<span class="n">nearest</span> <span class="o">=</span> <span class="n">val</span>
+			<span class="k">end</span>
+		<span class="p">}</span>
+	<span class="k">when</span> <span class="mi">4</span>
+		<span class="n">nearest</span> <span class="o">=</span> <span class="mi">4</span>
+	<span class="k">when</span> <span class="mi">5</span>
+		<span class="n">nearest</span> <span class="o">=</span> <span class="mi">9</span>
+	<span class="k">when</span> <span class="mi">6</span>
+		<span class="n">nearest</span> <span class="o">=</span> <span class="mi">6</span>
+	<span class="k">when</span> <span class="mi">7</span>
+		<span class="n">nearest</span> <span class="o">=</span> <span class="mi">11</span>
+	<span class="k">when</span> <span class="mi">8</span>
+		<span class="n">nearest</span> <span class="o">=</span> <span class="mi">8</span>
+	<span class="k">when</span> <span class="mi">9</span>
+		<span class="n">nearest</span> <span class="o">=</span> <span class="mi">5</span>
+	<span class="k">when</span> <span class="mi">10</span>
+		<span class="n">nearest</span> <span class="o">=</span> <span class="mi">10</span>
+	<span class="k">when</span> <span class="mi">11</span>
+		<span class="n">nearest</span> <span class="o">=</span> <span class="mi">7</span>
+	<span class="k">when</span> <span class="mi">12</span>
+		<span class="n">nearest</span> <span class="o">=</span> <span class="mi">12</span>
+	<span class="k">else</span>
+		<span class="n">nearest</span> <span class="o">=</span> <span class="mi">9999999999</span>
+<span class="k">end</span></code></pre></figure>
+
+<p>And that’s all: you are are done! In fact, the following three points of this third step can be computed with the following line:</p>
+
+<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="n">weekday</span> <span class="o">=</span> <span class="p">(</span><span class="n">day</span> <span class="o">-</span> <span class="n">nearest</span> <span class="o">+</span> <span class="n">doomsday</span><span class="p">)</span> <span class="o">%</span> <span class="mi">7</span></code></pre></figure>
+
+<p>And of course you can pretty print the result with something really dirty and compact like:</p>
+
+<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="nb">puts</span> <span class="s2">"~~~~~~~~~~~~~~~~~~~~~~~"</span>
+<span class="nb">puts</span> <span class="p">[</span><span class="s1">'January'</span><span class="p">,</span> <span class="s1">'February'</span><span class="p">,</span> <span class="s1">'March'</span><span class="p">,</span> 
+	  <span class="s1">'April'</span><span class="p">,</span> <span class="s1">'May'</span><span class="p">,</span> <span class="s1">'June'</span><span class="p">,</span> <span class="s1">'July'</span><span class="p">,</span> 
+	  <span class="s1">'August'</span><span class="p">,</span> <span class="s1">'September'</span><span class="p">,</span> <span class="s1">'October'</span><span class="p">,</span> 
+	  <span class="s1">'November'</span><span class="p">,</span> <span class="s1">'December'</span><span class="p">][</span><span class="n">month</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">+</span>
+	  <span class="s2">" "</span><span class="o">+</span><span class="n">day</span><span class="p">.</span><span class="nf">to_s</span><span class="o">+</span><span class="s2">", "</span><span class="o">+</span>
+	  <span class="n">year</span><span class="o">+</span><span class="s2">" was "</span><span class="o">+</span><span class="p">[</span><span class="s1">'Monday'</span><span class="p">,</span> <span class="s1">'Tuesday'</span><span class="p">,</span> 
+	  				<span class="s1">'Wednesday'</span><span class="p">,</span> <span class="s1">'Thusday'</span><span class="p">,</span> 
+	  				<span class="s1">'Friday'</span><span class="p">,</span> <span class="s1">'Saturday'</span><span class="p">,</span> 
+	  				<span class="s1">'Sunday'</span><span class="p">][</span><span class="n">weekday</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span></code></pre></figure>
+
+<p>For example, to calculate the September 13, 2011:</p>
+
+<ul>
+  <li>the nearest Doomsday is 5/9;</li>
+  <li>13 - 5 = 8</li>
+  <li>8 + 1 = 9 (the 2011 Doomsday was Monday, so the corresponding value is 1)</li>
+  <li>9 mod 7 = 2 = Tuesday</li>
+</ul>
+
+<p>Thank you everybody for reading!</p>
+
+<div class="footnotes">
+  <ol>
+    <li id="fn:wiki">
+      <p><a href="https://en.wikipedia.org/wiki/John_Horton_Conway">John Horton Conway</a>&nbsp;<a href="#fnref:wiki" class="reversefootnote">&#8617;</a></p>
+    </li>
+    <li id="fn:joke">
+      <p>Do not worry: it’s not an innate ability!! To improve his speed, he practices his calendrical calculations on his computer, which is programmed to quiz him with random dates every time he logs on.&nbsp;<a href="#fnref:joke" class="reversefootnote">&#8617;</a></p>
+    </li>
+  </ol>
+</div>
+
+
+<div class="comments">
+   <div id="disqus_thread"></div>
+    <script type="text/javascript">
+        /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+        var disqus_shortname = 'made2591';
+
+        /* * * DON'T EDIT BELOW THIS LINE * * */
+        (function() {
+            var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    <a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+    
+
+</div>
+
+<hr/>
+
+
+  
+    <div class="post-navs row">
+      
+        <div class="col-md-6 post-nav">
+
+          <h3 class="section-header">
+            Older
+            <span class="text-muted"> &middot; </span>
+            <a href="/archive">View Archive (35)</a>
+          </h3>
+
+          <h2 class="post-title-link"><a href="/posts/network-layers-0">A journey through the network - Introduction</a></h2>
+          <h3 id="a-journey-through-the-network---introduction">A journey through the network - Introduction</h3>
+<p>During the last year I understood one thing: sooner or later everyone should review network notions, so I decided to start writing articles about network fundamentals. As a main source I would use <a href="https://www.amazon.it/gp/product/9332518742/ref=oh_aui_detailpage_o01_s00?ie=UTF8&amp;psc=1">Computer Networks</a> and <a href="https://www.amazon.it/gp/product/9332535957/ref=oh_aui_detailpage_o02_s00?ie=UTF8&amp;psc=1">TCP/IP Illustrated</a>.</p>
+
+
+        </div>
+      
+      
+
+        <div class="col-md-6 post-nav">
+          <h3 class="section-header">
+            Newer
+            
+          </h3>
+
+          <h2 class="post-title-link"><a href="/posts/merry-christmas">Best wishes for Christmas holidays!</a></h2>
+          <h3 id="merry-christmas-by-nerds">Merry Christmas by nerds</h3>
+<p>Here we are!! Christmas holidays are coming and it’s time to collect nerd greetings for nerd friends! In this article I have collected some of my favorites: starting from css to the most unhealthy c code in the world, I hope you enjoy these repositories / snippets / gist / sketch! Best wishes for happy holidays!</p>
+
+
+        </div>
+      
+    </div>
+  
+
+
+
+          <div id="footer">
+<hr/>
+  <div class="pull-left">
+    &copy;2019.
+    Built with <a href="http://jekyllrb.com/">Jekyll</a> and
+    <a href="https://github.com/kirqe/autm-rb">Autm-rb</a>. Thanks to <a href="https://github.com/kirqe">kirqe</a>.
+  </div>
+
+  <div class="pull-right">
+    <span class="credits pull-right social">
+      
+        
+          <a href="https://github.com/made2591/" target="_blank"><i class="fa fa-github"></i></a>
+        
+      
+        
+          <a href="https://twitter.com/made2591" target="_blank"><i class="fa fa-twitter"></i></a>
+        
+      
+        
+          <a href="https://linkedin.com/in/mmadeddu" target="_blank"><i class="fa fa-linkedin"></i></a>
+        
+      
+        
+          <a href="https://www.facebook.com/matteo.madeddu" target="_blank"><i class="fa fa-facebook"></i></a>
+        
+      
+    </span>
+  </div>
+</div>
+
+        </section>
+    </div>
+    </div>
+    <script src="/public/javascripts/jquery.min.js"></script>
+    <script src="/public/javascripts/bootstrap.min.js"></script>
+    <!-- Place your <script> tags here. -->
+
+<script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript"></script>
+
+<script id="dsq-count-scr" src="//made2591-github-io.disqus.com/count.js" async></script>
+
+<!-- disqus comment counter -->
+<script type="text/javascript">
+	/* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+    var disqus_shortname = 'made2591-github-io';
+
+	/* * * DON'T EDIT BELOW THIS LINE * * */
+	(function () {
+	    var s = document.createElement('script'); s.async = true;
+	    s.type = 'text/javascript';
+	    s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+	    (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+	}());
+</script>
+<!-- /disqus comment counter -->
+
+<!-- google analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-111283556-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-111283556-1');
+</script>
+<!-- /google analytics -->
+
+  </body>
+</html>

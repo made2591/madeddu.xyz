@@ -1,0 +1,626 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <!-- Google Tag Manager -->
+    <!--<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','GTM-M8WBXH7');</script>-->
+    <!-- End Google Tag Manager -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,300,700' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href=/public/stylesheets/bs.css?random=@Environment.TickCount>
+    <link rel="stylesheet" href=/public/stylesheets/styles.css?random=@Environment.TickCount>
+    <link rel="stylesheet" href=/public/stylesheets/pygment_trac.css?random=@Environment.TickCount>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css">
+    <link rel="canonical" href="made2591.github.io/posts/network-layers-1">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+      <link rel="icon" type="image/x-icon"  href="/favicon.ico" />
+    <title>A journey through the network - Layer 1 | Matteo Madeddu</title>
+    <!--[if lt IE 9]>
+
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+  </head>
+  <body>
+    <!-- Google Tag Manager (noscript) -->
+    <!--<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-M8WBXH7"
+    height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+    <!-- End Google Tag Manager (noscript) -->
+    <div class="wrapper">
+        <section>
+          <div id="header">
+  <h1>
+    <a id="sitename" href="">Matteo Madeddu</a>
+  </h1>
+
+  <!-- Add something about you in p tag-->
+  <p>Mac OS lover, Docker fan, Go explorer, Python geek, Trello addicted.</p>
+  <hr/>
+
+  <span class="credits pull-left">
+    
+      <a href="/">Home</a>  | 
+    
+      <a href="/blog">Blog</a>  | 
+    
+      <a href="/archive">Archive</a>  | 
+    
+      <a href="/about">About</a>  | 
+    
+      <a href="/matteo_madeddu_cv.pdf">Resume</a>  | 
+    
+      <a href="/quotes">Quotes</a> 
+    
+  </span>
+
+  <span class="credits pull-right social">
+    
+      
+        <a href="https://github.com/made2591/" target="_blank"><i class="fa fa-github"></i></a>
+      
+    
+      
+        <a href="https://twitter.com/made2591" target="_blank"><i class="fa fa-twitter"></i></a>
+      
+    
+      
+        <a href="https://linkedin.com/in/mmadeddu" target="_blank"><i class="fa fa-linkedin"></i></a>
+      
+    
+      
+        <a href="https://www.facebook.com/matteo.madeddu" target="_blank"><i class="fa fa-facebook"></i></a>
+      
+    
+  </span>
+
+
+</div>
+
+
+          <div class="post-title">
+    <h1>A journey through the network - Layer 1</h1>
+    <p class="text-muted">
+    
+
+
+    05 Jan 2018
+    
+     | <i class="fa fa-comment"></i> <a class="text-muted" href="/posts/network-layers-1/#disqus_thread"></a>
+    
+
+    
+      | <i class="fa fa-tag"></i>
+      
+        <a class="text-muted" href="/tags/#theory ">theory</a>,
+      
+        <a class="text-muted" href="/tags/#network ">network</a>,
+      
+        <a class="text-muted" href="/tags/#iso/osi ">iso/osi</a>,
+      
+        <a class="text-muted" href="/tags/#tcp/ip ">tcp/ip</a>,
+      
+        <a class="text-muted" href="/tags/#saga ">saga</a>
+      
+    
+  </p>
+</div>
+
+  <h3 id="a-journey-through-the-network---layer-1">A journey through the network - Layer 1</h3>
+<p>Before the Christmas holidays, I wrote an article about the network: yes. The network is that part of computer science that is no longer considered fundamental as it should, and I must admit that I learn it every day at my expense: as an old friend always says to me “<em>the network is the concept on which everything is based, describes how the body works: after that, you can also become a gastroenterologist, but you will always need to know how the body works”</em>. I think he’s right. As I was saying, I wrote an article about that: it’s a sort of overview and technical / historical introduction on the ISO / OSI and TCP / IP protocols. For those who missed the introduction, <a href="https://made2591.github.io/posts/network-layers-0">here</a> the link. Despite my lack of experience, I promised myself, as far as possible, with the little time available, to retrace the various levels of the network from a theoretical point of view without going into too much detail, also trying to identify the most used commands, understand the level at which they operate and the functioning of the parameters supported by them. It took me a lot of time … but finally, the post on level one is ready.
+As a main source I use <a href="https://www.amazon.it/gp/product/9332518742/ref=oh_aui_detailpage_o01_s00?ie=UTF8&amp;psc=1">Computer Networks</a> and <a href="https://www.amazon.it/gp/product/9332535957/ref=oh_aui_detailpage_o02_s00?ie=UTF8&amp;psc=1">TCP/IP Illustrated</a>. In this article, I will talk about layer 0, the lowest in the ISO / OSI stack. Enjoy the reading!</p>
+
+<h3 id="introduction">Introduction</h3>
+<p>As Andrew Tanenbaum says in his book, “the physical layer is the foundation on which the network is built [..], so it is a good place to start our journey into networkland.”. I agree, even if I would like to jump directly to higher network levels XD. I want to highlight that the physical layer I will talk about is defined in the <strong>ISO/OSI</strong> standard, not in <strong>TCP/IP</strong>. <strong>TCP/IP</strong> is designed to be hardware independent. As a result, <strong>TCP/IP</strong> may be implemented on top of virtually any hardware networking technology. The lowest layer in <strong>TCP/IP</strong> stack is the <em>link layer</em>: it is not really a layer at all, but rather an interface between hosts and transmission links used to move packets between the Internet layer interfaces of two different hosts on the same link. What I will talk about in the next paragraphs is the physical layer, defined in the <strong>ISO/OSI</strong> standard, divided into four section:</p>
+<ul>
+  <li><strong>Part 1</strong>: The theoretical parts regarding data transmission and limits imposed by Universe on what can be sent over a channel;</li>
+  <li><strong>Part 2</strong>: The most important types of transmission media: guided (copper wire and fiber optics), wireless (terrestrial radio), and satellite;</li>
+  <li><strong>Part 3</strong>: The digital modulation, which is all about how analog signals are converted into digital bits and back again;</li>
+  <li><strong>Part 4</strong>: The multiplexing schemes aka <em>how multiple conversations can be put on the same transmission medium at the same time without interfering with one another</em>;</li>
+</ul>
+
+<h3 id="part-1-of-4---data-trasmission">Part 1 of 4 - Data trasmission</h3>
+<p>First, you need to know what is a <span style="color:#A04279; font-size: bold;">the Fourier transform</span>: you can find a complex explanation <a href="https://en.wikipedia.org/wiki/Fourier_transform">here</a>. For those afraid of math, including myself, I will try to gild the pill in the next lines.</p>
+
+<p>Let’s start with waveform: virtually <strong>everything</strong> in the world can be described via a waveform - a function of time, space or some other variable. For instance, sound waves, electromagnetic fields, the elevation of a hill versus location, the price of your favorite stock versus time, etc. The Fourier Transform gives us a unique and powerful way of <em>viewing</em> these waveforms, because it proves [wait for it] an incredible fact, that deserves quotation:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>All waveforms, no matter what you scribble or observe in the universe, are actually just the sum of simple sinusoids of different frequencies.
+</code></pre></div></div>
+
+<p>This fact is amazing for lot of purpose, including the data trasmission in the physical layer. The Fourier Transform decomposes a waveform - basically any real world waveform - into sinusoids. Formally, the Fourier Transform is a <em>math tool</em> that breaks a waveform into an <em>alternate</em> representation, characterized by sine and cosines, and let us to represent the waveform itself in another way, as a sum of different fundamental frequencies, that combined together form the original waveform. Even if I don’t want to go in depth with the math, consider a specific example: the transmission of the ASCII character <code class="highlighter-rouge">b</code> encoded in an 8-bit byte, represented by the bit pattern <code class="highlighter-rouge">01100010</code>. The left-hand part of the figure below (a) shows the voltage output by the transmitting computer: the right part show the harmonic number. We know that the waveform in the left part, as stated before, is actually <em>the sum of simple sinusoids of different frequencies</em>. In the second part (b), there is the signal that results from a channel (a medium) that allows only the first harmonic (the fundamental, f) to pass through.</p>
+
+<p align="center"><img src="https://image.ibb.co/nctuuw/fourier_t.png" alt="perceptron" style="width: 100%; marker-top: -10px;" /></p>
+
+<p>In the figure you can see the spectra and reconstructed functions for higher-bandwidth channels. For digital transmission, the goal is to receive a signal with just enough fidelity to reconstruct the sequence of bits that was sent. Why not use a more accurate signal? Because, no transmission facility can transmit signals without losing some power in the process. The width of the frequency range transmitted without being strongly attenuated is called the <strong>bandwidth</strong> and different medium have different bandwith.</p>
+
+<h4 id="bit-rate-data-rate-and-channels-example">Bit rate, data rate and channels example</h4>
+<p>There is much confusion about bandwidth because it means different things to electrical engineers and to computer scientists.</p>
+<ul>
+  <li>To electrical engineers, (analog) bandwidth is a quantity measured in <script type="math/tex">Hz</script> (as we described below in the next example).</li>
+  <li>To computer scientists, (digital) bandwidth is the maximum data rate of a channel, a quantity measured in bits/sec. 
+Let’s make an example: given a bit rate (a sort of velocity <script type="math/tex">v</script>) mesured in <script type="math/tex">\; \frac{bits}{sec} \;</script>, the time required to send the <script type="math/tex">8</script> bits (a sort of space quantity <script type="math/tex">q</script>) is given by</li>
+</ul>
+
+<script type="math/tex; mode=display">time = \frac{space}{velocity}, \; \; \rightarrow \; \; time = \frac{q}{v} seconds</script>
+
+<p>In our example <script type="math/tex">v = 1</script> bit at a time, so the <em>frequency</em> of the first harmonic of this signal is <script type="math/tex">v/8 \; Hz</script>. Limiting the bandwidth limits the data (bits) rate (even for perfect channels completly noiseless). So what is the data rate? The data rate, as Tanenbaum says, “<em>is the end result of using the analog bandwidth of a physical channel for digital transmission</em>”. If you want to know more about waveform, look <a href="https://en.wikipedia.org/wiki/Waveform">here</a> and <a href="https://en.wikipedia.org/wiki/Sine_wave">here</a>.</p>
+
+<h5 id="nyquist">Nyquist</h5>
+<p>Henry Nyquist, AT&amp;T engineer, in 1924 realized that even a perfect channel has a finite transmission capacity. He derived an equation expressing the maximum data rate for a finite-bandwidth noiseless channel.</p>
+
+<p><span style="color:#A04279; font-size: bold;">Difficult explanation</span>
+Sampling is the first step in the analog-to-digital conversion process of a signal. It consists of taking samples (samples) from an analogue signal and continuing over time each <script type="math/tex">\Delta t</script> seconds.</p>
+
+<p align="center">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/c/ca/Analog_signal.png" alt="perceptron" style="width: 35%;  margin: 0 auto; marker-top: -10px;" />
+    <img src="https://upload.wikimedia.org/wikipedia/commons/6/6e/Sampled_signal.png" alt="perceptron" style="width: 35%; margin: 0 auto; marker-top: -10px;" />
+</p>
+
+<p>The value <script type="math/tex">\Delta t</script> is called sampling interval, while <script type="math/tex">f_s = \frac{1}{\Delta t}</script> is the sampling rate. The result is an analog signal in discrete time, which is then quantized, coded and made accessible to any digital computer. The Nyquist-Shannon theorem (or signal sampling theorem) states that, given an analog signal <script type="math/tex">s(t)</script> whose frequency band is limited by the frequency <script type="math/tex">f_M</script> and given <script type="math/tex">n \in \mathbb{Z}</script>, the signal <script type="math/tex">s(t)</script> can be uniquely reconstructed from its samples <script type="math/tex">s(n \Delta t)</script> taken at frequency <script type="math/tex">f_s = \frac{1}{\Delta t}</script> if <script type="math/tex">f_s > 2f_M</script> using the following formula:</p>
+
+<script type="math/tex; mode=display">{\displaystyle{\displaystyle s(t) = \sum_{k=-\infty}^{+\infty}s(k \Delta t){\textrm{sinc}} \left ({\frac{t}{\Delta t}} -k\right) \; \forall t \in \mathbb{R}}}</script>
+
+<p>expressed in terms of the normalized sync function<sup id="fnref:sf"><a href="#fn:sf" class="footnote">1</a></sup>. What the f**k I said?! Don’t know.</p>
+
+<p><span style="color:#A04279; font-size: bold;">Simpler explanation</span>
+The only thing you have to remember is that _if the signal consists of <script type="math/tex">V</script> discrete levels (wait for example), Nyquist’s theorem states that the maximum data rate = <script type="math/tex">2B * log_2(V) \; bits/sec</script>. For example, a noiseless <script type="math/tex">3 \; kHz</script> channel cannot transmit binary (i.e., two-level) signals at a rate exceeding 6000 bps, because <script type="math/tex">2 * 3000 * log_2(2) \; bits/sec = 6000</script>.</p>
+
+<p>If random noise is present, the situation deteriorates rapidly. Let be <script type="math/tex">S</script> the signal power, and <script type="math/tex">N</script> the noise power. Than, the signal-to-noise ratio is <script type="math/tex">S/N</script>. Usually, this ratio is expressed on a log scale as the quantity <script type="math/tex">10 * log_10(S/N)</script>, because it can vary over a tremendous range. The units of this log scale are called <strong>decibels</strong> (dB). Another genius, Shannon, derived an important result in this field: the maximum data rate or capacity of a noisy channel whose bandwidth is <script type="math/tex">B \; Hz</script> and whose signal-to-noise ratio is <script type="math/tex">S/N</script> is = <script type="math/tex">B * log_2(1 + S/N) \; bits/sec</script></p>
+
+<h3 id="part-2-of-4---media-types">Part 2 of 4 - Media types</h3>
+<p>Various physical media can be used for the actual transmission. Each one has its own niche in terms of bandwidth, delay, cost, and ease of installation and maintenance. Media are roughly grouped into guided media, such as copper wire and fiber optics, and unguided media, such as terrestrial wireless, satellite, and lasers through the air.</p>
+
+<h4 id="guided-transmission-media">Guided Transmission Media</h4>
+<p><span style="color:#A04279; font-size: bold;">Magnetic Media</span>
+One of the most common ways to transport data from one computer to another is to write them onto magnetic tape or removable media (e.g., recordable DVDs), physically transport the tape or disks to the destination machine, and read them back in again.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Pro</th>
+      <th>Cons</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Bandwith</td>
+      <td>Transmission time</td>
+    </tr>
+  </tbody>
+</table>
+
+<p><span style="color:#A04279; font-size: bold;">Twisted Pairs</span>
+One of the oldest and still most common transmission media is twisted pair. It consists of two insulated copper wires. The wires are twisted together in a helical form, just like a DNA molecule. Twisting is done because two parallel wires constitute a fine antenna. When the wires are twisted, the waves from different twists cancel out, so the wire radiates less effectively. A signal is usually carried as the difference in voltage between the two wires in the pair. This provides better immunity to external noise because the noise tends to affect both wires the same, leaving the differential unchanged. The most common application of the twisted pair is the telephone system. The bandwidth depends on the thickness of the wire and the distance traveled, but several megabits/sec can be achieved for a few kilometers in many cases.
+Twisted-pair cabling comes in several varieties.</p>
+<ul>
+  <li><strong>Unshielded Twisted Pair (UTP)</strong>: UTP cables are not shielded. This entails a high degree of flexibility and resistance to efforts. They are widely used in ethernet networks.</li>
+</ul>
+<p align="center"><img src="https://image.ibb.co/nks4SG/Cavo_UTP_t.png" alt="perceptron" style="width: 40%; marker-top: -10px;" /></p>
+<ul>
+  <li><strong>Shielded Twisted Pair (STP)</strong>: STP cables include a metal shield for each pair of cables. An example is that defined by IBM for its <strong>token ring network</strong>, but also that of the ANSI / TIA / EIA-568-A of the CAT5 shielded cable and later.</li>
+</ul>
+<p align="center"><img src="https://image.ibb.co/fv9jSG/Cavo_STP_t.png" alt="perceptron" style="width: 40%; marker-top: -10px;" /></p>
+<ul>
+  <li><strong>Screened Shielded Twisted Pair (S/STP)</strong>: S/STP cables are STP cables further protected by a metal shield enclosing the entire cable; this further improves interference resistance. The latter must also be connected from both sides to the ground, to ensure greater protection against external waves.</li>
+</ul>
+<p align="center"><img src="https://image.ibb.co/drv2Ew/Cavo_S_STP_t.png" alt="perceptron" style="width: 40%; marker-top: -10px;" /></p>
+<ul>
+  <li><strong>Screened Unshielded Twisted Pair (S/UTP o FTP)</strong>: S/UTP, also known as Foiled Twisted Pair (FTP) or Screened Foiled Twisted Pair (S/FTP), is an externally shielded UTP cable.</li>
+</ul>
+<p align="center"><img src="https://image.ibb.co/buPJnG/Cavo_S_UTP_t.png" alt="perceptron" style="width: 40%; marker-top: -10px;" /></p>
+
+<p>This construction methods are tipically groubed in several categories (source: wikipedia):</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Typical construction</th>
+      <th>Bandwidth</th>
+      <th>Applications</th>
+      <th>Notes</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Level 1</td>
+      <td> </td>
+      <td>0.4 MHz</td>
+      <td>Telephone and modem lines</td>
+      <td>Not described in EIA/TIA recommendations. Unsuitable for modern systems.[9]</td>
+    </tr>
+    <tr>
+      <td>Level 2</td>
+      <td> </td>
+      <td>4 MHz</td>
+      <td>Older terminal systems, e.g. IBM 3270</td>
+      <td>Not described in EIA/TIA recommendations. Unsuitable for modern systems.[9]</td>
+    </tr>
+    <tr>
+      <td>Cat 3</td>
+      <td>UTP[10]</td>
+      <td>16 MHz[10]</td>
+      <td>10BASE-T and 100BASE-T4 Ethernet[10]</td>
+      <td>Described in EIA/TIA-568. Unsuitable for speeds above 16 Mbit/s. Now mainly for telephone cables[10]</td>
+    </tr>
+    <tr>
+      <td>Cat 4</td>
+      <td>UTP[10]</td>
+      <td>20 MHz[10]</td>
+      <td>16 Mbit/s[10] Token Ring</td>
+      <td>Not commonly used[10]</td>
+    </tr>
+    <tr>
+      <td>Cat 5</td>
+      <td>UTP[10]</td>
+      <td>100 MHz[10]</td>
+      <td>100BASE-TX &amp; 1000BASE-T Ethernet[10]</td>
+      <td>Common for current LANs. Superseded by Cat5e, but most Cat5 cable meets Cat5e standards.[10]</td>
+    </tr>
+    <tr>
+      <td>Cat 5e</td>
+      <td>UTP[10]</td>
+      <td>100 MHz[10]</td>
+      <td>100BASE-TX &amp; 1000BASE-T Ethernet[10]</td>
+      <td>Enhanced Cat5. Common for current LANs. Same construction as Cat5, but with better testing standards.[10]</td>
+    </tr>
+    <tr>
+      <td>Cat 6</td>
+      <td>UTP[10]</td>
+      <td>250 MHz[10]</td>
+      <td>10GBASE-T Ethernet</td>
+      <td>ISO/IEC 11801 2nd Ed. (2002), ANSI/TIA 568-B.2-1. Most commonly installed cable in Finland according to the 2002 standard EN 50173-1.</td>
+    </tr>
+    <tr>
+      <td>Cat 6A</td>
+      <td>F/UTP, U/FTP</td>
+      <td>500 MHz</td>
+      <td>10GBASE-T Ethernet</td>
+      <td>Adds cable shielding. ISO/IEC 11801 2nd Ed. Am. 2. (2008), ANSI/TIA-568-C.1 (2009)</td>
+    </tr>
+    <tr>
+      <td>Cat 7</td>
+      <td>S/FTP, F/FTP</td>
+      <td>600 MHz</td>
+      <td>10GBASE-T Ethernet or POTS/CATV/1000BASE-T over single cable</td>
+      <td>Fully shielded cable. ISO/IEC 11801 2nd Ed. (2002)</td>
+    </tr>
+    <tr>
+      <td>Cat 7A</td>
+      <td>S/FTP, F/FTP</td>
+      <td>1000 MHz</td>
+      <td>10GBASE-T Ethernet or POTS/CATV/1000BASE-T over single cable</td>
+      <td>Uses all four pairs. ISO/IEC 11801 2nd Ed. Am. 2. (2008)</td>
+    </tr>
+    <tr>
+      <td>Cat 8/8.1</td>
+      <td>F/UTP, U/FTP</td>
+      <td>1600–2000 MHz</td>
+      <td>40GBASE-T Ethernet or POTS/CATV/1000BASE-T over single cable</td>
+      <td>In development (ANSI/TIA-568-C.2-1, ISO/IEC 11801 3rd Ed.)</td>
+    </tr>
+    <tr>
+      <td>Cat 8.2</td>
+      <td>S/FTP, F/FTP</td>
+      <td>1600–2000 MHz</td>
+      <td>40GBASE-T Ethernet or POTS/CATV/1000BASE-T over single cable</td>
+      <td>In development (ISO/IEC 11801 3rd Ed.)</td>
+    </tr>
+  </tbody>
+</table>
+
+<p><span style="color:#A04279; font-size: bold;">Coaxial Cable</span>
+The coaxial cable has better shielding and greater bandwidth than unshielded twisted pairs, so it can span longer distances at higher speeds. Coaxial cables used to be widely used within the telephone system for long-distance lines but have now largely been replaced by fiber optics on longhaul routes.</p>
+
+<p align="center"><img src="https://image.ibb.co/gH6nGb/coaxial.png" alt="perceptron" style="width: 100%; marker-top: -10px;" /></p>
+
+<p><span style="color:#A04279; font-size: bold;">Power Lines</span>
+The use of power lines (electricity distribution) for data communication is an old idea. In recent years there has been renewed interest in high-rate communication over these lines, both inside the home as a LAN and outside the home for broadband Internet access. Using electrical wires inside the home is not so easy, because of appliances switch on and off and creating electrical noise, electrical properties of the wiring change from house to house: international standards are under development because many products use various proprietary standards for power-line networking, allowing transport to a few hundred megabits.</p>
+
+<p align="center"><img src="https://image.ibb.co/kwePCG/powerline.png" alt="perceptron" style="width: 80%; marker-top: -10px;" /></p>
+
+<p><span style="color:#A04279; font-size: bold;">Fiber Optics</span> 
+An optical transmission system has three key components: the light source, the transmission medium, and the detector. Conventionally, a pulse of light indicates a 1 bit and the absence of light indicates a 0 bit. The transmission medium is an ultra-thin fiber of glass. The detector generates an electrical pulse when light falls on it. By attaching a light source to one end of an optical fiber and a detector to the other, we have a unidirectional data transmission system that accepts an electrical signal, converts and transmits it by light pulses, and then reconverts the output to an electrical signal at the receiving end.</p>
+
+<p align="center"><img src="https://image.ibb.co/gRN1bb/fiber_t.png" alt="perceptron" style="width: 100%; marker-top: -10px;" /></p>
+
+<p>At the center is the glass core through which the light propagates. What happens inside the core? The light ray incident on the boundary above the critical angle will be reflected internally: this implies that many different rays will be bouncing around at different angles. Each ray is said to have a different mode, so a fiber having this property is called a <strong>multimode fiber</strong>. If the fiber’s diameter is reduced to a few wavelengths of light the fiber acts like a wave guide and the light can propagate only in a straight line, without bouncing, yielding a <strong>single-mode</strong> fiber. Single-mode fibers are more expensive but are widely used for longer distances.</p>
+
+<h4 id="wireless-transmission">Wireless Transmission</h4>
+<p>When electrons move, they create electromagnetic waves that can propagate through space. The number of oscillations per second of a wave is called frequency, <script type="math/tex">f</script>, and is measured in Hz. The distance between two consecutive maxima (or minima) is called the wavelength, which is universally designated by the Greek letter <script type="math/tex">\lambda</script>. The fundamental relation between <script type="math/tex">f</script>, <script type="math/tex">\lambda</script>, and <script type="math/tex">c</script> (in a vacuum) is:</p>
+
+<script type="math/tex; mode=display">\lambda * f = c</script>
+
+<p>The amount of information that a signal such as an electromagnetic wave can carry depends on the received power and is proportional to its bandwidth. Most transmissions use a relatively narrow frequency band. They concentrate their signals in this narrow band to use the spectrum efficiently and obtain reasonable data rates by transmitting with enough power.</p>
+
+<p align="center"><img src="https://image.ibb.co/gNWWsG/spectrum_t.png" alt="perceptron" style="width: 100%; marker-top: -10px;" /></p>
+
+<p>However, in some cases, a wider band is used, with three variations. In <strong>frequency hopping spread spectrum</strong>, the transmitter hops from frequency to frequency hundreds of times per second. It is popular for military communication because it makes transmissions hard to detect and next to impossible to jam. In <strong>direct sequence spread spectrum</strong> a code sequence is used to spread the data signal over a wider frequency band: this second method is used commercially as a spectrally efficient way to let multiple signals share the same frequency band. A third method of communication with a wider band is <strong>UWB</strong> (Ultra-WideBand) communication. <strong>UWB</strong> sends a series of rapid pulses, varying their positions to communicate information.</p>
+
+<p><span style="color:#A04279; font-size: bold;">Radio Transmission</span>
+Radio frequency (RF) waves are easy to generate, can travel long distances, and can penetrate buildings easily, so they are widely used for communication, both indoors and outdoors. Radio waves also are omnidirectional, meaning that they travel in all directions from the source, so the transmitter and receiver do not have to be carefully aligned physically.</p>
+
+<p><span style="color:#A04279; font-size: bold;">Microwave Transmission</span>
+Microwave communication is so widely used for long-distance telephone communication, mobile phones, television distribution, and other purposes that a severe shortage of spectrum has developed. It has several key advan- tages over fiber. The main one is that no right of way is needed to lay down cables. By buying a small plot of ground every 50 km and putting a microwave tower on it, one can bypass the telephone system entirely.</p>
+
+<p>Then there are also other media to transmit signals, such as satellites. However, I leave this topic to switch to digital modulation.</p>
+
+<h3 id="part-3-of-4---the-digital-modulation">Part 3 of 4 - The digital modulation</h3>
+<p>To send digital information, analog signals have to be transformed in such a way to represent bits. The process of converting between bits and signals that represent them is called digital modulation. There are two different schemes:</p>
+<ul>
+  <li><strong>baseband transmission schemes</strong> directly convert bits into a signal: the signal occupies frequencies from zero up to a maximum that depends on the signaling rate. It is common for wires;</li>
+  <li><strong>passband transmission schemes</strong> regulate the amplitude, phase, or frequency of a carrier signal to convey bits: the signal occupies a band of frequencies around the frequency of the carrier signal. It is common for wireless and optical channels for which the signals must reside in a given frequency band.</li>
+</ul>
+
+<p>Furthermore, channels are often shared by multiple signals because it is much more convenient. How can a medium be shared bewtween several channels? With <strong>multiplexing</strong>. There are several way of multiplexing: in particular you can separate the use of the medium using time, frequencies and or <em>codes</em>.</p>
+
+<h4 id="baseband-transmission">Baseband Transmission</h4>
+<p>The most straightforward form of digital modulation is to use a positive voltage to represent a 1 and a negative voltage to represent a 0 (this is actually a scheme, called Non-Return-to-Zero or NRZ, for short). There are many others, as shown in the figure.</p>
+
+<p align="center"><img src="https://image.ibb.co/c4pUew/lines_t.png" alt="perceptron" style="width: 100%; marker-top: -10px;" /></p>
+
+<p>All these schemes are called <strong>line codes</strong>. Different line codes help you with bandwidth efficiency, clock recovery, and balancing in different ways.</p>
+
+<h5 id="bandwidth-efficiency">Bandwidth efficiency</h5>
+<p>Look at the first (ok, the second) stream NRZ: the signal may cycle between the positive and negative levels up to every <script type="math/tex">2</script> bits (in the case of alternating 1s and 0s). Because of Nyquist, this means that we need a bandwidth of at least <script type="math/tex">B/2 \; Hz</script> when the bit rate is <script type="math/tex">B \; bits/sec</script>: to go faster, we need more bandwith and we already said it is often a limited resource. One strategy for using limited bandwidth more efficiently is to use more than two signaling levels. What do I mean? It’s simple: by using 4 different voltages, for instance, we can send 2 bits at once as a single symbol but… of course, the receiver needs to be sufficiently <em>strong</em> to distinguish the 4 levels of signal - considering also the noise. We call the <em>rate</em> at which the signal <em>changes</em> the <strong>symbol rate</strong> to distinguish it from the <strong>bit rate</strong>, that is the number of bits we transmit in time unit. This implies that</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>The bit rate is equal to symbol rate multiplied by the number of bits per symbol.
+</code></pre></div></div>
+
+<p>The symbol rate is more famous to the oldest as the <span style="color:#A04279; font-size: bold;">baud rate</span>. In any case, using higher baud rate permits you to use the bandwith more efficiently.</p>
+
+<p><strong>NOTE</strong>: the number of signal levels does not need to be a power of two. Often it is not, with some of the levels used for protecting against errors and simplifying the design of the receiver.</p>
+
+<h5 id="clock-recovery">Clock Recovery</h5>
+<p>NRZ sounds pretty cool but… there is a problem. For NRZ, and more in general for all schemes that encode bits into symbols, the receiver <strong>must</strong> know <em>when one symbol ends and the next symbol begins</em> to correctly decode the bits. Let’s take the NRZ: after a while it is hard to tell the bits apart, as 12 zeros look much like 13 or 11 zeros, unless you have a very accurate <strong>clock</strong>. However, creating a clock on the receiver is diffucult, because the bits (for sure, in modern network) are moved in milions for seconds (megabits) and over long path around the world: this would imply the clock to be super high, and it’s not doable. Someone thought to send the signal for the clock over a medium, by this would consume an entire line for sending data. What about data and clock combined togheter? This could actually work, and it is: this solution is called <strong>Manchester encoding</strong> and was used for classic Ethernet. The clock makes a clock transition in every bit time, so it runs at twice the bit rate. When it is XORed with the 0 level it makes a low-to-high transition that is simply the clock. This transition is a logical 0. When it is XORed with the 1 level it is inverted and makes a high-to- low transition. This transition is a logical 1.</p>
+
+<p>The cons is that Manchester encoding requires twice as much bandwidth as NRZ: to simplify the situation, it is possible to code a 1 as a transition and a 0 as no transition, or vice versa. This coding is called NRZI (Non-Return-to-Zero Inverted), a twist on NRZ, and it used by <strong>USB</strong> standard. However, if NZR has problems with long runs of 1s… NZRI, an inverted version of NRZ, has problems with long runs of 0s. In U.S. (T1 telephone lines) the problem was resolved by mapping small groups of bits to be transmitted using a code table called <strong>4B/5B</strong> (you can find the table of translation online). Every 4 bits are mapped into a5-bit patterns with a fixed translation table, with no more than three consecutive 0s. Eventullay, original patterns were XORed with pseudo-random seed (that also the receiver must know).</p>
+
+<h5 id="balanced-signals">Balanced Signals</h5>
+<p>Signals that have as much positive voltage as negative voltage even over short periods of time are called balanced signals. Without go in depth with maths and religious details, a straightforward way to construct a balanced code is to use two voltage levels to represent a logical 1, (say +1 V or −1 V) with 0 V representing a logical zero. To send a 1, the transmitter alternates between the +1 V and −1 V levels so that they always average out. This scheme is called bipolar encoding or AMI Alternate Mark Inversion.</p>
+
+<h4 id="passband-transmission">Passband Transmission</h4>
+<p>Both for regulatory constraints (which frequencies you can use) and the need to avoid interference, specially for wireless (antenna dimensions are related to frequencies transmission) but even for wires, placing a signal in a given frequency band is useful to let different kinds of signals coexist on the channel. This kind of transmission is called passband transmission because an arbitrary band of frequencies is used to pass the signal. There are several ways to make a passband transmission.</p>
+<ul>
+  <li><strong>Amplitude Shift Keying</strong> (ASK): two different amplitudes are used to represent 0 and 1: further, more than two levels can be used to represent more symbols (change <script type="math/tex">\lambda</script>);</li>
+  <li><strong>Frequency Shift Keying</strong> (FSK): two or more different tones are used (change <script type="math/tex">f</script>, high frequency low frequency);</li>
+  <li><strong>Phase Shift Keying</strong> (PSK): the wave is systematically shifted 0 or 180 degrees at each symbol period;</li>
+</ul>
+
+<p>These schemes all change one <em>natural</em> characteristic of a fixed signal: maybe could be used together to transmit more bits per symbol (increasing the baud rate). This is exactly what happened whit <strong>costellation diagram</strong>. This are made of dots used to combine all togheter the methods described (QPSK): imagine cartesian plane, the phase of a dot is indicated by the angle a line from it to the origin makes with the positive x-axis. The amplitude of a dot is the distance from the origin.</p>
+
+<h5 id="why-multiplexing-for-real">Why multiplexing (for real)</h5>
+<p>This kind of multiplexing tricks I exposed have been developed by bad companies (I mean, all companies) to share lines among many signals. But…how? Of course, in several original, save-money ways. The first is the simplest one: it is called <strong>Frequency Division Multiplexing</strong> or FDM and takes advantage of passband transmission to share a channel. It divides the spectrum into frequency bands, with each user having exclusive possession of some band in which to send their signal. At the same time, users share the medium in a particular band. Another way is called Time Division Multiplexing, or TDM: have you already got it? The users take turns (in a <em>round-robin</em><sup id="fnref:rr"><a href="#fn:rr" class="footnote">2</a></sup> fashion), each one periodically getting the entire bandwidth for a little burst of time. There is also a statistical variation (STDM) in which the individual streams contribute to the multiplexed stream not on a fixed schedule, but according to the statistics of their demand.</p>
+
+<p><span style="color:#A04279; font-size: bold;">CDMA</span>
+There is also a third variation called <strong>CDMA</strong> (Code Division Multiple Access). I didn’t understand how it works, but I found interesting this analogy, directly from Computer Networks: you are in an airport lounge with many pairs of people conversing. <strong>TDM</strong> is comparable to pairs of people in the room taking turns speaking. <strong>FDM</strong> is comparable to the pairs of people speaking at different pitches, some high-pitched and some low-pitched such that each pair can hold its own conversation at the same time as but independently of the others. <strong>CDMA</strong> is comparable to each pair of people talking at once, but in a different language. The French-speaking couple just hones in on the French, rejecting everything that is not French as noise. Thus, the key to <strong>CDMA</strong> is to be able to extract the desired signal while rejecting everything else as random noise. How it works?</p>
+
+<p>Each bit time is subdivided into m short intervals called chips. To transmit a 1 bit, a station sends its chip sequence. To transmit a 0 bit, it sends the negation of its chip sequence. No other patterns are permitted. Thus, for m = 8, if station A is assigned the chip sequence (+1 −1 +1 +1 -1 −1 +1 +1), it can send a 1 bit by transmiting the chip sequence and a 0 by transmitting (-1 +1 -1 −1 +1 +1 −1 −1). Thus, CDMA permits the stations to use the entire channels, without using only a single portion of the frequency spectrum (as FDM does). Wait a minute: what does it happen when more than one station begin to transmit? The signals adds to each others: so if three stations output +1 V and one station outputs −1 V, 2 V is received. To recover the bit stream of an individual station, if the received chip sequence is <script type="math/tex">S</script> and the receiver is trying to listen to a station whose chip sequence is <script type="math/tex">C</script>, the normalized inner product, <script type="math/tex">S \cdot C</script>, is computed by the receiver.</p>
+
+<h3 id="part-4-of-4---the-dark-side-of-multiplexing">Part 4 of 4 - The dark side of multiplexing</h3>
+<p>If you are still alive and you arrived here without becoming crazy, you certainly know the story of telephone. Bell, in the beginning a few phones, then offices, with operators that manually switch cables, etc. But the number of users continued growing and, in the end, by 1890 the three major parts of the telephone system were in place: the switching offices, the wires between the customers and the switching offices (by now balanced, insulated, twisted pairs instead of open wires with an earth return), and the long-distance connections between the switching offices.</p>
+
+<h4 id="the-bell-telephone-model">The Bell telephone model</h4>
+<p>This model has remained essentially intact for over 100 years. A simple description follow.</p>
+<ul>
+  <li>each telephone has two copper wires coming out of it that go directly to the telephone company’s nearest end office called <strong>local central office</strong>[^^lcod];</li>
+  <li>the two-wire connections between each subscriber’s telephone and the end office are known in the trade as the <strong>local loop</strong>.</li>
+</ul>
+
+<p>If a user <script type="math/tex">U_a</script> attached to a given <strong>end office</strong> <script type="math/tex">O_1</script> calls another user <script type="math/tex">U_b</script> attached to <script type="math/tex">O_1</script>, the switching mechanism of the office sets up a <strong>direct electrical connection</strong> between the two <strong>local loops</strong>. This connection remains intact for the duration of the call.
+If the <script type="math/tex">U_b</script>’s telephone is attached to another <strong>end office</strong> <script type="math/tex">O_2</script>, there’s a different procedure: each end office has a number of <strong>outgoing lines</strong> to one or more nearby switching centers, called <strong>toll offices</strong> (or, if they are within the same local area, tandem offices).</p>
+
+<p>The cables that connect end office to toll office are colled <strong>toll connecting trunks</strong>: topology of these offices and disposition change from country to country. The toll offices communicate with each other via high-bandwidth <strong>intertoll trunks</strong> and. Even today, the telephone system consists of:</p>
+<ul>
+  <li>Local loops (analog twisted pairs going to houses and businesses);</li>
+  <li>Trunks (digital fiber optic links connecting the switching offices);</li>
+  <li>Switching offices (where calls are moved from one trunk to another);
+The local loops are critical because provide everyone access to the whole system. Over trunks multiplexing is used to apply <strong>FDM</strong> and <strong>TDM</strong> to do it. How is it possible to switch? If you want to know more about this argument, search for LATAs, LEC and IXC.</li>
+</ul>
+
+<p>##### A deep dive in local loop: Modems, ADSL, and Fiber aka <em>how the telephone system really works</em>
+The two-wire local loop, also know as the “last mile” between the end office and the houses. In the beginning of the Internet era for customers (of my generation, I mean XD) telephone modems sent digital data between computers over the narrow channel the telephone network provides for a voice call. After a while, they were displaced by broadband technologies (such as ADSL) that reuse the local loop to send digital data from a customer to the end office, where they are siphoned off to the Internet. Both modems and ADSL must deal with the limitations of old local loops: relatively narrow bandwidth. If you want to know more about the evolution of QPSK, <em>constellation points</em>, the table to correct errors used to gain speed in transfer rate (have a look at Trellis Coded Modulation), look at the sources. Let’s move one step forward to ADSL, without entering in the details of modem evolution history.</p>
+
+<h5 id="adsl">ADSL</h5>
+<p>The xDSL services have all been designed with certain goals in mind:</p>
+<ul>
+  <li>work over the existing old Category 3 twisted pair local loops;</li>
+  <li>not affect customers’ existing telephones and fax machines;</li>
+  <li>be much faster than 56 kbps;</li>
+  <li>should be always on, with just a monthly charge and no per-minute charge;</li>
+</ul>
+
+<p>The trick that makes xDSL (Asymmetric DSL is the most popular, but there are many of them) work is that when a customer subscribes to it, the incoming line is connected to a different kind of switch, one that does not have the filter imposed in the end office for voice lines, thus making the entire capacity of the local loop available. The limiting factor then becomes the physics of the local loop - which supports roughly 1 MHz - and not anymore the artificial 3100 <script type="math/tex">Hz</script> bandwidth created by the filter at the point where each local loop terminates in the end office.
+Unfortunately, the capacity of the local loop falls rather quickly with distance from the end office as the signal is increasingly degraded along the wire. ADSL use OFDM (also called DMT): this is a sort of FDM applied to digital transmission: pratically, each subcarriers’ signal is packed with the others. It is implemented using a Fourier transform over the signal. One channel is used for the telephone, the others for downstream and upstream with different numbers.</p>
+
+<p>##### Fiber To The Home
+Th fibers from several houses (up to 100) are joined together so that only a single fiber reaches the end office per group. In the downstream direction, optical splitters divide the signal (encrypted) from the end office so that it reaches all the houses. In the upstream direction, optical combiners merge the signals from the houses into a single signal that is received at the end office. This architecture is called a Passive Optical Network or PON. Downstream is simple: upstream is not. The houses ask for a time slots at the end office to send signal. Both TDM and FDM are used for fiber optics: the TDM is called SONET, the FDM is called wavelength division multiplexing or WDM. For more details look at the sources.</p>
+
+<h4 id="switching">Switching</h4>
+<p>There are two types of switching.</p>
+
+<p><span style="color:#A04279; font-size: bold;">Circuit Switching</span>
+The basic idea is that pnce a call has been set up, a dedicated path between both ends exists and will continue to exist until the call is finished. The elapsed time between the end of dialing and the start of ringing can easily be 10 sec, more on long-distance or international calls. During this time interval, the telephone system is hunting for a path.</p>
+
+<p><span style="color:#A04279; font-size: bold;">Packet Switching</span>
+With this technology, packets are sent as soon as they are available. There is no need to set up a dedicated path in advance. It is up to routers to use store-and-forward transmission to send each packet on its way to the destination on its own: of course packets can arrive out of order. Further, because no bandwidth is reserved with packet switching, packets may have to wait to be forwarded.</p>
+
+<h3 id="conclusion">Conclusion</h3>
+<p>In the book of Tanenbaum, before the chapter about the datalink layer, many more details on the telephone and television lines are still exposed. However, for my purposes I would like to concentrate more on levels related to the development of applications and maintenance of IT infrastructures. However, I hope this second post helps you in forming a general idea and have trust about the functioning of the physical level, on which so much time has been spent and there would be so much to be said yet!</p>
+
+<p>Thank you everybody for reading. For those who missed the introduction, <a href="https://made2591.github.io/posts/network-layers-0">here</a> the link.</p>
+
+<div class="footnotes">
+  <ol>
+    <li id="fn:sf">
+      <p>In mathematics, physics and engineering, <script type="math/tex">sinc(x)</script> denotes the cardinal sine function or <a href="https://en.wikipedia.org/wiki/Sinc_function">sync function</a>&nbsp;<a href="#fnref:sf" class="reversefootnote">&#8617;</a></p>
+    </li>
+    <li id="fn:rr">
+      <p>In science, always <a href="https://en.wikipedia.org/wiki/Round-robin">here</a>&nbsp;<a href="#fnref:rr" class="reversefootnote">&#8617;</a></p>
+    </li>
+  </ol>
+</div>
+
+
+<div class="comments">
+   <div id="disqus_thread"></div>
+    <script type="text/javascript">
+        /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+        var disqus_shortname = 'made2591';
+
+        /* * * DON'T EDIT BELOW THIS LINE * * */
+        (function() {
+            var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    <a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+    
+
+</div>
+
+<hr/>
+
+
+  
+    <div class="post-navs row">
+      
+        <div class="col-md-6 post-nav">
+
+          <h3 class="section-header">
+            Older
+            <span class="text-muted"> &middot; </span>
+            <a href="/archive">View Archive (35)</a>
+          </h3>
+
+          <h2 class="post-title-link"><a href="/posts/textual-game">My first textual game</a></h2>
+          <h3 id="a-beautiful-childhood">A beautiful childhood</h3>
+<p>I’ve never been a fan of videogames, neither as a child nor today: do not get me wrong, as many guys of my generation I also owned and played with the legendary <strong>PlayStation 1</strong> (1995)<sup id="fnref:p1"><a href="#fn:p1" class="footnote">1</a></sup> and <strong>PlayStation 2</strong><sup id="fnref:p2"><a href="#fn:p2" class="footnote">2</a></sup> by Sony and the <strong>Nintendo Game Boy</strong><sup id="fnref:gb"><a href="#fn:gb" class="footnote">3</a></sup>. It was fun, but not so much as playing to videogames born a few years before I was born. 
+In the 80s, there were not yet the powerful graphics chips that today can be found with a few hundred euros. How did the videogames work? It’s simple: without graphics. There were many <em>textual games</em> and in my opinion, for many vintage lovers, they would still be cool today. My generation has lost this advantage of literaly <em>building with fantasy the world around a game</em>. So, some days ago I found my self thinking back to Sheldoon Cooper that plays with the game Dungeon in the Big Bang Theory<sup id="fnref:bbt"><a href="#fn:bbt" class="footnote">4</a></sup>, or to the kids of <em>Stranger Things</em> by Netflix, or to my father, to whom I gave an original <em>Playstation 1</em> with the first TombRaider(s), and I asked myself <em>how it would be possible today to play again one of those text games</em> that were so popular in that decade…to the point of deciding to create one of my own.</p>
+
+<div class="footnotes">
+  <ol>
+    <li id="fn:p1">
+      <p>Yes, it’s incredible. Playstation 1 goes back to 90s. The console was released on 3 December 1994 in Japan, 9 September 1995 in North America, 29 September 1995 in Europe, and for 15 November 1995 in Australia - <a href="https://en.wikipedia.org/wiki/PlayStation_(console)">source and more</a>&nbsp;<a href="#fnref:p1" class="reversefootnote">&#8617;</a></p>
+    </li>
+    <li id="fn:p2">
+      <p>The Playstation 2 belongs to millennials OMG - <a href="https://en.wikipedia.org/wiki/PlayStation_2">source and more</a>&nbsp;<a href="#fnref:p2" class="reversefootnote">&#8617;</a></p>
+    </li>
+    <li id="fn:gb">
+      <p>The first version of Game Boy is older than PS1 - <a href="https://en.wikipedia.org/wiki/Game_Boy">source and more</a>&nbsp;<a href="#fnref:gb" class="reversefootnote">&#8617;</a></p>
+    </li>
+    <li id="fn:bbt">
+      <p>The Big Bang Theory, <a href="http://www.imdb.com/title/tt1632243/">The Irish Pub Formulation</a>, Season 4 Episode 6&nbsp;<a href="#fnref:bbt" class="reversefootnote">&#8617;</a></p>
+    </li>
+  </ol>
+</div>
+
+        </div>
+      
+      
+
+        <div class="col-md-6 post-nav">
+          <h3 class="section-header">
+            Newer
+            
+          </h3>
+
+          <h2 class="post-title-link"><a href="/posts/jails">Jails: confining the omnipotent root</a></h2>
+          <h3 id="preamble">Preamble</h3>
+<p>Recently I became nostalgic and fascinated with stuff from the past, so I decided to create a <a href="https://github.com/made2591/vagrant-freebsd">Vagrantfile</a> to work with FreeBSD<sup id="fnref:fbsd"><a href="#fn:fbsd" class="footnote">1</a></sup>. Why FreeBSD? Because as a developer, I really like Docker and I started looking in the past to find its <em>historical</em> birth: in fact, as a concept, Docker is no so recent as you think, and I think it exists also because of the works of some other bigs from 80’, such as Poul-Henning Kamp<sup id="fnref:phk"><a href="#fn:phk" class="footnote">2</a></sup>. Starting from <a href="http://phk.freebsd.dk/pubs/sane2000-jail.pdf">its work</a> and using a FreeBSD installation I did some experiments with jails, to understand better what they really are, how they works - how can you create what it will look like a <em>vintage container</em> - and why you should use them in a FreeBSD environment - at least, to learn something new.</p>
+
+<div class="footnotes">
+  <ol>
+    <li id="fn:fbsd">
+      <p><a href="https://www.freebsd.org/it/">https://www.freebsd.org/it/</a>&nbsp;<a href="#fnref:fbsd" class="reversefootnote">&#8617;</a></p>
+    </li>
+    <li id="fn:phk">
+      <p><a href="https://en.wikipedia.org/wiki/Poul-Henning_Kamp">Poul-Henning Kamp</a>&nbsp;<a href="#fnref:phk" class="reversefootnote">&#8617;</a></p>
+    </li>
+  </ol>
+</div>
+
+        </div>
+      
+    </div>
+  
+
+
+
+          <div id="footer">
+<hr/>
+  <div class="pull-left">
+    &copy;2019.
+    Built with <a href="http://jekyllrb.com/">Jekyll</a> and
+    <a href="https://github.com/kirqe/autm-rb">Autm-rb</a>. Thanks to <a href="https://github.com/kirqe">kirqe</a>.
+  </div>
+
+  <div class="pull-right">
+    <span class="credits pull-right social">
+      
+        
+          <a href="https://github.com/made2591/" target="_blank"><i class="fa fa-github"></i></a>
+        
+      
+        
+          <a href="https://twitter.com/made2591" target="_blank"><i class="fa fa-twitter"></i></a>
+        
+      
+        
+          <a href="https://linkedin.com/in/mmadeddu" target="_blank"><i class="fa fa-linkedin"></i></a>
+        
+      
+        
+          <a href="https://www.facebook.com/matteo.madeddu" target="_blank"><i class="fa fa-facebook"></i></a>
+        
+      
+    </span>
+  </div>
+</div>
+
+        </section>
+    </div>
+    </div>
+    <script src="/public/javascripts/jquery.min.js"></script>
+    <script src="/public/javascripts/bootstrap.min.js"></script>
+    <!-- Place your <script> tags here. -->
+
+<script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript"></script>
+
+<script id="dsq-count-scr" src="//made2591-github-io.disqus.com/count.js" async></script>
+
+<!-- disqus comment counter -->
+<script type="text/javascript">
+	/* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+    var disqus_shortname = 'made2591-github-io';
+
+	/* * * DON'T EDIT BELOW THIS LINE * * */
+	(function () {
+	    var s = document.createElement('script'); s.async = true;
+	    s.type = 'text/javascript';
+	    s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+	    (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+	}());
+</script>
+<!-- /disqus comment counter -->
+
+<!-- google analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-111283556-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-111283556-1');
+</script>
+<!-- /google analytics -->
+
+  </body>
+</html>

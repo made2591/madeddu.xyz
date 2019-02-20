@@ -1,0 +1,552 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <!-- Google Tag Manager -->
+    <!--<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','GTM-M8WBXH7');</script>-->
+    <!-- End Google Tag Manager -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,300,700' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href=/public/stylesheets/bs.css?random=@Environment.TickCount>
+    <link rel="stylesheet" href=/public/stylesheets/styles.css?random=@Environment.TickCount>
+    <link rel="stylesheet" href=/public/stylesheets/pygment_trac.css?random=@Environment.TickCount>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css">
+    <link rel="canonical" href="made2591.github.io/posts/goa-docker-multistage">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+      <link rel="icon" type="image/x-icon"  href="/favicon.ico" />
+    <title>Golang, Docker and multistage build | Matteo Madeddu</title>
+    <!--[if lt IE 9]>
+
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+  </head>
+  <body>
+    <!-- Google Tag Manager (noscript) -->
+    <!--<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-M8WBXH7"
+    height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+    <!-- End Google Tag Manager (noscript) -->
+    <div class="wrapper">
+        <section>
+          <div id="header">
+  <h1>
+    <a id="sitename" href="">Matteo Madeddu</a>
+  </h1>
+
+  <!-- Add something about you in p tag-->
+  <p>Mac OS lover, Docker fan, Go explorer, Python geek, Trello addicted.</p>
+  <hr/>
+
+  <span class="credits pull-left">
+    
+      <a href="/">Home</a>  | 
+    
+      <a href="/blog">Blog</a>  | 
+    
+      <a href="/archive">Archive</a>  | 
+    
+      <a href="/about">About</a>  | 
+    
+      <a href="/matteo_madeddu_cv.pdf">Resume</a>  | 
+    
+      <a href="/quotes">Quotes</a> 
+    
+  </span>
+
+  <span class="credits pull-right social">
+    
+      
+        <a href="https://github.com/made2591/" target="_blank"><i class="fa fa-github"></i></a>
+      
+    
+      
+        <a href="https://twitter.com/made2591" target="_blank"><i class="fa fa-twitter"></i></a>
+      
+    
+      
+        <a href="https://linkedin.com/in/mmadeddu" target="_blank"><i class="fa fa-linkedin"></i></a>
+      
+    
+      
+        <a href="https://www.facebook.com/matteo.madeddu" target="_blank"><i class="fa fa-facebook"></i></a>
+      
+    
+  </span>
+
+
+</div>
+
+
+          <div class="post-title">
+    <h1>Golang, Docker and multistage build</h1>
+    <p class="text-muted">
+    
+
+
+    18 Dec 2017
+    
+     | <i class="fa fa-comment"></i> <a class="text-muted" href="/posts/goa-docker-multistage/#disqus_thread"></a>
+    
+
+    
+      | <i class="fa fa-tag"></i>
+      
+        <a class="text-muted" href="/tags/#coding ">coding</a>,
+      
+        <a class="text-muted" href="/tags/#golang ">golang</a>,
+      
+        <a class="text-muted" href="/tags/#docker ">docker</a>,
+      
+        <a class="text-muted" href="/tags/#goa ">goa</a>,
+      
+        <a class="text-muted" href="/tags/#api ">api</a>,
+      
+        <a class="text-muted" href="/tags/#rest ">rest</a>
+      
+    
+  </p>
+</div>
+
+  <h3 id="recipe-for-a-good-meal">Recipe for a good meal</h3>
+<p>A few months ago I started working with Golang to a <em>proof-of-concept</em> project using the amazing <a href="https://goa.design/">goa</a>
+package (thank you <a href="https://github.com/atosatto">atosatto</a> for your advise): I omit the praise, I would only say that - <em>imho</em> - Golang it’s a very funny language to use for many reasons (stay tuned, I will write about Golang and my favourite packages). However, in this post I want to share a little piece of my experience about this project: the main ingredients for this recipe are Golang (in particular the goa package) and Docker - with some piece of Angular 4, nginx, and minor stuff. I excluded the storage part so the two elements of the <em>boilerplate</em> I will talk about live in separate container - you can of course orchestrate with k8… ok, whatever you want :P</p>
+<ul>
+  <li>api-container:
+    <ul>
+      <li>[goa.design], a Golang package to build restful api (just a few notes),</li>
+    </ul>
+  </li>
+  <li>web-container:
+    <ul>
+      <li>[Angular 4], the popular framework to build cool frontend (just a few notes),</li>
+      <li>[nginx], a simple container webserver to handle request request from fe,</li>
+    </ul>
+  </li>
+</ul>
+
+<p>If you want to find out how to start building with these tools, this is the right place for you!</p>
+
+<p align="center"><img src="https://www.gopherguides.com/assets/images/logos/logo.svg" style="width: 70%; marker-top: -10px;" /></p>
+
+<h4 id="goadesign">goa.design</h4>
+<p>goa is a <em>holistic approach for building microservices</em> in Golang (cit). I don’t want to go through all the features of the packages, you can read a <em>quite</em> complete <a href="https://goa.design/design/overview/">overview</a> of the project in the official site. What goa actually offers is a good starting point if you want to <em>design</em> your microservices without losing time in the construction of the outline logic and focusing mainly on the definition of resources, actions and media types. Look at some piece of code from the <a href="https://github.com/goadesign/goa-cellar">goa-cellar</a> example:</p>
+
+<figure class="highlight"><pre><code class="language-golang" data-lang="golang"><span class="k">package</span><span class="x"> </span><span class="n">design</span><span class="x">
+
+</span><span class="k">import</span><span class="x"> </span><span class="p">(</span><span class="x">
+	</span><span class="o">.</span><span class="x"> </span><span class="s">"github.com/goadesign/goa/design"</span><span class="x">
+	</span><span class="o">.</span><span class="x"> </span><span class="s">"github.com/goadesign/goa/design/apidsl"</span><span class="x">
+</span><span class="p">)</span><span class="x">
+
+</span><span class="c">// This is the cellar application API design used by goa to generate</span><span class="x">
+</span><span class="c">// the application code, client, tests, documentation etc.</span><span class="x">
+</span><span class="k">var</span><span class="x"> </span><span class="n">_</span><span class="x"> </span><span class="o">=</span><span class="x"> </span><span class="n">API</span><span class="p">(</span><span class="s">"MyPorh"</span><span class="p">,</span><span class="x"> </span><span class="k">func</span><span class="p">()</span><span class="x"> </span><span class="p">{</span><span class="x">
+	</span><span class="n">Title</span><span class="p">(</span><span class="s">"The virtual wine cellar"</span><span class="p">)</span><span class="x">
+	</span><span class="n">Description</span><span class="p">(</span><span class="s">"A basic example of a CRUD API implemented with goa"</span><span class="p">)</span><span class="x">
+	</span><span class="n">Contact</span><span class="p">(</span><span class="k">func</span><span class="p">()</span><span class="x"> </span><span class="p">{</span><span class="x">
+		</span><span class="n">Name</span><span class="p">(</span><span class="s">"goa team"</span><span class="p">)</span><span class="x">
+		</span><span class="n">Email</span><span class="p">(</span><span class="s">"admin@goa.design"</span><span class="p">)</span><span class="x">
+		</span><span class="n">URL</span><span class="p">(</span><span class="s">"http://goa.design"</span><span class="p">)</span><span class="x">
+	</span><span class="p">})</span><span class="x">
+	</span><span class="n">License</span><span class="p">(</span><span class="k">func</span><span class="p">()</span><span class="x"> </span><span class="p">{</span><span class="x">
+		</span><span class="n">Name</span><span class="p">(</span><span class="s">"MIT"</span><span class="p">)</span><span class="x">
+		</span><span class="n">URL</span><span class="p">(</span><span class="s">"https://github.com/goadesign/goa/blob/master/LICENSE"</span><span class="p">)</span><span class="x">
+	</span><span class="p">})</span><span class="x">
+	</span><span class="n">Docs</span><span class="p">(</span><span class="k">func</span><span class="p">()</span><span class="x"> </span><span class="p">{</span><span class="x">
+		</span><span class="n">Description</span><span class="p">(</span><span class="s">"goa guide"</span><span class="p">)</span><span class="x">
+		</span><span class="n">URL</span><span class="p">(</span><span class="s">"http://goa.design/getting-started.html"</span><span class="p">)</span><span class="x">
+	</span><span class="p">})</span><span class="x">
+	</span><span class="n">Host</span><span class="p">(</span><span class="s">"localhost:8081"</span><span class="p">)</span><span class="x">
+	</span><span class="n">Scheme</span><span class="p">(</span><span class="s">"http"</span><span class="p">)</span><span class="x">
+	</span><span class="n">BasePath</span><span class="p">(</span><span class="s">"/cellar"</span><span class="p">)</span><span class="x">
+
+	</span><span class="n">Origin</span><span class="p">(</span><span class="s">"http://swagger.goa.design"</span><span class="p">,</span><span class="x"> </span><span class="k">func</span><span class="p">()</span><span class="x"> </span><span class="p">{</span><span class="x">
+		</span><span class="n">Methods</span><span class="p">(</span><span class="s">"GET"</span><span class="p">,</span><span class="x"> </span><span class="s">"POST"</span><span class="p">,</span><span class="x"> </span><span class="s">"PUT"</span><span class="p">,</span><span class="x"> </span><span class="s">"PATCH"</span><span class="p">,</span><span class="x"> </span><span class="s">"DELETE"</span><span class="p">)</span><span class="x">
+		</span><span class="n">MaxAge</span><span class="p">(</span><span class="m">600</span><span class="p">)</span><span class="x">
+		</span><span class="n">Credentials</span><span class="p">()</span><span class="x">
+	</span><span class="p">})</span><span class="x">
+
+	</span><span class="n">ResponseTemplate</span><span class="p">(</span><span class="n">Created</span><span class="p">,</span><span class="x"> </span><span class="k">func</span><span class="p">(</span><span class="n">pattern</span><span class="x"> </span><span class="kt">string</span><span class="p">)</span><span class="x"> </span><span class="p">{</span><span class="x">
+		</span><span class="n">Description</span><span class="p">(</span><span class="s">"Resource created"</span><span class="p">)</span><span class="x">
+		</span><span class="n">Status</span><span class="p">(</span><span class="m">201</span><span class="p">)</span><span class="x">
+		</span><span class="n">Headers</span><span class="p">(</span><span class="k">func</span><span class="p">()</span><span class="x"> </span><span class="p">{</span><span class="x">
+			</span><span class="n">Header</span><span class="p">(</span><span class="s">"Location"</span><span class="p">,</span><span class="x"> </span><span class="n">String</span><span class="p">,</span><span class="x"> </span><span class="s">"href to created resource"</span><span class="p">,</span><span class="x"> </span><span class="k">func</span><span class="p">()</span><span class="x"> </span><span class="p">{</span><span class="x">
+				</span><span class="n">Pattern</span><span class="p">(</span><span class="n">pattern</span><span class="p">)</span><span class="x">
+			</span><span class="p">})</span><span class="x">
+		</span><span class="p">})</span><span class="x">
+	</span><span class="p">})</span><span class="x">
+</span><span class="p">})</span></code></pre></figure>
+
+<p>The goa <em>design language</em> consists of <em>functions</em> defined to describe <em>definitions</em>. The goa design language root definition is the API definition. The goa API design language is a <code class="highlighter-rouge">DSL</code> <em>implemented</em> in Go and is not Go: it makes use of <em>anonymous</em> functions to describe the various definitions. In the example above the API function accepts the name of the API as first argument and an anonymous function as second argument. This anonymous function defines additional properties of the API: the pattern (name + DSL) is used by many other DSL functions. Let’s move one step forward, introducing <code class="highlighter-rouge">Resource</code>.</p>
+
+<figure class="highlight"><pre><code class="language-golang" data-lang="golang"><span class="k">var</span><span class="x"> </span><span class="n">_</span><span class="x"> </span><span class="o">=</span><span class="x"> </span><span class="n">Resource</span><span class="p">(</span><span class="s">"account"</span><span class="p">,</span><span class="x"> </span><span class="k">func</span><span class="p">()</span><span class="x"> </span><span class="p">{</span><span class="x">
+
+	</span><span class="n">DefaultMedia</span><span class="p">(</span><span class="n">Account</span><span class="p">)</span><span class="x">
+	</span><span class="n">BasePath</span><span class="p">(</span><span class="s">"/accounts"</span><span class="p">)</span><span class="x">
+
+	</span><span class="n">Action</span><span class="p">(</span><span class="s">"list"</span><span class="p">,</span><span class="x"> </span><span class="k">func</span><span class="p">()</span><span class="x"> </span><span class="p">{</span><span class="x">
+		</span><span class="n">Routing</span><span class="p">(</span><span class="x">
+			</span><span class="n">GET</span><span class="p">(</span><span class="s">""</span><span class="p">),</span><span class="x">
+		</span><span class="p">)</span><span class="x">
+		</span><span class="n">Description</span><span class="p">(</span><span class="s">"Retrieve all accounts."</span><span class="p">)</span><span class="x">
+		</span><span class="n">Response</span><span class="p">(</span><span class="n">OK</span><span class="p">,</span><span class="x"> </span><span class="n">CollectionOf</span><span class="p">(</span><span class="n">Account</span><span class="p">))</span><span class="x">
+	</span><span class="p">})</span><span class="x">
+
+	</span><span class="n">Action</span><span class="p">(</span><span class="s">"show"</span><span class="p">,</span><span class="x"> </span><span class="k">func</span><span class="p">()</span><span class="x"> </span><span class="p">{</span><span class="x">
+		</span><span class="n">Routing</span><span class="p">(</span><span class="x">
+			</span><span class="n">GET</span><span class="p">(</span><span class="s">"/:accountID"</span><span class="p">),</span><span class="x">
+		</span><span class="p">)</span><span class="x">
+		</span><span class="n">Description</span><span class="p">(</span><span class="s">"Retrieve account with given id. IDs 1 and 2 pre-exist in the system."</span><span class="p">)</span><span class="x">
+		</span><span class="n">Params</span><span class="p">(</span><span class="k">func</span><span class="p">()</span><span class="x"> </span><span class="p">{</span><span class="x">
+			</span><span class="n">Param</span><span class="p">(</span><span class="s">"accountID"</span><span class="p">,</span><span class="x"> </span><span class="n">Integer</span><span class="p">,</span><span class="x"> </span><span class="s">"Account ID"</span><span class="p">,</span><span class="x"> </span><span class="k">func</span><span class="p">()</span><span class="x"> </span><span class="p">{</span><span class="x">
+				</span><span class="n">Minimum</span><span class="p">(</span><span class="m">1</span><span class="p">)</span><span class="x">
+			</span><span class="p">})</span><span class="x">
+		</span><span class="p">})</span><span class="x">
+		</span><span class="n">Response</span><span class="p">(</span><span class="n">OK</span><span class="p">)</span><span class="x">
+		</span><span class="n">Response</span><span class="p">(</span><span class="n">NotFound</span><span class="p">)</span><span class="x">
+		</span><span class="n">Response</span><span class="p">(</span><span class="n">BadRequest</span><span class="p">,</span><span class="x"> </span><span class="n">ErrorMedia</span><span class="p">)</span><span class="x">
+	</span><span class="p">})</span><span class="x">
+
+	</span><span class="n">Action</span><span class="p">(</span><span class="s">"create"</span><span class="p">,</span><span class="x"> </span><span class="k">func</span><span class="p">()</span><span class="x"> </span><span class="p">{</span><span class="x">
+		</span><span class="n">Routing</span><span class="p">(</span><span class="x">
+			</span><span class="n">POST</span><span class="p">(</span><span class="s">""</span><span class="p">),</span><span class="x">
+		</span><span class="p">)</span><span class="x">
+		</span><span class="n">Description</span><span class="p">(</span><span class="s">"Create new account"</span><span class="p">)</span><span class="x">
+		</span><span class="n">Payload</span><span class="p">(</span><span class="k">func</span><span class="p">()</span><span class="x"> </span><span class="p">{</span><span class="x">
+			</span><span class="n">Member</span><span class="p">(</span><span class="s">"name"</span><span class="p">)</span><span class="x">
+			</span><span class="n">Required</span><span class="p">(</span><span class="s">"name"</span><span class="p">)</span><span class="x">
+		</span><span class="p">})</span><span class="x">
+		</span><span class="n">Response</span><span class="p">(</span><span class="n">Created</span><span class="p">,</span><span class="x"> </span><span class="s">"/accounts/[0-9]+"</span><span class="p">)</span><span class="x">
+		</span><span class="n">Response</span><span class="p">(</span><span class="n">BadRequest</span><span class="p">,</span><span class="x"> </span><span class="n">ErrorMedia</span><span class="p">)</span><span class="x">
+	</span><span class="p">})</span><span class="x">
+
+	</span><span class="n">Action</span><span class="p">(</span><span class="s">"update"</span><span class="p">,</span><span class="x"> </span><span class="k">func</span><span class="p">()</span><span class="x"> </span><span class="p">{</span><span class="x">
+		</span><span class="n">Routing</span><span class="p">(</span><span class="x">
+			</span><span class="n">PUT</span><span class="p">(</span><span class="s">"/:accountID"</span><span class="p">),</span><span class="x">
+		</span><span class="p">)</span><span class="x">
+		</span><span class="n">Description</span><span class="p">(</span><span class="s">"Change account name"</span><span class="p">)</span><span class="x">
+		</span><span class="n">Params</span><span class="p">(</span><span class="k">func</span><span class="p">()</span><span class="x"> </span><span class="p">{</span><span class="x">
+			</span><span class="n">Param</span><span class="p">(</span><span class="s">"accountID"</span><span class="p">,</span><span class="x"> </span><span class="n">Integer</span><span class="p">,</span><span class="x"> </span><span class="s">"Account ID"</span><span class="p">)</span><span class="x">
+		</span><span class="p">})</span><span class="x">
+		</span><span class="n">Payload</span><span class="p">(</span><span class="k">func</span><span class="p">()</span><span class="x"> </span><span class="p">{</span><span class="x">
+			</span><span class="n">Member</span><span class="p">(</span><span class="s">"name"</span><span class="p">)</span><span class="x">
+			</span><span class="n">Required</span><span class="p">(</span><span class="s">"name"</span><span class="p">)</span><span class="x">
+		</span><span class="p">})</span><span class="x">
+		</span><span class="n">Response</span><span class="p">(</span><span class="n">NoContent</span><span class="p">)</span><span class="x">
+		</span><span class="n">Response</span><span class="p">(</span><span class="n">NotFound</span><span class="p">)</span><span class="x">
+		</span><span class="n">Response</span><span class="p">(</span><span class="n">BadRequest</span><span class="p">,</span><span class="x"> </span><span class="n">ErrorMedia</span><span class="p">)</span><span class="x">
+	</span><span class="p">})</span><span class="x">
+
+	</span><span class="n">Action</span><span class="p">(</span><span class="s">"delete"</span><span class="p">,</span><span class="x"> </span><span class="k">func</span><span class="p">()</span><span class="x"> </span><span class="p">{</span><span class="x">
+		</span><span class="n">Routing</span><span class="p">(</span><span class="x">
+			</span><span class="n">DELETE</span><span class="p">(</span><span class="s">"/:accountID"</span><span class="p">),</span><span class="x">
+		</span><span class="p">)</span><span class="x">
+		</span><span class="n">Params</span><span class="p">(</span><span class="k">func</span><span class="p">()</span><span class="x"> </span><span class="p">{</span><span class="x">
+			</span><span class="n">Param</span><span class="p">(</span><span class="s">"accountID"</span><span class="p">,</span><span class="x"> </span><span class="n">Integer</span><span class="p">,</span><span class="x"> </span><span class="s">"Account ID"</span><span class="p">)</span><span class="x">
+		</span><span class="p">})</span><span class="x">
+		</span><span class="n">Response</span><span class="p">(</span><span class="n">NoContent</span><span class="p">)</span><span class="x">
+		</span><span class="n">Response</span><span class="p">(</span><span class="n">NotFound</span><span class="p">)</span><span class="x">
+		</span><span class="n">Response</span><span class="p">(</span><span class="n">BadRequest</span><span class="p">,</span><span class="x"> </span><span class="n">ErrorMedia</span><span class="p">)</span><span class="x">
+	</span><span class="p">})</span><span class="x">
+</span><span class="p">})</span></code></pre></figure>
+
+<p>The <code class="highlighter-rouge">Resource</code> function defines a set of API endpoints. Each actual endpoint is described using the <code class="highlighter-rouge">Action</code> function: inside a resource function, it is possible to define any arbitrary number of actions. Apart from the root, API definition the goa API design language also makes it possible to describe the actual endpoints together with details on the shape of the requests and responses: below, the <em>MediaType</em> definition.</p>
+
+<figure class="highlight"><pre><code class="language-golang" data-lang="golang"><span class="c">// Account is the account resource media type.</span><span class="x">
+</span><span class="k">var</span><span class="x"> </span><span class="n">Account</span><span class="x"> </span><span class="o">=</span><span class="x"> </span><span class="n">MediaType</span><span class="p">(</span><span class="s">"application/vnd.account+json"</span><span class="p">,</span><span class="x"> </span><span class="k">func</span><span class="p">()</span><span class="x"> </span><span class="p">{</span><span class="x">
+	</span><span class="n">Description</span><span class="p">(</span><span class="s">"A tenant account"</span><span class="p">)</span><span class="x">
+	</span><span class="n">Attributes</span><span class="p">(</span><span class="k">func</span><span class="p">()</span><span class="x"> </span><span class="p">{</span><span class="x">
+		</span><span class="n">Attribute</span><span class="p">(</span><span class="s">"id"</span><span class="p">,</span><span class="x"> </span><span class="n">Integer</span><span class="p">,</span><span class="x"> </span><span class="s">"ID of account"</span><span class="p">,</span><span class="x"> </span><span class="k">func</span><span class="p">()</span><span class="x"> </span><span class="p">{</span><span class="x">
+			</span><span class="n">Example</span><span class="p">(</span><span class="m">1</span><span class="p">)</span><span class="x">
+		</span><span class="p">})</span><span class="x">
+		</span><span class="n">Attribute</span><span class="p">(</span><span class="s">"href"</span><span class="p">,</span><span class="x"> </span><span class="n">String</span><span class="p">,</span><span class="x"> </span><span class="s">"API href of account"</span><span class="p">,</span><span class="x"> </span><span class="k">func</span><span class="p">()</span><span class="x"> </span><span class="p">{</span><span class="x">
+			</span><span class="n">Example</span><span class="p">(</span><span class="s">"/accounts/1"</span><span class="p">)</span><span class="x">
+		</span><span class="p">})</span><span class="x">
+		</span><span class="n">Attribute</span><span class="p">(</span><span class="s">"name"</span><span class="p">,</span><span class="x"> </span><span class="n">String</span><span class="p">,</span><span class="x"> </span><span class="s">"Name of account"</span><span class="p">,</span><span class="x"> </span><span class="k">func</span><span class="p">()</span><span class="x"> </span><span class="p">{</span><span class="x">
+			</span><span class="n">Example</span><span class="p">(</span><span class="s">"test"</span><span class="p">)</span><span class="x">
+		</span><span class="p">})</span><span class="x">
+		</span><span class="n">Attribute</span><span class="p">(</span><span class="s">"created_at"</span><span class="p">,</span><span class="x"> </span><span class="n">DateTime</span><span class="p">,</span><span class="x"> </span><span class="s">"Date of creation"</span><span class="p">)</span><span class="x">
+		</span><span class="n">Attribute</span><span class="p">(</span><span class="s">"created_by"</span><span class="p">,</span><span class="x"> </span><span class="n">String</span><span class="p">,</span><span class="x"> </span><span class="s">"Email of account owner"</span><span class="p">,</span><span class="x"> </span><span class="k">func</span><span class="p">()</span><span class="x"> </span><span class="p">{</span><span class="x">
+			</span><span class="n">Format</span><span class="p">(</span><span class="s">"email"</span><span class="p">)</span><span class="x">
+			</span><span class="n">Example</span><span class="p">(</span><span class="s">"me@goa.design"</span><span class="p">)</span><span class="x">
+		</span><span class="p">})</span><span class="x">
+
+		</span><span class="n">Required</span><span class="p">(</span><span class="s">"id"</span><span class="p">,</span><span class="x"> </span><span class="s">"href"</span><span class="p">,</span><span class="x"> </span><span class="s">"name"</span><span class="p">,</span><span class="x"> </span><span class="s">"created_at"</span><span class="p">,</span><span class="x"> </span><span class="s">"created_by"</span><span class="p">)</span><span class="x">
+	</span><span class="p">})</span><span class="x">
+
+	</span><span class="n">View</span><span class="p">(</span><span class="s">"default"</span><span class="p">,</span><span class="x"> </span><span class="k">func</span><span class="p">()</span><span class="x"> </span><span class="p">{</span><span class="x">
+		</span><span class="n">Attribute</span><span class="p">(</span><span class="s">"id"</span><span class="p">)</span><span class="x">
+		</span><span class="n">Attribute</span><span class="p">(</span><span class="s">"href"</span><span class="p">)</span><span class="x">
+		</span><span class="n">Attribute</span><span class="p">(</span><span class="s">"name"</span><span class="p">)</span><span class="x">
+		</span><span class="n">Attribute</span><span class="p">(</span><span class="s">"created_at"</span><span class="p">)</span><span class="x">
+		</span><span class="n">Attribute</span><span class="p">(</span><span class="s">"created_by"</span><span class="p">)</span><span class="x">
+	</span><span class="p">})</span><span class="x">
+
+	</span><span class="n">View</span><span class="p">(</span><span class="s">"tiny"</span><span class="p">,</span><span class="x"> </span><span class="k">func</span><span class="p">()</span><span class="x"> </span><span class="p">{</span><span class="x">
+		</span><span class="n">Description</span><span class="p">(</span><span class="s">"tiny is the view used to list accounts"</span><span class="p">)</span><span class="x">
+		</span><span class="n">Attribute</span><span class="p">(</span><span class="s">"id"</span><span class="p">)</span><span class="x">
+		</span><span class="n">Attribute</span><span class="p">(</span><span class="s">"href"</span><span class="p">)</span><span class="x">
+		</span><span class="n">Attribute</span><span class="p">(</span><span class="s">"name"</span><span class="p">)</span><span class="x">
+	</span><span class="p">})</span><span class="x">
+
+	</span><span class="n">View</span><span class="p">(</span><span class="s">"link"</span><span class="p">,</span><span class="x"> </span><span class="k">func</span><span class="p">()</span><span class="x"> </span><span class="p">{</span><span class="x">
+		</span><span class="n">Attribute</span><span class="p">(</span><span class="s">"id"</span><span class="p">)</span><span class="x">
+		</span><span class="n">Attribute</span><span class="p">(</span><span class="s">"href"</span><span class="p">)</span><span class="x">
+	</span><span class="p">})</span><span class="x">
+</span><span class="p">})</span></code></pre></figure>
+
+<p>The goa design language <code class="highlighter-rouge">MediaType</code> function describes media types which represent the shape of response bodies. 
+You can define a <code class="highlighter-rouge">MediaType</code> as a <code class="highlighter-rouge">Type</code> (I didn’t talk about that): there are similarities in features, for instance the definition of Collections of a particular MediaType (CollectionOf) and Type (ArrayOf), the function used to define <code class="highlighter-rouge">Attributes</code>. There are two properties unique to media types: first, the <code class="highlighter-rouge">views</code> describe different <em>serialization</em> of the same media type. You can create <em>short</em> representation of a resource in listing requests, a more detailed one in requests that return a single resource. Second, the <code class="highlighter-rouge">links</code> that represents related media types that should be rendered embedded in the response<sup id="fnref:views"><a href="#fn:views" class="footnote">1</a></sup>.</p>
+
+<p>After the creation of the design<sup id="fnref:goa"><a href="#fn:goa" class="footnote">2</a></sup> file inside a <em>design</em> package, the only thing you have to do is <em>bootstrapping</em> your design (using the cli <code class="highlighter-rouge">goagen</code><sup id="fnref:goagen"><a href="#fn:goagen" class="footnote">3</a></sup>)</p>
+
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash">goagen bootstrap <span class="nt">-d</span> myprojects/myapi/design</code></pre></figure>
+
+<p>and, if there’s no error, you will be able to start from the <em>hooks</em> already written for each action you defined over your resources. Cool: let’s talk about how to create the image!</p>
+
+<h4 id="facing-the-build">Facing the build</h4>
+<p>After (ok, even before) the creation of the API, you have to deal with Docker to <em>encapsulate</em> the binary. Actually, it is very common to have one Dockerfile to use for development (which contained everything needed to build your application), and a slimmed-down one to use for production, which only contained your application and exactly what was needed to run it. Golang is perfect to create handful microservice, because with a simple <a href="https://hub.docker.com/_/busybox/">busybox</a><sup id="fnref:busybox"><a href="#fn:busybox" class="footnote">4</a></sup> you can run the compiled binary and you’ve done. But…maintaining two Dockerfiles is not ideal. The question is: <em>how</em> and <em>where</em> do you build the binary from your API, mainting at the same time the image as much as possible <em>small</em>? I faced with this problem for my project, I don’t know how to call it - let me say - it’s <em>a build dilemma</em>. Multi-stage builds simplify this situation a lot.</p>
+
+<h4 id="multistage-build">Multistage build</h4>
+<p>Since version 17.05, Docker supports <a href="https://docs.docker.com/engine/userguide/eng-image/multistage-build/">multistage</a>: with multi-stage builds, you use multiple <code class="highlighter-rouge">FROM</code> statements in your Dockerfile. Each <code class="highlighter-rouge">FROM</code> instruction can use a different base, and each of them begins a new stage of the build. You can selectively copy artifacts from one stage to another, leaving behind everything you don’t want in the final image (cit.). Look at my Dockerfile to multistage-build my Golang API microservice:</p>
+
+<figure class="highlight"><pre><code class="language-docker" data-lang="docker"><span class="c">### STAGE 1: Build ###</span>
+
+<span class="c"># The builder node</span>
+<span class="k">FROM</span><span class="s"> golang:latest as builder</span>
+
+<span class="c"># create working directory</span>
+<span class="k">WORKDIR</span><span class="s"> /go/src/github.com/made2591/myproject/api</span>
+
+<span class="c"># copy the content </span>
+<span class="k">COPY</span><span class="s"> . .</span>
+
+<span class="c"># install dependencies</span>
+<span class="k">RUN </span>go get ./...
+
+<span class="c"># build binary</span>
+<span class="k">RUN </span><span class="nv">CGO_ENABLED</span><span class="o">=</span>0 <span class="nv">GOOS</span><span class="o">=</span>linux go build <span class="nt">-a</span> <span class="nt">-installsuffix</span> cgo <span class="nt">-o</span> myproject .
+
+
+<span class="c">### STAGE 2: Setup ###</span>
+
+<span class="c"># The runner node</span>
+<span class="k">FROM</span><span class="s"> alpine:latest as runner </span>
+
+<span class="c"># setup env</span>
+<span class="k">RUN </span>apk <span class="nt">--no-cache</span> add ca-certificates
+<span class="k">WORKDIR</span><span class="s"> /root/</span>
+
+<span class="c"># copy the binary from previous stage</span>
+<span class="k">COPY</span><span class="s"> --from=builder /go/src/github.com/made2591/myproject/api .</span>
+
+<span class="c"># execute</span>
+<span class="k">CMD</span><span class="s"> ["./myproject"]</span></code></pre></figure>
+
+<p>What happens? With the statement <code class="highlighter-rouge">as</code> in the first stage of the build we create a sort of <em>label</em>, then with the option <code class="highlighter-rouge">--from</code> of the <code class="highlighter-rouge">COPY</code> command, Docker copies just the built artifact from the previous stage into this new stage. The Go SDK and any intermediate artifacts are left behind, and not saved in the final image.</p>
+
+<p><strong>NOTE</strong>: I don’t use to <em>bootstrap</em> my goa APIs inside the build stage, because first) if you play a little bit with goa you find out that bootstrap process is done one time only to help you create procject structure - they have to work on incremental design because the cli doesn’t support creation for new hooks if the core file are already modified - and second) you have to build your core file in any case. My advise is to create a dev env as much as possible confortable to work with goa. After that, use the dockerfile to create your multistage build!</p>
+
+<h4 id="angular-4---another-scenario">Angular 4 - another scenario</h4>
+<p>Needless to say, the entire Internet is full of <em>boilerplates</em> to start working with Angular * or any other <em>*.js</em> you like. I have been able to use angular cli, I honestly think that the project is really interesting but that it changes too frequently and it is often difficult to manage dependencies with npm. This is to say: in six years as a computer, I understand that you can build your frontend as you like, in any case in a very short time will not work anyway any more, and you can not do anything about that. In any case, why am I talking about Angular 4? To share with you my Dockerfile to multistage-build my Angular 4 frontend!</p>
+
+<figure class="highlight"><pre><code class="language-docker" data-lang="docker"><span class="c">### STAGE 1: Build ###</span>
+
+<span class="c"># We label our stage as 'builder'</span>
+<span class="k">FROM</span><span class="s"> node:8-alpine as builder</span>
+
+<span class="k">COPY</span><span class="s"> package.json package-lock.json ./</span>
+
+<span class="k">RUN </span>npm <span class="nb">set </span><span class="nv">progress</span><span class="o">=</span><span class="nb">false</span> <span class="o">&amp;&amp;</span> npm config <span class="nb">set </span>depth 0 <span class="o">&amp;&amp;</span> npm cache clean <span class="nt">--force</span>
+
+<span class="c">## Storing node modules on a separate layer will prevent unnecessary npm installs at each build</span>
+<span class="k">RUN </span>npm i <span class="o">&amp;&amp;</span> mkdir /ng-app <span class="o">&amp;&amp;</span> cp <span class="nt">-R</span> ./node_modules ./ng-app
+
+<span class="k">WORKDIR</span><span class="s"> /ng-app</span>
+
+<span class="k">COPY</span><span class="s"> . .</span>
+
+<span class="c">## Build the angular app in production mode and store the artifacts in dist folder</span>
+<span class="k">RUN $(</span>npm bin<span class="k">)</span>/ng build <span class="nt">--prod</span> <span class="nt">--build-optimizer</span>
+
+
+<span class="c">### STAGE 2: Setup ###</span>
+
+<span class="k">FROM</span><span class="s"> nginx:1.13.3-alpine</span>
+
+<span class="c">## Copy our default nginx config</span>
+<span class="k">COPY</span><span class="s"> nginx/default.conf /etc/nginx/conf.d/</span>
+
+<span class="c">## Remove default nginx website</span>
+<span class="k">RUN </span>rm <span class="nt">-rf</span> /usr/share/nginx/html/<span class="k">*</span>
+
+<span class="c">## From 'builder' stage copy over the artifacts in dist folder to default nginx public folder</span>
+<span class="k">COPY</span><span class="s"> --from=builder /ng-app/dist /usr/share/nginx/html</span>
+
+<span class="k">CMD</span><span class="s"> ["nginx", "-g", "daemon off;"]</span></code></pre></figure>
+
+<p>This also provide you a way to serve the application you build with docker, without having to deal with the blackhole npm node_modules dependencies etc.</p>
+
+<p>Thank you everybody for reading!</p>
+
+<div class="footnotes">
+  <ol>
+    <li id="fn:views">
+      <p><code class="highlighter-rouge">Views</code> may then use the special <code class="highlighter-rouge">Links</code> function to render all the links: if you don’t define a link and the resource has a parent, then the compiler will arise an error during building.&nbsp;<a href="#fnref:views" class="reversefootnote">&#8617;</a></p>
+    </li>
+    <li id="fn:goa">
+      <p>you can of course split info across multiple file belonging the same <em>design</em> package.&nbsp;<a href="#fnref:goa" class="reversefootnote">&#8617;</a></p>
+    </li>
+    <li id="fn:goagen">
+      <p>the goagen is a tool the generate various artifacts from a goa design package - more info <a href="https://goa.design/implement/goagen/">here</a>&nbsp;<a href="#fnref:goagen" class="reversefootnote">&#8617;</a></p>
+    </li>
+    <li id="fn:busybox">
+      <p>if you want the SSL/TLS support, prefer the <a href="https://hub.docker.com/r/odise/busybox-curl/">busybox-curl</a> image, even maybe it is good for a dev env, but I would prefer an alpine for production.&nbsp;<a href="#fnref:busybox" class="reversefootnote">&#8617;</a></p>
+    </li>
+  </ol>
+</div>
+
+
+<div class="comments">
+   <div id="disqus_thread"></div>
+    <script type="text/javascript">
+        /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+        var disqus_shortname = 'made2591';
+
+        /* * * DON'T EDIT BELOW THIS LINE * * */
+        (function() {
+            var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    <a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+    
+
+</div>
+
+<hr/>
+
+
+  
+    <div class="post-navs row">
+      
+        <div class="col-md-6 post-nav">
+
+          <h3 class="section-header">
+            Older
+            <span class="text-muted"> &middot; </span>
+            <a href="/archive">View Archive (35)</a>
+          </h3>
+
+          <h2 class="post-title-link"><a href="/posts/java-8-pills">Java 8 Pills</a></h2>
+          <h3 id="why-java-why-now">Why Java why now</h3>
+<p>I recently followed a course<sup id="fnref:first"><a href="#fn:first" class="footnote">1</a></sup> on YouTube by Adib Saikali (NewCircle Instructor) about the key features introduced in Java &gt; 8: it’s an old post regarding old stuff but…I collected some notes (mainly because I need to write down what I’m listening to to stay focused and learn new concepts) that I decided to share with you. This is to say, this post is for every one that had put aside Java for a while and is now looking for a quick overview of the key aspects - exactly like me some weeks ago - to improve his abilities in coding, taking advantage of the old (n.d.r.) features introduced a few years ago. For thus who missed the footnote before and want to jump directly to the lesson, <a href="https://www.youtube.com/watch?v=8pDm_kH4YKY">here</a> you can find the main source of the content of the next paragraphs.</p>
+
+<div class="footnotes">
+  <ol>
+    <li id="fn:first">
+      <p>The course is entitled <em>Java 8 Lambda Expressions &amp; Streams</em> and is available for free <a href="https://www.youtube.com/watch?v=8pDm_kH4YKY">here</a>. Thank you again Adib Saikali for your lesson!&nbsp;<a href="#fnref:first" class="reversefootnote">&#8617;</a></p>
+    </li>
+  </ol>
+</div>
+
+        </div>
+      
+      
+
+        <div class="col-md-6 post-nav">
+          <h3 class="section-header">
+            Newer
+            
+          </h3>
+
+          <h2 class="post-title-link"><a href="/posts/fundamentals">Fundamentals by an ITalian guy</a></h2>
+          <h3 id="prelude">Prelude</h3>
+<p>Nobody ever tells you enough: you need to know the <em>fundamentals</em>. Ok - what am I talking about? I would rather limit myself to talking about computer science, something I really do not know about.</p>
+
+
+        </div>
+      
+    </div>
+  
+
+
+
+          <div id="footer">
+<hr/>
+  <div class="pull-left">
+    &copy;2019.
+    Built with <a href="http://jekyllrb.com/">Jekyll</a> and
+    <a href="https://github.com/kirqe/autm-rb">Autm-rb</a>. Thanks to <a href="https://github.com/kirqe">kirqe</a>.
+  </div>
+
+  <div class="pull-right">
+    <span class="credits pull-right social">
+      
+        
+          <a href="https://github.com/made2591/" target="_blank"><i class="fa fa-github"></i></a>
+        
+      
+        
+          <a href="https://twitter.com/made2591" target="_blank"><i class="fa fa-twitter"></i></a>
+        
+      
+        
+          <a href="https://linkedin.com/in/mmadeddu" target="_blank"><i class="fa fa-linkedin"></i></a>
+        
+      
+        
+          <a href="https://www.facebook.com/matteo.madeddu" target="_blank"><i class="fa fa-facebook"></i></a>
+        
+      
+    </span>
+  </div>
+</div>
+
+        </section>
+    </div>
+    </div>
+    <script src="/public/javascripts/jquery.min.js"></script>
+    <script src="/public/javascripts/bootstrap.min.js"></script>
+    <!-- Place your <script> tags here. -->
+
+<script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript"></script>
+
+<script id="dsq-count-scr" src="//made2591-github-io.disqus.com/count.js" async></script>
+
+<!-- disqus comment counter -->
+<script type="text/javascript">
+	/* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+    var disqus_shortname = 'made2591-github-io';
+
+	/* * * DON'T EDIT BELOW THIS LINE * * */
+	(function () {
+	    var s = document.createElement('script'); s.async = true;
+	    s.type = 'text/javascript';
+	    s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+	    (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+	}());
+</script>
+<!-- /disqus comment counter -->
+
+<!-- google analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-111283556-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-111283556-1');
+</script>
+<!-- /google analytics -->
+
+  </body>
+</html>
