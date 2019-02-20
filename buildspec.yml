@@ -1,5 +1,5 @@
 version: 0.1
-   
+
 phases:
   install:
     commands:
@@ -11,5 +11,5 @@ phases:
       - echo "******** Finishing build  ********"
 artifacts:
   files:
-    - **/*
+    - "**/*"
   base-directory: _site/
