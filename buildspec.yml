@@ -8,5 +8,8 @@ phases:
     commands:
       - echo "******** Building Jekyll site ********"
       - jekyll build
-      - echo "******** Uploading to S3 ********"
-      - aws s3 sync _site/ s3://$DESTINATION_BUCKET
+      - echo "******** Finishing build  ********"
+artifacts:
+  files:
+    - **/*
+  base-directory: _site/
