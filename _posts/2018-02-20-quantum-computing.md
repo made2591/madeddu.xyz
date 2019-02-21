@@ -4,7 +4,7 @@ tags: [theory, quantum, q, informative, ibm]
 ---
 
 ### Much more than a post
-What is the quantum theory? As said by [quantumexperience](https://quantumexperience.ng.bluemix.net/) official site by IBM, it's _an elegant mathematical theory able to explain the counterintuitive behavior of subatomic particles, most notably the phenomenon of entanglement_. In the late twentieth century it was discovered that quantum theory applies not only to atoms and molecules, but to bits and logic operations in a computer. This realization has been bringing about a revolution in the science and technology of information processing: I decided to write some notes to better explain, from a physics-agnostic computer scientist's point of view XD, __what I understood__ - and it is certainly wrong - about Q until now and why I think it's an amazing field for computer science. For skilled guys, [here](https://github.com/made2591/quantum-notes) latex source (and [here](https://made2591.github.io/matteo_madeddu_quantum_notes.pdf) pdf pre-compiled version) that collect my personal notes about IBM Q platform, in general the quantum-computing world. I was also invited in Verona by the Quantum Research Group of the Department of Computer Science - why? don't know, maybe the coolest guys were sick 😂 - to talk about the platform and we had a really interesting brain-storming conversation about a quantum version of the Tris game I am working on 😎
+What is the quantum theory? As said by [quantumexperience](https://quantumexperience.ng.bluemix.net/) official site by IBM, it's _an elegant mathematical theory able to explain the counterintuitive behavior of subatomic particles, most notably the phenomenon of entanglement_. In the late twentieth century it was discovered that quantum theory applies not only to atoms and molecules, but to bits and logic operations in a computer. This realization has been bringing about a revolution in the science and technology of information processing: I decided to write some notes to better explain, from a physics-agnostic computer scientist's point of view XD, __what I understood__ - and it is certainly wrong - about Q until now and why I think it's an amazing field for computer science. For skilled guys, [here](https://github.com/made2591/quantum-notes) latex source (and [here](https://madeddu.xyz/matteo_madeddu_quantum_notes.pdf) pdf pre-compiled version) that collect my personal notes about IBM Q platform, in general the quantum-computing world. I was also invited in Verona by the Quantum Research Group of the Department of Computer Science - why? don't know, maybe the coolest guys were sick 😂 - to talk about the platform and we had a really interesting brain-storming conversation about a quantum version of the Tris game I am working on 😎
 
 <p align="center"><img src="https://d1o50x50snmhul.cloudfront.net/wp-content/uploads/2016/05/26093923343_1a9dea0cd2_o-1200x800.jpg" style="width: 100%; marker-top: -10px;"/></p>
 
@@ -46,7 +46,7 @@ quantum circuits using a library of well-defined gates and measurements. You can
 When you first click on the "Composer\" tab above, you will have a choice between running a real quantum processor or a custom quantum
 processor. In the custom processor, gates can be placed anywhere, whereas in the real processor, the topology is set by the physical
 device running in our lab (note that this restricts the usability of some of the two-qubit gates). Once you are in the "Composer\" tab, you
-can start making your very own quantum circuits. The IBM quantum composer is shown in 
+can start making your very own quantum circuits. The IBM quantum composer is shown in
 
 <p align="center"><img src="https://github.com/made2591/quantum-notes/blob/master/images/ibmComposer.png?raw=true" style="marker-top: -10px;"/></p>
 
@@ -171,7 +171,7 @@ $$H \begin{bmatrix}
 that is the state
 $$\frac{|0\rangle + |1\rangle}{\sqrt{2}}$$
 ![Display of Hadamard port applied to input
-$$|0\rangle$$: 
+$$|0\rangle$$:
 the output is
 $$|\psi\rangle = |0\rangle + |1\rangle$$
 
@@ -235,12 +235,12 @@ $$X$$,
 $$Z$$
 and
 $$H$$
-are represented graphically as in 
+are represented graphically as in
 
 <p align="center"><img src="http://image.ibb.co/mzSycc/qports.png" alt="perceptron" style="width: 70%; marker-top: -10px;"/></p>
 
 #### Multiple qubits quantum logic gates
-Operations on quantum registers of two or more qubits are necessary to describe the transformations of compound states and in particular of the *so-called* **entangled states**. We have seen that a two-qubit register can not always be decomposed into the tensor product of the individual qubits components. Therefore we can not in such cases simulate an operation on the two qubits through operations on each qubit component. Also operations on qubit registers correspond to unit operations as in the case of a single qubit. The most important logic gates that implement operations on two classic bits are the `AND`, `OR`, `XOR`, `NAND` and `NOR` ports. The `NOT` and `AND` ports form a universal set, i.e. any boolean function can be accomplished by a combination of these two operations. For the same reason, the `NAND` constitutes a universal whole. Note that `XOR` alone or even together with `NOT` is not universal: since it preserves the total parity of the bits, only a subset of the boolean functions can be represented by this operation. The quantum analog of `XOR` is the `CNOT` gate (controlled-`NOT`) which operates on two qubits: the first is called the control qubit and the second is the qubit target. The `CNOT` gate is graphically represented by the circuit in 
+Operations on quantum registers of two or more qubits are necessary to describe the transformations of compound states and in particular of the *so-called* **entangled states**. We have seen that a two-qubit register can not always be decomposed into the tensor product of the individual qubits components. Therefore we can not in such cases simulate an operation on the two qubits through operations on each qubit component. Also operations on qubit registers correspond to unit operations as in the case of a single qubit. The most important logic gates that implement operations on two classic bits are the `AND`, `OR`, `XOR`, `NAND` and `NOR` ports. The `NOT` and `AND` ports form a universal set, i.e. any boolean function can be accomplished by a combination of these two operations. For the same reason, the `NAND` constitutes a universal whole. Note that `XOR` alone or even together with `NOT` is not universal: since it preserves the total parity of the bits, only a subset of the boolean functions can be represented by this operation. The quantum analog of `XOR` is the `CNOT` gate (controlled-`NOT`) which operates on two qubits: the first is called the control qubit and the second is the qubit target. The `CNOT` gate is graphically represented by the circuit in
 
 <p align="center"><img src="http://image.ibb.co/itUYAx/cnot.png" alt="perceptron" style="width: 40%; marker-top: -10px;"/></p>
 

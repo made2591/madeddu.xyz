@@ -4,7 +4,7 @@ tags: [learning, approach, work, thoughts, life]
 ---
 
 ### Prelude
-Ok, first of all: I know, I have already used the yoda picture below [in the past](https://made2591.github.io/posts/fundamentals), but even if I am not at all a fan of the Star Wars saga, I like it. ATTENTION! This is a deeply desperate post: don't judge me, I'm sad, I'm alone, it's raining, I don't feel to have any perspective but there's a positive thing: I'm still learning. So... let's divide the complaints by sectors.
+Ok, first of all: I know, I have already used the yoda picture below [in the past](https://madeddu.xyz/posts/fundamentals), but even if I am not at all a fan of the Star Wars saga, I like it. ATTENTION! This is a deeply desperate post: don't judge me, I'm sad, I'm alone, it's raining, I don't feel to have any perspective but there's a positive thing: I'm still learning. So... let's divide the complaints by sectors.
 
 ![jobs](http://starwarsblog.starwars.com/wp-content/uploads/2017/05/yoda-advice-featured-1.jpg)
 
@@ -40,7 +40,7 @@ If you are a developer, your life is almost certainly complicated: first, as in 
 Let's focus on individuals: why it so difficult for them to work together, to work alone, to be developers? It's simple: they (we) are scared. How to blame them (us, actually), I say. In a continuously changing environment, what you can do to be able to deal with several technological stack? Of course, focusing (both at work and at home) on only one of them is not a solution because tomorrow you could be remain without work and not be able to cover the gap to understand something new starting from zero. At the same time, you can't study in depth everything because it's impossible - probably even sacrifing each aspect of your life and, in any case, this could not be a solution. So the only thing you can do is to superficially know a little bit about everything, while keeping - or, at least, trying to keep - yourself ready to learn something new, something that could be the fashion of tomorrow, and the shame of the day after tomorrow. Next time: philosophy.
 
 ### Epilogue
-And back to the companies: how to be still attractive in your company or for other company? There are those who prefer coding skills, who not, who looks at what you did, who looks at what you do, who looks at what you studied, who looks at how many languages you speak, how many awards you have taken, how far you have been away from home. 
+And back to the companies: how to be still attractive in your company or for other company? There are those who prefer coding skills, who not, who looks at what you did, who looks at what you do, who looks at what you studied, who looks at how many languages you speak, how many awards you have taken, how far you have been away from home.
 
 In my honest opinion, I think each of us should have opportunity in terms of what he can do, not in terms of what he had done. But... ehi, I could be wrong: in the end, I'm still learning.
 

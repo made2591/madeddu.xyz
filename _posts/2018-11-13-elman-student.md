@@ -11,7 +11,7 @@ This is actually a sort of back-to-the-future post because it's related to somet
 This is Elman, the best in class in adding int32 numbers. For everybody who already knows what I will talk about (what?!), [here](https://github.com/made2591/go-perceptron-go)'s the Github repo. I'm sorry for the name, it's still go-perceptron-go but that repo contains my GoLang ANN.
 
 ### Let's start from
-You were wondering what the f\*\*k is an Elman network: to be honest, I didn't understand exactly but [this](https://made2591.github.io/posts/neuralnetwork) post related to the perceptron could be a good starting point - at least, somehow linked cause in the end this network share a lot with multilayer perceptron. Ignored? Perfect. In one sentence: an Elmann network is a MFNN with an extra context layer. That is a Multilayer Feedforward Neural Network with an extra context layer: the point is that, unfortunately, this context layer create a closed circle in the network - thus, in the way the information is progated.
+You were wondering what the f\*\*k is an Elman network: to be honest, I didn't understand exactly but [this](https://madeddu.xyz/posts/neuralnetwork) post related to the perceptron could be a good starting point - at least, somehow linked cause in the end this network share a lot with multilayer perceptron. Ignored? Perfect. In one sentence: an Elmann network is a MFNN with an extra context layer. That is a Multilayer Feedforward Neural Network with an extra context layer: the point is that, unfortunately, this context layer create a closed circle in the network - thus, in the way the information is progated.
 
 That means that Elman network are actually RNN, or Recurrent Neural Network even. That are...wait. Let's make a step back.
 

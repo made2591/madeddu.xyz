@@ -123,7 +123,7 @@ There are two equations mapping activation onto probability of retrieval and lat
 
 > The chunks will be retrieved only if their activation threshold is over a threshold.
 
-This is because activation values are noisy: there is only a certain probability that any chunk will be above threshold. This is somehow resemble ANN, am I wrong? Have a look [here](https://made2591.github.io/posts/neuralnetwork), I implemented and discussed a little bit a simple one of them here.
+This is because activation values are noisy: there is only a certain probability that any chunk will be above threshold. This is somehow resemble ANN, am I wrong? Have a look [here](https://madeddu.xyz/posts/neuralnetwork), I implemented and discussed a little bit a simple one of them here.
 
 The probability that the activation will be greater than a threshold is given by the following equation:
 
@@ -155,6 +155,6 @@ Both $$P_i$$ and $$C_i$$ are learned from experience with that production rule.
 
 I want to go more in depth with some more details about knowledge representation, so stay tuned :D
 
-UPDATE: [ACT-R - Part II](https://made2591.github.io/posts/act-r-part-II) available now
+UPDATE: [ACT-R - Part II](https://madeddu.xyz/posts/act-r-part-II) available now
 
 Thank you everybody for reading!

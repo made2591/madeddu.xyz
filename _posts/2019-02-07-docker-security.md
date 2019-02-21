@@ -95,7 +95,7 @@ The main goal of security is to make attacks difficult - ideally, impossible - t
 - **Run a read-only filesystem**: this could seem trivial, but we will see how much troubles could cause to the majority of the attackers, i.e. the more inexperienced ones;
 
 #### Why setting a USER
-By default, users are not namespaced in Docker. What does it means namespaced and why is this important to know? Well, because namespaces are a fundamental aspect of **containers on Linux** (yes, Docker didn't invent anything, I already wrote [about this](https://made2591.github.io/posts/jails) once). Thus, let's do a recall of this concept first.
+By default, users are not namespaced in Docker. What does it means namespaced and why is this important to know? Well, because namespaces are a fundamental aspect of **containers on Linux** (yes, Docker didn't invent anything, I already wrote [about this](https://madeddu.xyz/posts/jails) once). Thus, let's do a recall of this concept first.
 
 ##### Linux namespaces
 Namespaces are a feature of the Linux kernel[^namespaces] that partitions kernel resources such that one set of processes sees one set of resources while another set of processes sees a different set of resources. The feature works by having the same namespace for these resources in the various sets of processes, but those names referring to distinct resources. Examples of resource names that can exist in multiple spaces, so that the named resources are partitioned, are process IDs, hostnames, user IDs, file names, and some names associated with network access, and interprocess communication.

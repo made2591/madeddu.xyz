@@ -4,13 +4,13 @@ tags: [coding, aws, iot, button, lambda, slack]
 ---
 
 ### Introduction
-If you have an [AWS account](http://aws.amazon.com) in Free Tier, bla bla bla ok stop: I am a AWS Lambda maniac. I only wrote about them ([here](https://made2591.github.io/posts/aws-lambda), [here](https://made2591.github.io/posts/aws-step-functions)). In this article, I want to talk about my new purchase that is - of course - related to AWS Lambda: the AWS IoT Button. It first made its appearance on the IoT scene in October of 2015 at AWS re:Invent with the introduction of the AWS IoT service. That year all re:Invent attendees received the AWS IoT Button providing them the opportunity to get hands-on with AWS IoT. So cute. Since that time, AWS IoT button has been made broadly available to anyone interested in the clickable IoT device. Here it is! 😎😎😎
+If you have an [AWS account](http://aws.amazon.com) in Free Tier, bla bla bla ok stop: I am a AWS Lambda maniac. I only wrote about them ([here](https://madeddu.xyz/posts/aws-lambda), [here](https://madeddu.xyz/posts/aws-step-functions)). In this article, I want to talk about my new purchase that is - of course - related to AWS Lambda: the AWS IoT Button. It first made its appearance on the IoT scene in October of 2015 at AWS re:Invent with the introduction of the AWS IoT service. That year all re:Invent attendees received the AWS IoT Button providing them the opportunity to get hands-on with AWS IoT. So cute. Since that time, AWS IoT button has been made broadly available to anyone interested in the clickable IoT device. Here it is! 😎😎😎
 
 <p align="center"><img src="http://image.ibb.co/eKamNx/IMG_9032.jpg" style="width: 100%; marker-top: -10px;"/></p>
 
 Sooooooo expensive :P
 
-### Ingredients 
+### Ingredients
 You will need:
 - [AWS account](http://aws.amazon.com) (free tier it's ok)
 - [AWS Lambda](https://aws.amazon.com/en/lambda/)
@@ -25,11 +25,11 @@ The first thing you have to learn with AWS IoT Button is that you can do anythin
 <p align="center"><img src="http://static1.businessinsider.com/image/5183bcd4ecad04a057000020/obamas-approval-rating-has-plunged-to-its-worst-mark-in-nine-months.jpg" style="width: 100%; marker-top: -10px;"/></p>
 
 ### Scenario
-Ok, my idea of the IoT Button was different: first, I thought to able to handle three different clicks - this is not, but in the end it is my fault. I didn't read anything - I mean, literaly - before purchasing the AWS IoT Button. I didn't want, I hadn't time, I didn't want to break a 3 dollars dash button and I hadn't so much interest in this button. I was simply bored, I bought it, as most of us do. 
+Ok, my idea of the IoT Button was different: first, I thought to able to handle three different clicks - this is not, but in the end it is my fault. I didn't read anything - I mean, literaly - before purchasing the AWS IoT Button. I didn't want, I hadn't time, I didn't want to break a 3 dollars dash button and I hadn't so much interest in this button. I was simply bored, I bought it, as most of us do.
 
 Just to be clear: there is an Enterprise version of the button (more [here](https://aws.amazon.com/it/blogs/aws/introducing-the-aws-iot-button-enterprise-program/)) but I think I got the occasion to create a sort of my own version of this - eventually, even more efficient.
 
-### Goal 
+### Goal
 Did you ever seen IronMan? If not, I don't know what do you live for: in any case, in the movie J.A.R.V.I.S - (_Just A Rather Very Intelligent System_) is the name given to the personal assistant - actually, it is only a voice - of R. Downey Jr, that plays the role of the famous superhero. J.A.R.V.I.S knows everything, understands everythings, I'm pretty sure that in one movie of the saga is able to bypass the Oracle Cloud (?!) as if it were the Accenture's VPC (just kidding Accenture guys). The goal is to create something able to handle more than one click: so, I thought to use time, the only thing that the button _pass_ to the AWS Lambda. The only thing you have to do is defining a sort of _alphabet_ - something very similar to a morse code. But, it can't be a real morse code, because you only have one type of click. Fortunately, this is enough to create - with elapsing of time - a Turing machine equivalent system. Or maybe not? I'm still thinking about it.
 
 ### Grammar
@@ -66,7 +66,7 @@ Thus, I click the button and...:
 - If the difference between ```now``` (request time) and ```data['timestamp']``` is major than the ```UPPER_LIMIT```, reset the counter;
 
 <span style="color:#ffcc00; font-size: bold;">NOTE</span>: there are also two precautions.
-- first, the increment has to be _circular_, because if it is not your code could look for value of counter not associated with any of the action. 
+- first, the increment has to be _circular_, because if it is not your code could look for value of counter not associated with any of the action.
 - second, you have to reset the value of the counter to 1, without executing anything if the count is zero (so, if the action has been executed) but you click your button again without reset-time elapsed yet.
 
 I implemented a short version of the algorithm below, but you can have a look at the code - one single lambda (despite I use a previous lambda to get my news) [here](https://github.com/made2591/jarvis-button).
