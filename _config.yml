@@ -28,7 +28,7 @@ kramdown:
 #------------------------------------------------------------------------------
 paginate: 6
 paginate_path: /posts/page-:num
-permalink: /posts/:title
+permalink: /posts/:title/
 
 # disqus comment
 disqus:
