@@ -1,7 +1,8 @@
 ---
 layout: post
 title: "Build a multilayer perceptron with Golang"
-tags: [coding, golang, ann, perceptron, classifier, neural, networks]
+categories: [coding, golang, theory, algorithms]
+tags: [golang, ann, perceptron, classifier, neural, networks]
 ---
 
 ### History

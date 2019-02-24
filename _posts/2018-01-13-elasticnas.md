@@ -1,7 +1,8 @@
 ---
 layout: post
 title: "Elasticsearch over My home Network Attached Storage"
-tags: [coding, elastic, kibana, search, nas, python]
+categories: [coding, python]
+tags: [coding, python, elastic, kibana, search, nas]
 ---
 
 ### Introduction

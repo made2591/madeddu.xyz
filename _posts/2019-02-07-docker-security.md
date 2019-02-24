@@ -1,6 +1,7 @@
 ---
 layout: post
 title: "Security and Docker: tips and tricks"
+categories: [theory, docker]
 tags: [container, docker, security, informative, hacking]
 ---
 

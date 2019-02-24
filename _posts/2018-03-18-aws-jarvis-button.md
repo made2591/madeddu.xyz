@@ -1,6 +1,7 @@
 ---
 layout: post
 title: "JarvisButton: how to invoke multiple AWS Lambda with one AWS IoT Button (not Enterprise ed.)"
+categories: [coding, js, aws]
 tags: [coding, aws, iot, button, lambda, slack]
 ---
 

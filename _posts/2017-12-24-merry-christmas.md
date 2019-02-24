@@ -1,6 +1,7 @@
 ---
 layout: post
 title: "Best wishes for Christmas holidays!"
+categories: [coding, miscellaneous, life]
 tags: [coding, holidays, styles, algorithm, christmas]
 ---
 

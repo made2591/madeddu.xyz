@@ -1,7 +1,8 @@
 ---
 layout: post
 title: "How to plan your daily activity with Python"
-tags: [coding, algorithms, python, scheduling, task]
+categories: [coding, algorithms]
+tags: [python, algorithms, scheduling, task]
 ---
 
 ### The problems of life

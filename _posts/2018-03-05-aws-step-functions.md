@@ -1,6 +1,7 @@
 ---
 layout: post
 title: "Node.js, DynamoDB, and AWS Step Functions to collect <em>sentimented</em> movie reviews"
+categories: [coding, golang, aws]
 tags: [coding, aws, tmdb, news, step, functions, lambda, serverless, sentiment, analysis]
 ---
 

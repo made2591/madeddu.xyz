@@ -1,6 +1,7 @@
 ---
 layout: post
 title: "[Not completed yet] Implementing a Blockchain using Kafka"
+categories: [coding, python]
 tags: [coding, kafka, blockchain, experiment]
 ---
 

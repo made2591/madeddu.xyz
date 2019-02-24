@@ -1,7 +1,8 @@
 ---
 layout: post
 title: "Smart SPA Shower at home"
-tags: [smart, home, reverse-eng, life, shower, spa, relax]
+categories: [coding, js, miscellaneous, life]
+tags: [coding, js, smarthome, life, shower, spa]
 ---
 
 ### Preamble

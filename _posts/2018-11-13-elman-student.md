@@ -1,6 +1,7 @@
 ---
 layout: post
 title: "How my Elman network learnt to count"
+categories: [coding, golang, theory, algorithms]
 tags: [coding, golang, ann, elman, adding, neural, networks]
 ---
 

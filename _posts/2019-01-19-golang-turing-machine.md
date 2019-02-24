@@ -1,7 +1,8 @@
 ---
 layout: post
 title: "A Golang Turing machine library"
-tags: [busy-beaver, golang, tibor, computational, theory]
+categories: [coding, golang, miscellaneous, algorithms]
+tags: [coding, golang, busy-beaver, tibor, computational, theory]
 ---
 
 ### Preamble

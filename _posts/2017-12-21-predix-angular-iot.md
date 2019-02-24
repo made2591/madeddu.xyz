@@ -1,7 +1,8 @@
 ---
 layout: post
 title: "Predix Machine and how to configure them"
-tags: [theory, network, angular, predix, brilliant, factory, iot]
+categories: [coding, js]
+tags: [coding, theory, network, angular, predix, brilliant, factory, iot]
 ---
 
 ### Predix Machine and how to configure them

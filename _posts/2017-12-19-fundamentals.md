@@ -1,7 +1,8 @@
 ---
 layout: post
 title: "Fundamentals by an ITalian guy"
-tags: [fundamentals, approach, work, thoughts, life]
+categories: [life, miscellaneous]
+tags: [fundamentals, approach, work, thoughts]
 ---
 
 ### Prelude

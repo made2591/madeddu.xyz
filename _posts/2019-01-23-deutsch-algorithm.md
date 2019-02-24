@@ -1,6 +1,7 @@
 ---
 layout: post
 title: "The Deutsch Algorithm"
+categories: [theory, quantum, algorithms]
 tags: [theory, quantum, parallelism, q, informative, ibm, deutsch, algorithm]
 ---
 

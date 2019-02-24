@@ -1,6 +1,7 @@
 ---
 layout: post
 title: "A Quantum Experience"
+categories: [theory, miscellaneous]
 tags: [theory, quantum, q, informative, ibm]
 ---
 

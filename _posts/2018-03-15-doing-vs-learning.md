@@ -1,6 +1,7 @@
 ---
 layout: post
 title: "I'm still learning"
+categories: [miscellaneous, life]
 tags: [learning, approach, work, thoughts, life]
 ---
 

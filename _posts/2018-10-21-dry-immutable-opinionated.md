@@ -1,6 +1,7 @@
 ---
 layout: post
 title: "DRY, immutable, opinionated, agnostic"
+categories: [coding, life, miscellaneous, aws]
 tags: [dry, immutable, opinionated, agnostic, aws, future, iaas, coding, erlangen, bayern, germany]
 ---
 

@@ -1,6 +1,7 @@
 ---
 layout: post
 title: "AWS Lambda, GoLang and Grafana to perform sentiment analysis for your company / business"
+categories: [coding, golang, aws]
 tags: [coding, aws, lambda, golang, grafana, sentiment, analysis]
 ---
 

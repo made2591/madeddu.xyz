@@ -1,6 +1,7 @@
 ---
 layout: post
 title: "GoLang vs Python: deep dive into the concurrency"
+categories: [coding, golang, python]
 tags: [coding, golang, python, goroutine, algorithms, benchmark]
 ---
 

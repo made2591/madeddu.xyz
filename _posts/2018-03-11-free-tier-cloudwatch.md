@@ -1,6 +1,7 @@
 ---
 layout: post
 title: "AWS Free Tier, Docker and Jenkins: smart resources handling with CloudWatch Events and Slack"
+categories: [coding, golang, js, aws]
 tags: [coding, aws, lambda, cloudwatch, rules, event, ec2, slack, docker, jenkins]
 ---
 

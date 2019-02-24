@@ -1,7 +1,8 @@
 ---
 layout: post
 title: "Golang, Docker and multistage build"
-tags: [coding, golang, docker, goa, api, rest]
+categories: [coding, golang, docker]
+tags: [golang, docker, goa, api, rest]
 ---
 
 ### Recipe for a good meal

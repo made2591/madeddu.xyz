@@ -1,6 +1,7 @@
 ---
 layout: post
 title: "A journey through the network - Layer 2"
+categories: [theory, network]
 tags: [theory, network, iso/osi, tcp/ip, saga]
 ---
 

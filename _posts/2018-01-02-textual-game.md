@@ -1,7 +1,8 @@
 ---
 layout: post
 title: "My first textual game"
-tags: [coding, vintage, eighties, game, golang]
+categories: [coding, python]
+tags: [coding, python, vintage, eighties, game]
 ---
 
 ### A beautiful childhood

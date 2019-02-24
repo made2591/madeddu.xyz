@@ -1,6 +1,7 @@
 ---
 layout: post
 title: "ACT-R by John R. Anderson - Part I"
+categories: [theory, cognitive]
 tags: [theory, cognitive, architecture, reasoning, knowledge, representation]
 ---
 

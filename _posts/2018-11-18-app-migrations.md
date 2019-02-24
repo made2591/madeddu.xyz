@@ -1,6 +1,7 @@
 ---
 layout: post
 title: "Migrations in modern companies: how to expect the unexpected from a real-life point of view"
+categories: [miscellaneous, life]
 tags: [fundamentals, approach, work, thoughts, life]
 ---
 

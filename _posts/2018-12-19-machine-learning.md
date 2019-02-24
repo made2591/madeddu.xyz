@@ -1,6 +1,7 @@
 ---
 layout: post
 title: "Machine Learning is useless"
+categories: [theory, miscellaneous, life]
 tags: [theory, ml, fundamentals, approach, work, thoughts, life]
 ---
 

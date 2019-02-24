@@ -1,7 +1,8 @@
 ---
 layout: post
 title: "My first UniKernel image for sequence prediction"
-tags: [coding, unik, cpt, ml, sequence, prediction]
+categories: [coding, golang, algorithms]
+tags: [coding, golang, unik, cpt, ml, sequence, prediction]
 ---
 
 ### Introduction
