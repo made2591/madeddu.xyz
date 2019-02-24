@@ -32,7 +32,7 @@ permalink: /posts/:title
 
 # disqus comment
 disqus:
-    shortname: "madeddu-xyz" #your disqus comment short name
+  shortname: "madeddu-xyz" #your disqus comment short name
 
 #------------------------------------------------------------------------------
 # Social sharing, comments and RSS.
@@ -55,7 +55,7 @@ rss-show-full: false
 #------------------------------------------------------------------------------
 source: .
 destination: ./_site
-plugins: ['jekyll-paginate']
+plugins: ['jekyll-paginate', 'jekyll-sitemap', 'jemoji']
 
 defaults:
   -
