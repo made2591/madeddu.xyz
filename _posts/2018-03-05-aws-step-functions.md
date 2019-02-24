@@ -1,4 +1,5 @@
 ---
+layout: post
 title: "Node.js, DynamoDB, and AWS Step Functions to collect <em>sentimented</em> movie reviews"
 tags: [coding, aws, tmdb, news, step, functions, lambda, serverless, sentiment, analysis]
 ---
@@ -7,7 +8,7 @@ tags: [coding, aws, tmdb, news, step, functions, lambda, serverless, sentiment, 
 Recently I worked with AWS Lambda and API Gateway to extend my set of personal APIs and collect information from several sources. I wrote an article on that (if you want to [have a look](https://madeddu.xyz/posts/aws-lambda)). In this article I will talk about the AWS Step Functions service that enable create finite states machines to easy coordinate the components of distributed applications and microservices using visual workflows. Why AWS Step Functions? Because they let me create a tool to gather movie titles in teather, search for reviews about each of them and make a basic sentiment analysis over the review to help me decide what's worth watching at teather and what's worth waiting for on Netflix :D
 More in general, with AWS Step Functions, you can build applications made of individual components that each perform a discrete function: this lets you scale and change applications quickly. Step Functions is a reliable way to coordinate components and step through the functions of your application. They provides a graphical console to arrange and visualize the components of your application as a series of steps. This makes it simple to build and run multistep applications. Step Functions automatically triggers and tracks each step, and retries when there are errors, so your application executes in order and as expected. Step Functions logs the state of each step, so when things do go wrong, you can diagnose and debug problems quickly.
 
-<p align="center"><img src="http://image.ibb.co/m3LxJS/aws_step_functions.png" style="width: 100%; marker-top: -10px;"/></p>
+<div class="img_container"><img src="https://i.imgur.com/jhaTIev.png" style="width: 100%; marker-top: -10px;"/></div>
 
 ### Ingredients
 For this article, you will need the following:
@@ -198,18 +199,18 @@ zip TMDB.zip TMDB
 
 and upload from an S3 bucket or manually.
 
-<p align="center"><img src="http://image.ibb.co/mJqX9R/aws_lambda_2.png" style="width: 100%; marker-top: -10px;"/></p>
+<div class="img_container"><img src="https://i.imgur.com/BdIDvDr.png" style="width: 100%; marker-top: -10px;"/></div>
 
 #### 6 - Build an AWS Step Functions Workflow
 A finite state machine is an automata with really simple rule. Almost each states are Tasks that call AWS Lambda functions and are directly linked with one or more states. You provide an input to the workflow, the first(s) lambda are invoked, then the output of the execution is passed as the input to the next states (and eventually AWS Lambda(s) invoked by them).
 
 The entire workflow of a step function is described by a JSON file and can be written directly in a console available in the AWS Step Function web page. You can view a preview of the worflow in the right part of the screen while you're defining it.
 
-<p align="center"><img src="http://image.ibb.co/dE5QNn/workflow_edit.png" style="width: 100%; marker-top: -10px;"/></p>
+<div class="img_container"><img src="https://i.imgur.com/LSa4tk7.png" style="width: 100%; marker-top: -10px;"/></div>
 
 The final workflow for our scope will look like the image below:
 
-<p align="center"><img src="http://image.ibb.co/nAk0Nn/workflow_empty.png" alt="perceptron" style="width: 100%; marker-top: -10px;"/></p>
+<div class="img_container"><img src="https://i.imgur.com/joyM3KW.png"  style="width: 100%; marker-top: -10px;"/></div>
 
 The respective workflow JSON description looks like the following code:
 

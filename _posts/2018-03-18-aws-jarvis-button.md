@@ -1,4 +1,5 @@
 ---
+layout: post
 title: "JarvisButton: how to invoke multiple AWS Lambda with one AWS IoT Button (not Enterprise ed.)"
 tags: [coding, aws, iot, button, lambda, slack]
 ---
@@ -6,7 +7,7 @@ tags: [coding, aws, iot, button, lambda, slack]
 ### Introduction
 If you have an [AWS account](http://aws.amazon.com) in Free Tier, bla bla bla ok stop: I am a AWS Lambda maniac. I only wrote about them ([here](https://madeddu.xyz/posts/aws-lambda), [here](https://madeddu.xyz/posts/aws-step-functions)). In this article, I want to talk about my new purchase that is - of course - related to AWS Lambda: the AWS IoT Button. It first made its appearance on the IoT scene in October of 2015 at AWS re:Invent with the introduction of the AWS IoT service. That year all re:Invent attendees received the AWS IoT Button providing them the opportunity to get hands-on with AWS IoT. So cute. Since that time, AWS IoT button has been made broadly available to anyone interested in the clickable IoT device. Here it is! 😎😎😎
 
-<p align="center"><img src="http://image.ibb.co/eKamNx/IMG_9032.jpg" style="width: 100%; marker-top: -10px;"/></p>
+<div class="img_container"><img src="https://i.imgur.com/p1bno7t.jpg" style="width: 100%; marker-top: -10px;"/></div>
 
 Sooooooo expensive :P
 
@@ -22,7 +23,7 @@ As I already said in a preview post on AWS Services, I recommend you to pay a lo
 #### One click => One Lambda
 The first thing you have to learn with AWS IoT Button is that you can do anything special: you simply download the app, you click on the button and, in a bunch of seconds, AWS create certificates, call the NSA, setup something you will pay forever, remove movies from your Netflix to-view-list, destroy your VPC, recreate your VPC, and then let your mobile application associate the button with one of your (previously created) AWS Lambda. And that's all.
 
-<p align="center"><img src="http://static1.businessinsider.com/image/5183bcd4ecad04a057000020/obamas-approval-rating-has-plunged-to-its-worst-mark-in-nine-months.jpg" style="width: 100%; marker-top: -10px;"/></p>
+<div class="img_container"><img src="https://i.imgur.com/0xacnZz.jpg" style="width: 100%; marker-top: -10px;"/></div>
 
 ### Scenario
 Ok, my idea of the IoT Button was different: first, I thought to able to handle three different clicks - this is not, but in the end it is my fault. I didn't read anything - I mean, literaly - before purchasing the AWS IoT Button. I didn't want, I hadn't time, I didn't want to break a 3 dollars dash button and I hadn't so much interest in this button. I was simply bored, I bought it, as most of us do.
@@ -126,11 +127,11 @@ With this logic, you can implement the number of action you want! Of course, you
 ### JarvisButton mouth
 I used Slack as a mouth for my JarvisButton: each morning, and during the day, I can click my button and get exactly what I want 🤘🤘🤘 😎😎😎
 
-<p align="center"><img src="http://image.ibb.co/js92Cx/weather.png" style="width: 100%; marker-top: -10px;"/></p>
+<div class="img_container"><img src="https://i.imgur.com/RCX7TfO.png" style="width: 100%; marker-top: -10px;"/></div>
 
-<p align="center"><img src="http://image.ibb.co/hB4DKc/news.png" style="width: 100%; marker-top: -10px;"/></p>
+<div class="img_container"><img src="https://i.imgur.com/2LjLlrW.png" style="width: 100%; marker-top: -10px;"/></div>
 
-<p align="center"><img src="http://image.ibb.co/jUBFXx/navigator.png" style="width: 100%; marker-top: -10px;"/></p>
+<div class="img_container"><img src="https://i.imgur.com/9ySOla8.png" style="width: 100%; marker-top: -10px;"/></div>
 
 If you search for inspiration, have a look at my github repo [here](https://github.com/made2591/jarvis-button).
 

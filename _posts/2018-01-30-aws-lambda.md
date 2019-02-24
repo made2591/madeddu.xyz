@@ -1,4 +1,5 @@
 ---
+layout: post
 title: "AWS Lambda, GoLang and Grafana to perform sentiment analysis for your company / business"
 tags: [coding, aws, lambda, golang, grafana, sentiment, analysis]
 ---
@@ -8,7 +9,7 @@ In this article I will talk about my experience with AWS Lambda + API Gateway, G
 
 Ingredients after the image.
 
-<p align="center"><img src="https://images.everyeye.it/img-notizie/tramite-gli-steam-awards-giocatori-chiedono-arrivo-half-life-3-v3-278335-1280x720.jpg" style="width: 100%; marker-top: -10px;"/></p>
+<div class="img_container"><img src="https://i.imgur.com/lDDWtbW.jpg" style="width: 100%; marker-top: -10px;"/></div>
 
 ### Ingredients
 For this article, you will need the following:
@@ -24,7 +25,7 @@ There are a lot of quite simple steps. I recommend you to pay a lot of attention
 #### 1/7 Create an AWS Account
 Create an AWS Account is simple, you only need to have a credit cart and no fear of Amazon (what?!) :D You can start from [here](http://aws.amazon.com). After the creation, I strongly suggest to study a little more how the IAM Roles work. After you have created your account, you can start from the [IAM Dashboard](https://console.aws.amazon.com/iam/) by following the 5 points to ensure your account is secured. I am talking about
 
-<p align="center"><img src="http://image.ibb.co/mL3POm/aws_iam.png" style="width: 100%; marker-top: -10px;"/></p>
+<div class="img_container"><img src="https://i.imgur.com/0M8vfbi.png" style="width: 100%; marker-top: -10px;"/></div>
 
 Following those steps you guarantee - in practise - to:
 - Create a secondary user with admin rights, possibly with MFA enabled (I use [2stp](http://thomasrzhao.com/2stp-support/) even if it is not supported anymore, because it works and it includes what I need - and nothing more - from a 2-step virtual authenticator device);
@@ -227,17 +228,17 @@ zip MyCompiledLambda.zip MyCompiledLambda
 
 and upload from an S3 bucket or manually.
 
-<p align="center"><img src="http://image.ibb.co/mJqX9R/aws_lambda_2.png" style="width: 100%; marker-top: -10px;"/></p>
+<div class="img_container"><img src="https://i.imgur.com/BdIDvDr.png" style="width: 100%; marker-top: -10px;"/></div>
 
 __NOTE__: the most important things is to setup the handler name to the name of the compiled binary inside your zip - exactly the same name. Otherwise, during testing a path error will be arised because AWS will look for the wrong file name to run your lambda.
 
 As you can see from the code above, there are environment variables to setup API KEY and API Endpoint (whatever your want). From the Lambda setup page you can setup this environment variable to let your code gather the information from AWS, in a secure way.
 
-<p align="center"><img src="http://image.ibb.co/c3vh9R/aws_env.png" style="width: 100%; marker-top: -10px;"/></p>
+<div class="img_container"><img src="https://i.imgur.com/bkDyH0E.png" style="width: 100%; marker-top: -10px;"/></div>
 
 After you have succesfully setup your lambda with the right execution role (have a look at the documentation step, or follow the wizard to automatically create an execution role), you can test your Lambda configuring and using the test menu near to the save button in the right corner of the page. You can click on create your test (they will be available for each lambda separately), you can specify the same payload - you passed before as parameter - to the lambda as a request payload in the editor - using json format.
 
-<p align="center"><img src="http://image.ibb.co/mWus9R/aws_test.png" style="width: 100%; marker-top: -10px;"/></p>
+<div class="img_container"><img src="https://i.imgur.com/hkgoLJU.png" style="width: 100%; marker-top: -10px;"/></div>
 
 #### 4/7 Build Sentiment analyzer over AWS Lambda
 I build a second AWS Lambda to create a sentiment analyzer that take advantage of free tier plan kindly granted by [Aylien Team](http://aylien.com). The code below:
@@ -333,15 +334,15 @@ func main() {
 #### 5/7 Setup API Gateway
 First, you need to create an API Endpoint. This is simple, you have to go [here](https://console.aws.amazon.com/apigateway/) and click on "Create API" button.
 
-<p align="center"><img src="http://image.ibb.co/ht88im/aws_api.png" style="width: 100%; marker-top: -10px;"/></p>
+<div class="img_container"><img src="https://i.imgur.com/Ecmgrmj.png" style="width: 100%; marker-top: -10px;"/></div>
 
 After that, you have to create a Resource clicking on the action menu and specifying your api endpoint. Then click on "Create Resource".
 
-<p align="center"><img src="http://image.ibb.co/dZzW3m/aws_resource.png" style="width: 100%; marker-top: -10px;"/></p>
+<div class="img_container"><img src="https://i.imgur.com/A2xFlC5.png" style="width: 100%; marker-top: -10px;"/></div>
 
 You can now create your "Action Method": as integration type choose "Lambda Function", then specify the region you deployed your lambda and the Lambda function (it should appear).
 
-<p align="center"><img src="http://image.ibb.co/bBzTG6/aws_method.png" style="width: 100%; marker-top: -10px;"/></p>
+<div class="img_container"><img src="https://i.imgur.com/AP871Qn.png" style="width: 100%; marker-top: -10px;"/></div>
 
 When you will click on create, a popup will appear to warn you that the action will setup the execution role for the API Gateway service - don't remember exactly the step, eventually you can create your onw policy for API Gateway following the [Build an API Gateway API with Lambda Integration](https://docs.aws.amazon.com/apigateway/latest/developerguide/getting-started-with-lambda-integration.html) tutorial.
 
@@ -393,7 +394,7 @@ curl -H "Content-Type: application/json" -XPOST "localhost:9200/news/sentimented
 #### 7/7 Setup your Grafana Dashboard
 And this is the most exiting part: with grafana you can setup Elasticsearch as Datasource (don't need to explain this, simply fill the host field). Then, playing with some graphs and lucene queries / aggregation, you can create for instance an Heat map that shows how much bad or good are the feedback of the topic you are looking for. You can discover who is the top influencer in term of _how much it talks about the topic_, or simply show the number of neutral / negative feedback from highlights and setup an alarm if they reach a huge number - this is only an idea. Look at my Grafana dashboard ^^
 
-<p align="center"><img src="http://image.ibb.co/ebriG6/grafana_sentiment.png" style="width: 100%; marker-top: -10px;"/></p>
+<div class="img_container"><img src="https://i.imgur.com/UuSj8Fl.png" style="width: 100%; marker-top: -10px;"/></div>
 
 Thank you everybody for reading!
 

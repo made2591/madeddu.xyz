@@ -1,4 +1,5 @@
 ---
+layout: post
 title: "A journey through the network - Introduction"
 tags: [theory, network, iso/osi, tcp/ip, saga]
 ---
@@ -15,7 +16,7 @@ Let's start from the first!
 ### The __ISO/OSI__ reference model
 The __ISO/OSI__ is the Open Systems Interconnection (__OSI__) reference model for connecting open systems, __based on a proposal__ originally developed by the International Standards Organization (__ISO__): __OSI__ (for short) consists of a stack of protocols through which the implementation complexity of a communication system for networking is reduced. The __OSI__ model has seven layers.
 
-<p align="center"><img src="https://image.ibb.co/jpZKUm/isoosi.png" alt="perceptron" style="width: 100%; marker-top: -10px;"/></p>
+<div class="img_container"><img src="https://i.imgur.com/EZFTYiO.png"  style="width: 100%; marker-top: -10px;"/></div>
 
 <span style="color:#A04279; font-size: bold;">__NOTE__</span> the __OSI__ model itself is not a network architecture: it just tells what each layer should do. But the International Standards Organization (__ISO__) has also produced standards for all the OSI layers, although these are not part of the reference model itself. Each one has been published as a separate international standard. What is a layer?
 

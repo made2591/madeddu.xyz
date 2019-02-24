@@ -1,4 +1,5 @@
 ---
+layout: post
 title: "A journey through the network - Layer 2"
 tags: [theory, network, iso/osi, tcp/ip, saga]
 ---
@@ -7,7 +8,7 @@ tags: [theory, network, iso/osi, tcp/ip, saga]
 A month ago I started to wrote some posts about the network. For those who missed the previous posts, [the introduction](https://madeddu.xyz/posts/network-layers-0) and [the physycal layer](https://madeddu.xyz/posts/network-layers-0). For the previous post I had to go into details about how some parts of the physical layer work but, by going forward with the layers, concepts belonging to separate historical standards - OSI and IP - will intertwine and this entails some troubles from a _logical_ point of view. I will try, as far as possible, to keep only the basic concepts of this layer: I also remember that this layer, together with the physical layer, are - at least in part - joined together in what is called the network access layer in the TCP / IP model.
 As a main source I use [Computer Networks](https://www.amazon.it/gp/product/9332518742/ref=oh_aui_detailpage_o01_s00?ie=UTF8&psc=1) and [TCP/IP Illustrated](https://www.amazon.it/gp/product/9332535957/ref=oh_aui_detailpage_o02_s00?ie=UTF8&psc=1). In this article, I will talk about layer 1, the data link layer in the ISO / OSI stack. Enjoy the reading!
 
-<p align="center"><img src="https://cdn.ttgtmedia.com/visuals/handbooks/networking/hb_background-networking_3_ehandbook_tablet_horizontal_732X489.jpg" style="width: 100%; marker-top: -10px;"/></p>
+<div class="img_container"><img src="https://i.imgur.com/vrvSyKA.jpg" style="width: 100%; marker-top: -10px;"/></div>
 
 ### Introduction
 The data link layer uses the services of the physical layer to send and receive bits over communication channels: there are several algorithms for achieving reliable, efficient communication of whole units of frames (or grouped bits - no more individual as in the previous layer) between two adjacent machines. What does it means adjacent? It means that the two machines are connected by a _communication channel that acts conceptually like a wire_, so that the bits are delivered in exactly the same order in which they are sent. Even if it might be simple, channels make errors, connections pass throught several machines, routers, etc... it's complicated. Let's start from the goals.

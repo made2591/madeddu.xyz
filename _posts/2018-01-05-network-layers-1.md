@@ -1,4 +1,5 @@
 ---
+layout: post
 title: "A journey through the network - Layer 1"
 tags: [theory, network, iso/osi, tcp/ip, saga]
 ---
@@ -23,7 +24,7 @@ Let's start with waveform: virtually __everything__ in the world can be describe
 
 This fact is amazing for lot of purpose, including the data trasmission in the physical layer. The Fourier Transform decomposes a waveform - basically any real world waveform - into sinusoids. Formally, the Fourier Transform is a _math tool_ that breaks a waveform into an _alternate_ representation, characterized by sine and cosines, and let us to represent the waveform itself in another way, as a sum of different fundamental frequencies, that combined together form the original waveform. Even if I don't want to go in depth with the math, consider a specific example: the transmission of the ASCII character ```b``` encoded in an 8-bit byte, represented by the bit pattern ```01100010```. The left-hand part of the figure below (a) shows the voltage output by the transmitting computer: the right part show the harmonic number. We know that the waveform in the left part, as stated before, is actually _the sum of simple sinusoids of different frequencies_. In the second part (b), there is the signal that results from a channel (a medium) that allows only the first harmonic (the fundamental, f) to pass through.
 
-<p align="center"><img src="https://image.ibb.co/nctuuw/fourier_t.png" alt="perceptron" style="width: 100%; marker-top: -10px;"/></p>
+<div class="img_container"><img src="https://i.imgur.com/asaw4nS.png"  style="width: 100%; marker-top: -10px;"/></div>
 
 In the figure you can see the spectra and reconstructed functions for higher-bandwidth channels. For digital transmission, the goal is to receive a signal with just enough fidelity to reconstruct the sequence of bits that was sent. Why not use a more accurate signal? Because, no transmission facility can transmit signals without losing some power in the process. The width of the frequency range transmitted without being strongly attenuated is called the __bandwidth__ and different medium have different bandwith.
 
@@ -43,10 +44,10 @@ Henry Nyquist, AT&T engineer, in 1924 realized that even a perfect channel has a
 <span style="color:#A04279; font-size: bold;">Difficult explanation</span>
 Sampling is the first step in the analog-to-digital conversion process of a signal. It consists of taking samples (samples) from an analogue signal and continuing over time each $$\Delta t$$ seconds.
 
-<p align="center">
-    <img src="https://upload.wikimedia.org/wikipedia/commons/c/ca/Analog_signal.png" alt="perceptron" style="width: 35%;  margin: 0 auto; marker-top: -10px;"/>
-    <img src="https://upload.wikimedia.org/wikipedia/commons/6/6e/Sampled_signal.png" alt="perceptron" style="width: 35%; margin: 0 auto; marker-top: -10px;"/>
-</p>
+<div class="img_container">
+    <img src="https://i.imgur.com/SawzzZX.png"  style="width: 35%;  margin: 0 auto; marker-top: -10px;"/>
+    <img src="https://i.imgur.com/fgc0UPZ.png"  style="width: 35%; margin: 0 auto; marker-top: -10px;"/>
+</div>
 
 The value $$\Delta t$$ is called sampling interval, while $$f_s = \frac{1}{\Delta t}$$ is the sampling rate. The result is an analog signal in discrete time, which is then quantized, coded and made accessible to any digital computer. The Nyquist-Shannon theorem (or signal sampling theorem) states that, given an analog signal $$s(t)$$ whose frequency band is limited by the frequency $$f_M$$ and given $$n \in \mathbb{Z}$$, the signal $$s(t)$$ can be uniquely reconstructed from its samples $$s(n \Delta t)$$ taken at frequency $$f_s = \frac{1}{\Delta t}$$ if $$f_s > 2f_M$$ using the following formula:
 
@@ -74,13 +75,13 @@ Bandwith | Transmission time |
 One of the oldest and still most common transmission media is twisted pair. It consists of two insulated copper wires. The wires are twisted together in a helical form, just like a DNA molecule. Twisting is done because two parallel wires constitute a fine antenna. When the wires are twisted, the waves from different twists cancel out, so the wire radiates less effectively. A signal is usually carried as the difference in voltage between the two wires in the pair. This provides better immunity to external noise because the noise tends to affect both wires the same, leaving the differential unchanged. The most common application of the twisted pair is the telephone system. The bandwidth depends on the thickness of the wire and the distance traveled, but several megabits/sec can be achieved for a few kilometers in many cases.
 Twisted-pair cabling comes in several varieties.
 - __Unshielded Twisted Pair (UTP)__: UTP cables are not shielded. This entails a high degree of flexibility and resistance to efforts. They are widely used in ethernet networks.
-<p align="center"><img src="https://image.ibb.co/nks4SG/Cavo_UTP_t.png" alt="perceptron" style="width: 40%; marker-top: -10px;"/></p>
+<div class="img_container"><img src="https://i.imgur.com/rrxovqd.png"  style="width: 40%; marker-top: -10px;"/></div>
 - __Shielded Twisted Pair (STP)__: STP cables include a metal shield for each pair of cables. An example is that defined by IBM for its __token ring network__, but also that of the ANSI / TIA / EIA-568-A of the CAT5 shielded cable and later.
-<p align="center"><img src="https://image.ibb.co/fv9jSG/Cavo_STP_t.png" alt="perceptron" style="width: 40%; marker-top: -10px;"/></p>
+<div class="img_container"><img src="https://i.imgur.com/93pynWM.png"  style="width: 40%; marker-top: -10px;"/></div>
 - __Screened Shielded Twisted Pair (S/STP)__: S/STP cables are STP cables further protected by a metal shield enclosing the entire cable; this further improves interference resistance. The latter must also be connected from both sides to the ground, to ensure greater protection against external waves.
-<p align="center"><img src="https://image.ibb.co/drv2Ew/Cavo_S_STP_t.png" alt="perceptron" style="width: 40%; marker-top: -10px;"/></p>
+<div class="img_container"><img src="https://i.imgur.com/FvauRx2.png"  style="width: 40%; marker-top: -10px;"/></div>
 - __Screened Unshielded Twisted Pair (S/UTP o FTP)__: S/UTP, also known as Foiled Twisted Pair (FTP) or Screened Foiled Twisted Pair (S/FTP), is an externally shielded UTP cable.
-<p align="center"><img src="https://image.ibb.co/buPJnG/Cavo_S_UTP_t.png" alt="perceptron" style="width: 40%; marker-top: -10px;"/></p>
+<div class="img_container"><img src="https://i.imgur.com/dXGz0Cy.png"  style="width: 40%; marker-top: -10px;"/></div>
 
 This construction methods are tipically groubed in several categories (source: wikipedia):
 
@@ -102,17 +103,17 @@ Cat 8.2 | S/FTP, F/FTP | 1600–2000 MHz | 40GBASE-T Ethernet or POTS/CATV/1000B
 <span style="color:#A04279; font-size: bold;">Coaxial Cable</span>
 The coaxial cable has better shielding and greater bandwidth than unshielded twisted pairs, so it can span longer distances at higher speeds. Coaxial cables used to be widely used within the telephone system for long-distance lines but have now largely been replaced by fiber optics on longhaul routes.
 
-<p align="center"><img src="https://image.ibb.co/gH6nGb/coaxial.png" alt="perceptron" style="width: 100%; marker-top: -10px;"/></p>
+<div class="img_container"><img src="https://i.imgur.com/QF8IzWV.png"  style="width: 100%; marker-top: -10px;"/></div>
 
 <span style="color:#A04279; font-size: bold;">Power Lines</span>
 The use of power lines (electricity distribution) for data communication is an old idea. In recent years there has been renewed interest in high-rate communication over these lines, both inside the home as a LAN and outside the home for broadband Internet access. Using electrical wires inside the home is not so easy, because of appliances switch on and off and creating electrical noise, electrical properties of the wiring change from house to house: international standards are under development because many products use various proprietary standards for power-line networking, allowing transport to a few hundred megabits.
 
-<p align="center"><img src="https://image.ibb.co/kwePCG/powerline.png" alt="perceptron" style="width: 80%; marker-top: -10px;"/></p>
+<div class="img_container"><img src="https://i.imgur.com/8BkmBh2.png"  style="width: 80%; marker-top: -10px;"/></div>
 
 <span style="color:#A04279; font-size: bold;">Fiber Optics</span>
 An optical transmission system has three key components: the light source, the transmission medium, and the detector. Conventionally, a pulse of light indicates a 1 bit and the absence of light indicates a 0 bit. The transmission medium is an ultra-thin fiber of glass. The detector generates an electrical pulse when light falls on it. By attaching a light source to one end of an optical fiber and a detector to the other, we have a unidirectional data transmission system that accepts an electrical signal, converts and transmits it by light pulses, and then reconverts the output to an electrical signal at the receiving end.
 
-<p align="center"><img src="https://image.ibb.co/gRN1bb/fiber_t.png" alt="perceptron" style="width: 100%; marker-top: -10px;"/></p>
+<div class="img_container"><img src="https://i.imgur.com/IEpdDDQ.png"  style="width: 100%; marker-top: -10px;"/></div>
 
 At the center is the glass core through which the light propagates. What happens inside the core? The light ray incident on the boundary above the critical angle will be reflected internally: this implies that many different rays will be bouncing around at different angles. Each ray is said to have a different mode, so a fiber having this property is called a __multimode fiber__. If the fiber's diameter is reduced to a few wavelengths of light the fiber acts like a wave guide and the light can propagate only in a straight line, without bouncing, yielding a __single-mode__ fiber. Single-mode fibers are more expensive but are widely used for longer distances.
 
@@ -123,7 +124,7 @@ $$\lambda * f = c$$
 
 The amount of information that a signal such as an electromagnetic wave can carry depends on the received power and is proportional to its bandwidth. Most transmissions use a relatively narrow frequency band. They concentrate their signals in this narrow band to use the spectrum efficiently and obtain reasonable data rates by transmitting with enough power.
 
-<p align="center"><img src="https://image.ibb.co/gNWWsG/spectrum_t.png" alt="perceptron" style="width: 100%; marker-top: -10px;"/></p>
+<div class="img_container"><img src="https://i.imgur.com/z9FJEvk.png"  style="width: 100%; marker-top: -10px;"/></div>
 
 However, in some cases, a wider band is used, with three variations. In __frequency hopping spread spectrum__, the transmitter hops from frequency to frequency hundreds of times per second. It is popular for military communication because it makes transmissions hard to detect and next to impossible to jam. In __direct sequence spread spectrum__ a code sequence is used to spread the data signal over a wider frequency band: this second method is used commercially as a spectrally efficient way to let multiple signals share the same frequency band. A third method of communication with a wider band is __UWB__ (Ultra-WideBand) communication. __UWB__ sends a series of rapid pulses, varying their positions to communicate information.
 
@@ -145,7 +146,7 @@ Furthermore, channels are often shared by multiple signals because it is much mo
 #### Baseband Transmission
 The most straightforward form of digital modulation is to use a positive voltage to represent a 1 and a negative voltage to represent a 0 (this is actually a scheme, called Non-Return-to-Zero or NRZ, for short). There are many others, as shown in the figure.
 
-<p align="center"><img src="https://image.ibb.co/c4pUew/lines_t.png" alt="perceptron" style="width: 100%; marker-top: -10px;"/></p>
+<div class="img_container"><img src="https://i.imgur.com/VBaNz7e.png"  style="width: 100%; marker-top: -10px;"/></div>
 
 All these schemes are called __line codes__. Different line codes help you with bandwidth efficiency, clock recovery, and balancing in different ways.
 

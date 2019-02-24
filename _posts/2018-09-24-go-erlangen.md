@@ -1,4 +1,5 @@
 ---
+layout: post
 title: "Go Erlangen!"
 tags: [coding, erlangen, bayern, germany]
 ---

@@ -1,4 +1,5 @@
 ---
+layout: post
 title: "GoLang vs Python: deep dive into the concurrency"
 tags: [coding, golang, python, goroutine, algorithms, benchmark]
 ---
@@ -6,7 +7,7 @@ tags: [coding, golang, python, goroutine, algorithms, benchmark]
 ### Introduction
 In the last months, I worked a lot with GoLang on several projects. Although I'm certainly not an expert, there are several things that I really appreciate about this language: first, it has a clear and simple syntax, and more than once I noticed that the style of the Github developers is very close to the style used in old C programs. From a theoretical point of view, GoLang seems to take the best of all worlds: there is the power of high-level languages, made simple by clear rules - even if sometime they are a little bit binding - that can impose a solid logic to the code. There is the simplicity of the imperative style, made of primitive types with the size in bits in their name, but without the boredom of manipulating strings as array of characters. However, two really useful and interesting features in my opinion are the goroutine and the channels.
 
-<p align="center"><img src="https://ksr-ugc.imgix.net/assets/013/579/935/cd53c61559974d1fa22a094ecff1f8a3_original.jpg?crop=faces&w=1552&h=873&fit=crop&v=1472824649&auto=format&q=92&s=e7e49d2e6d5bcf4ef3a486facef11cc3" style="width: 100%; marker-top: -10px;"/></p>
+<div class="img_container"><img src="https://i.imgur.com/MDMOE2M.jpg" style="width: 100%; marker-top: -10px;"/></div>
 
 ### Preamble
 To understand why GoLang handles concurrency better, you first need to know what concurrency exactly[^talk] is. Concurrency is the composition of independently executing computations: better, is a way to write clean code that interacts well with the real world. Often people confuse the concept of concurrency with the concept of parallelism, even if concurrency $$\neq$$ parallelism: yes, although it _enables_ parallelism. So, if you have only one processor, your program can still be concurrent but it cannot be parallel. On the other hand, a well-written concurrent program might run efficiently in parallel on a multiprocessor[^rob]. That property could be important.
@@ -366,11 +367,11 @@ def merge_sort_parallel_fastest(array, concurrentRoutine, threaded):
 
 And this perform better. The question is better using Threads or Processes? Well... look at my comparative graph!
 
-<p align="center"><img src="http://image.ibb.co/kHjz6w/mergesort.png" style="width: 100%; marker-top: -10px;"/></p>
+<div class="img_container"><img src="https://i.imgur.com/3Tl0YyN.png" style="width: 100%; marker-top: -10px;"/></div>
 
 Ok, because Python version is not so good, this is a graph with only GoLang series:
 
-<p align="center"><img src="http://image.ibb.co/gG7VDb/gomerge.png" style="width: 100%; marker-top: -10px;"/></p>
+<div class="img_container"><img src="https://i.imgur.com/QgZeDgt.png" style="width: 100%; marker-top: -10px;"/></div>
 
 ### Conclusion
 Python sucks. GoLang rulez. I'm sorry, Python: I loved you. The complete code is available here: [go-py-benchmark](https://madeddu.xyz/posts/go-py-benchmark).
