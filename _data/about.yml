@@ -1,34 +1,34 @@
 text: |
 
-  I am Matteo, I have a bs and ms in computer science with a specialization in artificial intelligence.
+  I am Matteo, I'm a platform engineer and a software developer. I love golang, I am a macOS lover, docker fan, python geek, trello addicted, juggler, skier, skater, guitarist (sometimes) and dreamer (always). I'm always looking for a team of passionate people to work with, a mentor to guide us, in a company that wants to make the difference.
 
-  I graduated with honors and distinction in April 2016 with a thesis in the field of neuro-computational model, and specifically about taxonomic response and fast-mapping abilities of children, entitled [A Visual Auditory Model based on Growing Self-organizing Maps to analyze the Taxonomic Response in early childhood](https://made2591.github.com/matteo_madeddu_master_thesis.pdf). For this work, I was invited at the [__AI*IA__](http://www.aixia.it/) conference, held in Genova from Nov 28th to Dec 1st 2016 to receive a special mention as one of the Best Italian Master thesis in Artificial Intelligence 😎.
+  ### My results
 
-  I am a Golang dev, Mac OS lover, Docker fan, Python geek, Trello addicted, a juggler, a skier, a skater, a guitarist (sometimes), a dreamer (always). Always looking for a team of passionate people to work with, a mentor to guide us, in a company that wants to make the difference.
+  I graduated with honors and distinction with a thesis in the field of neuro-computational model, and specifically about taxonomic response and fast-mapping abilities of children, entitled [A Visual Auditory Model based on Growing Self-organizing Maps to analyze the Taxonomic Response in early childhood](https://made2591.github.com/matteo_madeddu_master_thesis.pdf). For this work, I was invited at the [__AI*IA__](http://www.aixia.it/) conference, held in Genova from Nov 28th to Dec 1st 2016 to receive a special mention as one of the Best Italian Master thesis in Artificial Intelligence 😎.
 
-  ## What happened to me recently
+  ### What happened to me recently
 
-  My master thesis was published in the Journal of Cognitive System Research [here](https://www.sciencedirect.com/science/article/pii/S1389041717303558) - and moved to adidas HQ joining the Platform Engineering & Architecture Team as a Platform Engineer.
+  My master thesis was published in the Journal of Cognitive System Research [here](https://www.sciencedirect.com/science/article/pii/S1389041717303558) - and moved to [adidas HQ](http://herzo.adidas-group.com/) joining the Platform Engineering & Architecture Team as a Platform Engineer.
 
-  ## Some of my repo
+  ### Some of my repo
 
-  * [__go-perceptron-go__](http://github.com/made2591/go-perceptron-go) - experiments with Go and really simple neural network models.
-  * [quantum](http://github.com/made2591/quantum) - experiments with entagled state in OpenQASM 2.0.
-  * [predix-configurator](https://github.com/made2591/predix-configurator) is a configuration tool realized to help you setup your edge connectivity stack.
-  * [cognitive-system-postagger](https://github.com/made2591/cognitive-system-postagger) is a part-of-speech tagger (viterbi / cky) / probabilistic-context-free-grammar manipulator library written in Python.
-  * [cognitive-system-semantics](https://github.com/made2591/cognitive-system-semantics) is a word sense disambiguation / document classification tool library written in Java using mainly Wordnet and Babelnet.
-  * [__spotispy-framework__](https://made2591.github.com/spotispy-framework) is (will be) a docker-based (I'm planning porting with [@valentinarho](https://github.com/valentinarho)) Python framework to make data science - the musician way.
-  * [google-task-gtd](https://github.com/made2591/google-task-gtd) is a sort of involuntary google goals library written in Python - I swear, I wrote this 3/4 months before goals came out XD.
-  * [__gym-workout__](https://github.com/made2591/gym-workout) is a vagrant machine (uuuu, vm, third millenium - I know, you dockerers) with a silex+propel+materialize web based application to manage gym workout.
-  * [trello2google](https://github.com/made2591/trello2google) is a trello / google-calendar-task-management library written in Python with the BIG contribution of [@valentinarho](https://github.com/valentinarho).
+  * [__go-perceptron-go__](http://github.com/made2591/go-perceptron-go)
+  * [quantum](http://github.com/made2591/quantum)
+  * [predix-configurator](https://github.com/made2591/predix-configurator)
+  * [cognitive-system-postagger](https://github.com/made2591/cognitive-system-postagger)
+  * [cognitive-system-semantics](https://github.com/made2591/cognitive-system-semantics)
+  * [__spotispy-framework__](https://made2591.github.com/spotispy-framework)
+  * [google-task-gtd](https://github.com/made2591/google-task-gtd)
+  * [__gym-workout__](https://github.com/made2591/gym-workout)
+  * [trello2google](https://github.com/made2591/trello2google)
 
   and [__some others__](https://github.com/made2591?tab=repositories).
 
-  ## Some of my notes (attention: tex available!!😃)
+  ### Proud of
 
-  * [quantum-notes](https://github.com/made2591/quantum-notes) - this is a latex document that collect my personal notes about IBM Q platform, in general the quantum-computing world. I was also invited in Verona by the Quantum Research Group to talk about the platform - why? don't know, maybe the coolest guys were sick 😂 A compiled version is available [here](https://madeddu.xyz/matteo_madeddu_quantum_notes.pdf)! Enjoy the reading!
+  From time to time, I like studying reading about quantum world and a few time ago I started to collect some [quantum-notes](https://github.com/made2591/quantum-notes): in this document I write my personal notes about IBM Q platform, but most of all the quantum-computing world in general. I was also invited in Verona by the Quantum Research Group to talk about the platform. A pre-compiled (not super updated) version is available [here](https://madeddu.xyz/matteo_madeddu_quantum_notes.pdf)! Enjoy the reading!
 
-  ## Actual work position (adidas HQ)
+  ### Actual work position (adidas HQ)
 
   | Theme         | Description                                         |
   | ------------- | --------------------------------------------------- |
@@ -36,7 +36,7 @@ text: |
   | AI/ML         | Scale ANN models up to meet business requirements   |
   | CI/CD         | App migration: tryining fixing the unfixable        |
 
-  ## Purposes (evergreen)
+  ### Purposes (evergreen)
 
   | Brief  | Long                                    |
   | ------ | --------------------------------------- |
@@ -44,11 +44,11 @@ text: |
   | Theme  | work on technical stuff (__mandatory__) |
   | IBM    | work for a tech company                 |
 
-  ## Interests (always changing)
+  ### Interests (always changing)
 
-  Cognitive Systems, quantum Computing. But... mainly see purposes.
+  golang, quantum world, cognitive systems but mainly... see purposes.
 
-  ## Links to my profile
+  ### Links to my profile
 
   * [Github](https://github.com/made2591/)
   * [Linkedin](https://linkedin.com/in/mmadeddu)
