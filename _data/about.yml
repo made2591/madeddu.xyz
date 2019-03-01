@@ -33,16 +33,15 @@ text: |
   | Theme         | Description                                         |
   | ------------- | --------------------------------------------------- |
   | AWS           | Use Amazon Web Services to ...                      |
-  | AI/ML         | Scale ANN models up to meet business requirements   |
-  | CI/CD         | App migration: tryining fixing the unfixable        |
+  | ***           | develop build deploy repeat                         |
 
   ### Purposes (evergreen)
 
-  | Brief  | Long                                    |
-  | ------ | --------------------------------------- |
-  | People | work with technical people              |
-  | Theme  | work on technical stuff (__mandatory__) |
-  | IBM    | work for a tech company                 |
+  | Brief  | Long                                        |
+  | ------ | ------------------------------------------- |
+  | People | work with technical people (__mandatory__)  |
+  | Theme  | work on technical stuff (__mandatory__)     |
+  | *      | work for a tech company                     |
 
   ### Interests (always changing)
 
