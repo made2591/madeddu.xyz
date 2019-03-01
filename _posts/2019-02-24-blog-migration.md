@@ -127,7 +127,7 @@ So the trick consist in changing the origin for your CloudFront distribution: in
 Using the static source for the Cloudfront distribution origin means any request to that distribution will be using the S3's root object lookup, but the content will be served by the CDN.
 
 ### Conclusion
-I wanna thank you [Guido Nebiolo](https://www.linkedin.com/in/guidonebiolo/?originalSubdomain=it) to design the cloudformation: by the way, its repo is on [Github](https://github.com/GuidoNebiolo/aws-architectures/blob/master/static-website/template.yml). Some of the things I described in there are still in `beta` / only drafted: for instance, the CloudFormation doesn't include the CloudFront trick to work with default root object at each s3 level. We certainly have some other cool stuff going on. No spoiler, stay tuned.
+I wanna thank you [Guido Nebiolo](https://www.linkedin.com/in/guidonebiolo/?originalSubdomain=it) for the design the cloudformation: by the way, his repo is on [Github](https://github.com/GuidoNebiolo/aws-architectures/blob/master/static-website/template.yml). Some of the things I described in there are still in `beta` / only drafted: for instance, the CloudFormation doesn't include the CloudFront trick to work with default root object at each s3 prefix. We certainly have some other cool stuff going on. No spoiler, stay tuned.
 
 Thanks everybody for reading!
 
