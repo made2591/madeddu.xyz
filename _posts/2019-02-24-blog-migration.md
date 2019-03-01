@@ -51,15 +51,14 @@ def extractURLs(fileContent):
     return links
 {% endhighlight %}
 
-I personally dumped all my content into `hash` file: to understand the type of each of them I used the mimetypes library - see script below. I didn't spend too much time in quality, it is just a snippet to retrieve data in the end).
-
-Finally, you have two choices: host your files by yourself or use a free place like [imgur](https://imgur.com/). If you go for the second option to save costs, you can reupload your file easily by using a tool like [this](https://github.com/0xBAAAAAAD/shotpy).
+I personally dumped all my content into `hash` file: to understand the type of each of them I used the mimetypes library - see script below. I didn't spend too much time in quality, it is just a snippet to retrieve data in the end.
+While I was drafting the snipet, I also preserved a list of substitution to be done over my `.markdown ` files.
 
 {% highlight text %}
 img;old_link;new_link;
 {% endhighlight %}
 
-to preserve a list of substitution to be done over your `.markdown ` files. You can upload the fresh hashed content easily with anonimous authentication by [creating an application](https://api.imgur.com/) on imgur. A pretty much working script to do all these operations is provided below. NOTE: it could be necessary to adapt it - see paths etc - and, most important, the following script doesn't include modification to shotpy - I added only a print to macOS sections of the code to let me capture output over stdout. It's intended more to give you a general idea.
+Finally, you have two choices: host your files by yourself or use a free place like [imgur](https://imgur.com/). If you go for the second option to save costs, you can reupload your file easily by using a tool like [this](https://github.com/0xBAAAAAAD/shotpy). To upload the fresh hashed content easily with anonimous authentication you need to first [create an application](https://api.imgur.com/) on the platform. A pretty much working script to do all these operations is provided below. NOTE: it could be necessary to adapt it - see paths etc - and, most important, the following script doesn't include modification to shotpy - I added only a print to macOS sections of the code to let me capture output over stdout. It's intended more to give you a general idea.
 
 {% highlight python %}
 import hashlib
