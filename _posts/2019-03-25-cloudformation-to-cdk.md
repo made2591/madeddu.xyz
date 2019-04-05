@@ -150,12 +150,13 @@ While going through the Cloudformation stack you are porting, you can simply ins
 npm i @aws-cdk/aws-codecommit
 {% endhighlight %}
 
-You can now try to compile your Typescript code and deploy the stack. Before going ahead, **note** that if your credentials map multiple profiles, you can export the profile inside the container as an environment variables as you usually do in your host:
+You can now try to compile your Typescript code and deploy the stack. Before going ahead, **note** that if your credentials map multiple profiles, you can export the profile inside the container as an environment variables as you usually do in your host. Furthermore, the first time you deploy an AWS CDK app into an environment (account/region), you'll need to install a *bootstrap stack*: this stack includes resources that are needed for the toolkit's operation. For example, the stack includes an S3 bucket that is used to store templates and assets during the deployment process. This will be more clear later when I will talk about construct.
 
 {% highlight sh %}
 # optional
 export AWS_PROFILE=<YOUR_PROFILE_NAME>
 npm run build
+cdk bootstrap
 cdk deploy
 {% endhighlight %}
 
@@ -261,7 +262,7 @@ origins: [
 ...
 {% endhighlight %}
 
-This is because we are using low level resources, and thus we have to operate with them with the same low level - actually, high level, from Cloudformation perspective - *functions* as well. If you think about it, it makes perfectly sense. This is something good to know, and I think that together with `interfaces` will help you translate your stack in Typescript more easily. Hopefully, we will all move to **Construct** and leverage the real power of CDK. But this is the next step.
+This is because we are using low level resources, and thus we have to operate with them with the same low level - actually, high level, from Cloudformation perspective - *functions* as well. What I also noticed is that - if you don't make use of any construct, you don't need a *bootstrap* stack (the one created with `cdk bootstrap`). If you think about it, it makes perfectly sense. This is something good to know, and I think that together with `interfaces` will help you translate your stack in Typescript more easily. The next time I will go more in detail about **constructs** and how to leverage the real power of CDK.
 
 ### One last thing
 Don't forget to keep your code in order: you are doing things in imperative way. Even if the approach I used is mainly based on low level resource, you are still writing code: thus, you cannot refers to something before its initialization. To conclude, as said in the beginning, I haven't explored yet the CDK tool in details, but I hope [my repo](https://github.com/made2591/immutable.run) and hints let you get started more easily than it has been for me. If you like it, put a star on it!
