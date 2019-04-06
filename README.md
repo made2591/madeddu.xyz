@@ -12,4 +12,3 @@ Jekyll-Pithy is a theme for Jekyll. Here is [my blog](http://wenva.github.io) wh
 
 ### License
 The code follows MIT License.
-
